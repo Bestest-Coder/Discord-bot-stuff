@@ -50,7 +50,7 @@ class Staff():
             return
         self.client.data[str(ctx.message.guild.id)]['wchan'] = wchan
         msg = 'Warning channel is ' + str(self.client.data[str(ctx.message.guild.id)]['wchan'])
-        await ctx.send(msg)
+        await ctx.channnel.send(msg)
         print((str(ctx.author) + ': ') + msg)
 
     @commands.command(brief='makes the bot say the content')
