@@ -38,11 +38,13 @@ class Staff():
         if stafforcomm(self, ctx.message) == False:
             print(str(ctx.author) + " tried to warn but isn't staff")
             return
-        com_send = ctx.author
+        #com_send = ctx.author
+        if reason == None:
+            reason = ''
         msg = (war_user.mention + ', you have recieved a warning for '
                ) + reason  #  + ', this is warning #' + str(war_user.warns) + 'at the hands of ' + str(com_send)
         await self.client.data[str(ctx.message.guild.id)]['wchan'].send(msg)
-        print((((str(ctx.author) + ': ') + str(war_user)) + ' has been warned for: ') + reason)
+        #print((((str(ctx.author) + ': ') + str(war_user)) + ' has been warned for: ') + reason)
 
     @commands.command(brief="set's the warning channel")
     async def wchan(self, ctx, wchan : discord.TextChannel):
@@ -50,8 +52,8 @@ class Staff():
             return
         self.client.data[str(ctx.message.guild.id)]['wchan'] = wchan
         msg = 'Warning channel is ' + str(self.client.data[str(ctx.message.guild.id)]['wchan'])
-        await ctx.channnel.send(msg)
-        print((str(ctx.author) + ': ') + msg)
+        await ctx.channel.send(msg)
+        #print((str(ctx.author) + ': ') + msg)
 
     @commands.command(brief='makes the bot say the content')
     async def say(self, ctx, *, content: str):
@@ -59,7 +61,7 @@ class Staff():
             return
         await ctx.channel.send(content.format(ctx.message))
         await ctx.message.delete()
-        print(((str(ctx.author) + ': ') + 'Bot said : ') + content)
+        #print(((str(ctx.author) + ': ') + 'Bot said : ') + content)
 
     @commands.command(brief='say but less suspiscous')
     async def dsay(self, ctx, *, content: str):
@@ -81,7 +83,7 @@ class Staff():
         self.client.data[str(ctx.message.guild.id)] = {'stfrole' : staffrole}
         msg = 'staff role has been set to ' + str(staffrole)
         await ctx.channel.send(msg)
-        print((str(ctx.author) + ': ') + msg)
+        #print((str(ctx.author) + ': ') + msg)
 
     @commands.command(brief="Sets the bot's nickname")
     async def nick(self, ctx, *, name : str):
