@@ -37,32 +37,13 @@ async def botname(ctx, *, botname: str):
     await ctx.channel.send(msg)
     print((str(ctx.author) + ': ') + msg)
 
-
-@client.command(brief='Comm Only: Reloads an extension', hidden=True)
-async def reload(ctx, extension):
+@client.command(hidden=True)
+async def play(ctx, *, gamename : str):
     if ifcomm(ctx.message) == False:
         return
-    client.load_extension(extension)
-    await asyncio.sleep(1)
-    client.load_extension(extension)
-    await ctx.channel.send('Extension {0} reloaded'.format(extension))
-
-
-@client.command(brief='Unloads an extension',hidden=True)
-async def unload(ctx, extension):
-    if ifcomm(ctx.message) == False:
-        return
-    client.unload_extension(extension)
-    await ctx.channel.send('Extension {0} unloaded'.format(extension))
-
-
-@client.command(brief='Loads an extension',hidden=True)
-async def load(ctx, extension):
-    if ifcomm(ctx.message) == False:
-        return
-    client.load_extension(extension)
-    await ctx.channel.send('Extension {0} loaded'.format(extension))
-
+    game = discord.Game("with the API")
+    await client.change_presence(activity=game)
+    await ctx.channel.send("I'm now playing: " + gamename)
 
 @client.event
 async def on_message_edit(before, after):
@@ -78,6 +59,8 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
+    game = discord.Game("with katana")
+    await client.change_presence(activity=game)
 
 
 if __name__ == '__main__':
