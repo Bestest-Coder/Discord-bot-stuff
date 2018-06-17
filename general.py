@@ -30,7 +30,7 @@ class General():
     @commands.command(brief="get's the users avatar/pfp")
     async def pfp(self, ctx, *, user: discord.User):
         em = discord.Embed()
-        em.set_image(url=user.avatar_url_as(None,'png'))
+        em.set_image(url=user.avatar_url_as(static_format='png'))
         await ctx.channel.send(embed=em)
 
     @commands.command()
