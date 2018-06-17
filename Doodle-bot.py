@@ -41,7 +41,7 @@ async def botname(ctx, *, botname: str):
 async def play(ctx, *, gamename : str):
     if ifcomm(ctx.message) == False:
         return
-    game = discord.Game("with the API")
+    game = discord.Game(gamename)
     await client.change_presence(activity=game)
     await ctx.channel.send("I'm now playing: " + gamename)
 
