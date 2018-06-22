@@ -4,6 +4,7 @@ from discord.ext import commands
 import time
 import asyncio
 import random
+import os
 
 Client = discord.Client()
 client = commands.Bot(command_prefix='=')
@@ -70,4 +71,4 @@ if __name__ == '__main__':
         except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
-client.run('NDI5NzgxODg3NDg2MDAxMTYz.DaGpLg.JAKgbUYCVdaXQ0-nUr9-am_95Fk')
+client.run(os.environ['BOTTOKEN'])
