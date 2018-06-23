@@ -50,14 +50,14 @@ async def play(ctx, *, gamename: str):
     await client.change_presence(activity=game)
     await ctx.channel.send("I'm now playing: " + gamename)
 
-
+'''
 @client.event
 async def on_message_edit(before, after):
     if before.author.bot is True:
         return
     fmt = '**{0.author}** edited their message from "{1.content}" to "{0.content}"'
     print(fmt.format(after, before))
-
+'''
 
 @client.event
 async def on_ready():
