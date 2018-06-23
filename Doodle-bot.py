@@ -9,8 +9,7 @@ import env
 
 Client = discord.Client()
 client = commands.Bot(command_prefix='=')
-SILI_DEBUG = True
-client.commanderid = 357596253472948224 if SILI_DEBUG else 227598467621584908
+client.commanderid = 357596253472948224
 user = discord.Member
 startup_extensions = ['moderation', 'general', 'on_message_stuff']
 client.data = {'test': 'test object'}
