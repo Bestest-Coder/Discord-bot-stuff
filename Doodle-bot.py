@@ -48,6 +48,7 @@ async def play(ctx, *, gamename: str):
         return
     game = discord.Game(gamename)
     await client.change_presence(activity=game)
+    env.set('GAME_NAME', gamename)
     await ctx.channel.send("I'm now playing: " + gamename)
 
 '''
@@ -65,7 +66,10 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
-    game = discord.Game("with katana")
+    try:
+        game = discord.Game(env.get('GAME_NAME'))
+    except KeyError:
+        game = discord.Game("with katana")
     await client.change_presence(activity=game)
 
 
