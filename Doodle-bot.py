@@ -19,7 +19,7 @@ def stafforcomm(inp):
     if client.commanderid == inp.author.id:
         return True
     # if client.data[str(inp.guild)]['stfrole'] == discord.utils.get(inp.author.roles, id=self.client.staffrole.id):
-    if env.get('{}.stfrole'.format(inp.guild.id)) in [role.id for role in inp.author.roles]:  # more efficient, gets all role ids
+    if int(env.get('{}.stfrole'.format(inp.guild.id))) in [role.id for role in inp.author.roles]:  # more efficient, gets all role ids
         return True
     else:
         return False
