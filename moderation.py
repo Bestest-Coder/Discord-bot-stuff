@@ -47,7 +47,7 @@ class Staff():
             reason = ''
         msg = (war_user.mention + ', you have recieved a warning for '
                ) + reason  #  + ', this is warning #' + str(war_user.warns) + 'at the hands of ' + str(com_send)
-        wchan_id = env.get('{}_wchan'.format(ctx.message.guild.id))
+        wchan_id = int(env.get('{}_wchan'.format(ctx.message.guild.id)))
         wchan = discord.utils.get(client.get_all_channels(), id=wchan_id)  # get real channel behind the id
         await wchan.send(msg)
         #print((((str(ctx.author) + ': ') + str(war_user)) + ' has been warned for: ') + reason)
