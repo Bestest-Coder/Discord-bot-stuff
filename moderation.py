@@ -9,7 +9,8 @@ def stafforcomm(self, inp):
     if self.client.commanderid == inp.author.id:
         return True
     server_stfrole = int(env.get('{}_stfrole'.format(inp.guild.id)))
-    if server_stfrole == discord.utils.get(inp.author.roles, id=server_stfrole).id:  # check to make sure the ids are the same
+    # if server_stfrole == discord.utils.get(inp.author.roles, id=server_stfrole).id:  # check to make sure the ids are the same
+    if server_stfrole in [role.id for role in inp.author.roles]:
         return True
     else:
         return False
