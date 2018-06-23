@@ -2,7 +2,7 @@ import os
 
 
 def set(name, value):
-    os.environ[name] = value
+    os.environ[name] = str(value)
 
 
 def get(name):
