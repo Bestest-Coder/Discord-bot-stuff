@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import env
 user = discord.Member
 safe = discord.Object
 
@@ -11,7 +12,7 @@ class on_msg():
     async def on_message(self, message):
         if message.author == self.client.user:
             return  # we do not want the bot to reply to itself
-        if message.author.bot == True:
+        if message.author.bot is True:
             return
         for i in range(len(message.mentions)):
             if message.mentions[i] == self.client.user:
@@ -49,6 +50,7 @@ class on_msg():
             #msg = 'Theif of the least dank memes'.format(message)
             #await self.client.send_message(message.channel, msg)
     '''
+
 
 def setup(client):
     client.add_cog(on_msg(client))
