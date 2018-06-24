@@ -55,14 +55,17 @@ async def play(ctx, *, gamename: str):
 
 @client.command(hidden=True)
 async def debug(ctx):
-    if ifcomm(ctx.message):
-        envs = os.environ.copy()
-        envs.remove(os.environ['BOTTOKEN'])  # remove bot token from debug for security
-        try:
-            await ctx.message.author.send(str(envs))
-        except Exception as e:  # in case of any problems
-            simple_traceback = e.__class__.__name__ + ': ' + e.args[0]
-            await ctx.channel.send(simple_traceback)
+    if not ifcomm(ctx.message):
+        return
+
+    envs = os.environ.copy()
+    envs.remove(os.environ['BOTTOKEN'])  # remove bot token from debug for security
+    try:
+        # await ctx.message.author.send(str(envs))
+        await client.send_message(ctx.message.author, str(envs))
+    except Exception as e:  # in case of any problems
+        simple_traceback = e.__class__.__name__ + ': ' + e.args[0]
+        await ctx.channel.send(simple_traceback)
 
 '''
 @client.event
