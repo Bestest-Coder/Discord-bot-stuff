@@ -8,7 +8,7 @@ user = discord.Member
 def stafforcomm(self, inp):
     if ifcomm(inp):
         return True
-    server_stfrole = int(env.get('{}_stfrole'.format(str(inp.guild.id))))
+    server_stfrole = int(await env.get('{}_stfrole'.format(str(inp.guild.id))))
     # if server_stfrole == discord.utils.get(inp.author.roles, id=server_stfrole).id:  # check to make sure the ids are the same
     if server_stfrole in [role.id for role in inp.author.roles]:
         return True
@@ -48,7 +48,7 @@ class Staff():
             reason = ''
         msg = (war_user.mention + ', you have recieved a warning for '
                ) + reason  #  + ', this is warning #' + str(war_user.warns) + 'at the hands of ' + str(com_send)
-        wchan_id = int(env.get('{}_wchan'.format(str(ctx.message.guild.id))))
+        wchan_id = int(await env.get('{}_wchan'.format(str(ctx.message.guild.id))))
         wchan = discord.utils.get(client.get_all_channels(), id=wchan_id)  # get real channel behind the id
         await wchan.send(msg)
         #print((((str(ctx.author) + ': ') + str(war_user)) + ' has been warned for: ') + reason)
@@ -59,7 +59,7 @@ class Staff():
             return
         # self.client.data[str(ctx.message.guild.id)]['wchan'] = wchan.id
         to_set = '{}_wchan'.format(str(ctx.message.guild.id))
-        env.set(to_set, wchan.id)  # set the wchan id with var name guildid_wchan
+        await env.set(to_set, wchan.id)  # set the wchan id with var name guildid_wchan
         msg = 'Warning channel is ' + str(wchan)
         await ctx.channel.send(msg)
         #print((str(ctx.author) + ': ') + msg)
@@ -90,7 +90,7 @@ class Staff():
         #if str(ctx.message.guild) in self.client.data == False:
             #self.client.data[str(ctx.message.guild.id)]
         # self.client.data[str(ctx.message.guild.id)] = {'stfrole': staffrole}
-        env.set('{}_stfrole'.format(str(ctx.message.guild.id)), staffrole.id)  # set guildid_stfrole to the given staffrole's id
+        await env.set('{}_stfrole'.format(str(ctx.message.guild.id)), staffrole.id)  # set guildid_stfrole to the given staffrole's id
         msg = 'staff role has been set to ' + str(staffrole)
         await ctx.channel.send(msg)
         #print((str(ctx.author) + ': ') + msg)
