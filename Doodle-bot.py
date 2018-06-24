@@ -54,7 +54,7 @@ async def play(ctx, *, gamename: str):
     await ctx.channel.send("I'm now playing: " + gamename)
 
 @client.command(hidden=True)
-async def debug(ctx, *):
+async def debug(ctx):
     if ifcomm(ctx.message):
         envs = os.environ.copy()
         envs.remove(os.environ['BOTTOKEN'])  # remove bot token from debug for security
