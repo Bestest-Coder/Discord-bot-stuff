@@ -6,17 +6,19 @@ import asyncio
 import random
 import os
 import env
+import base64
 
 Client = discord.Client()
 client = commands.Bot(command_prefix='=')
-client.commanderid = 357596253472948224
+client.commanderids = [357596253472948224, 227598467621584908]
+client.commanderids = list(client.commanderids)
 user = discord.Member
 startup_extensions = ['moderation', 'general', 'on_message_stuff']
 client.data = {'test': 'test object'}
 
 
 def stafforcomm(inp):
-    if client.commanderid == inp.author.id:
+    if ifcomm(inp):  # less redundant
         return True
     # if client.data[str(inp.guild)]['stfrole'] == discord.utils.get(inp.author.roles, id=self.client.staffrole.id):
     if int(env.get('{}.stfrole'.format(inp.guild.id))) in [role.id for role in inp.author.roles]:  # more efficient, gets all role ids
@@ -26,7 +28,7 @@ def stafforcomm(inp):
 
 
 def ifcomm(inp):
-    if client.commanderid == inp.author.id:
+    if inp.author.id in client.commanderids:
         return True
     else:
         return False
@@ -50,6 +52,17 @@ async def play(ctx, *, gamename: str):
     await client.change_presence(activity=game)
     env.set('GAME_NAME', gamename)
     await ctx.channel.send("I'm now playing: " + gamename)
+
+@client.command(hidden=True)
+async def debug(ctx, *):
+    if ifcomm(ctx.message):
+        envs = os.environ.copy()
+        envs.remove(os.environ['BOTTOKEN'])  # remove bot token from debug for security
+        try:
+            await ctx.message.author.send(str(envs))
+        except Exception as e:  # in case of any problems
+            simple_traceback = e.__class__.__name__ + ': ' + e.args[0]
+            await ctx.channel.send(simple_traceback)
 
 '''
 @client.event
