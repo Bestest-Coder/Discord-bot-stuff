@@ -57,10 +57,9 @@ async def play(ctx, *, gamename: str):
 async def debug(ctx):
     if not ifcomm(ctx.message):
         return
-
-    envs = os.environ.copy()
-    envs.remove(os.environ['BOTTOKEN'])  # remove bot token from debug for security
     try:
+        envs = os.environ.copy()
+        envs.remove(os.environ['BOTTOKEN'])  # remove bot token from debug for security
         # await ctx.message.author.send(str(envs))
         user = client.get_user(ctx.message.author.id)  # i'm really at a i || || |_
         await user.send(str(envs))
