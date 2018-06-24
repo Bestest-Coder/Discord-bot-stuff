@@ -63,6 +63,7 @@ async def debug(ctx):
             del envs[os.environ['BOTTOKEN']]  # remove bot token from debug for security
         except KeyError:  # please god don't post the token
             await ctx.channel.send("no please don't")
+            return  # end me
         # await ctx.message.author.send(str(envs))
         user = client.get_user(ctx.message.author.id)  # i'm really at a i || || |_
         await user.send(str(envs))
