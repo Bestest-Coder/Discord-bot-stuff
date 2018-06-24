@@ -41,7 +41,8 @@ async def get(name, tries=5):
             async with websockets.connect('ws://siliconwolf.pw:12345', timeout=2) as sock:
                 pack = "get|{}|{}".format(name, KEY)
                 await sock.send(pack)
-                data = await sock.recv()
+                # data = await sock.recv()
+                data = yield from sock.recv()
                 return data
                 tries = 0  # hopefully doesn't execute
         except websockets.exceptions.ConnectionClosed:
