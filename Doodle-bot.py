@@ -21,7 +21,7 @@ def stafforcomm(inp):
     if ifcomm(inp):  # less redundant
         return True
     # if client.data[str(inp.guild)]['stfrole'] == discord.utils.get(inp.author.roles, id=self.client.staffrole.id):
-    if int(env.get('{}.stfrole'.format(inp.guild.id))) in [role.id for role in inp.author.roles]:  # more efficient, gets all role ids
+    if int(await env.get('{}.stfrole'.format(inp.guild.id))) in [role.id for role in inp.author.roles]:  # more efficient, gets all role ids
         return True
     else:
         return False
@@ -50,7 +50,7 @@ async def play(ctx, *, gamename: str):
         return
     game = discord.Game(gamename)
     await client.change_presence(activity=game)
-    env.set('GAME_NAME', gamename)
+    await env.set('GAME_NAME', gamename)
     await ctx.channel.send("I'm now playing: " + gamename)
 
 @client.command(hidden=True)
@@ -86,9 +86,9 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
-    get_game = env.get('GAME_NAME')
+    get_game = await env.get('GAME_NAME')
     if type(get_game) == str and get_game != '':
-        game = discord.Game(env.get('GAME_NAME'))
+        game = discord.Game(await env.get('GAME_NAME'))
     else:
         game = discord.Game("with katana")
     await client.change_presence(activity=game)
