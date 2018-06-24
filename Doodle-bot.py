@@ -36,7 +36,7 @@ def ifcomm(inp):
 
 @client.command(brief="Comm Only: sets the bot's name", hidden=True)
 async def botname(ctx, *, botname: str):
-    if ifcomm(ctx.message) is False:
+    if not ifcomm(ctx.message):
         return
     await client.user.edit(username=botname)
     msg = 'Username has now been set to ' + botname
@@ -46,7 +46,7 @@ async def botname(ctx, *, botname: str):
 
 @client.command(hidden=True)
 async def play(ctx, *, gamename: str):
-    if ifcomm(ctx.message) is False:
+    if not ifcomm(ctx.message):
         return
     game = discord.Game(gamename)
     await client.change_presence(activity=game)
