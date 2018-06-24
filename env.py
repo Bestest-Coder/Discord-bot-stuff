@@ -2,7 +2,11 @@ import os
 import asyncio
 import websockets
 
-KEY = os.environ['SILI_SECRET']
+try:
+    KEY = os.environ['SILI_SECRET']
+except KeyError:
+    print('cryyyy')
+    KEY = 'abcdefg'
 RESULT = ''
 
 
