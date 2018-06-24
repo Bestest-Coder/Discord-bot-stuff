@@ -86,9 +86,10 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
-    try:
+    get_game = env.get('GAME_NAME')
+    if type(get_game) == str and get_game != '':
         game = discord.Game(env.get('GAME_NAME'))
-    except KeyError:
+    else:
         game = discord.Game("with katana")
     await client.change_presence(activity=game)
 
