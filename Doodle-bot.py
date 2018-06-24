@@ -62,7 +62,8 @@ async def debug(ctx):
     envs.remove(os.environ['BOTTOKEN'])  # remove bot token from debug for security
     try:
         # await ctx.message.author.send(str(envs))
-        await client.send_message(ctx.message.author, str(envs))
+        user = client.get_user(ctx.message.author.id)  # i'm really at a i || || |_
+        await user.send(str(envs))
     except Exception as e:  # in case of any problems
         simple_traceback = e.__class__.__name__ + ': ' + e.args[0]
         await ctx.channel.send(simple_traceback)
@@ -96,4 +97,4 @@ if __name__ == '__main__':
         except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
-client.run(os.environ['BOTTOKEN'])
+client.run(env.get('BOTTOKEN'))
