@@ -42,7 +42,7 @@ async def get(name, tries=5):
                 pack = "get|{}|{}".format(name, KEY)
                 await sock.send(pack)
                 # data = await sock.recv()
-                data = yield from sock.recv()
+                data = await sock.recv()
                 return data
                 tries = 0  # hopefully doesn't execute
         except websockets.exceptions.ConnectionClosed:
