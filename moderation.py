@@ -25,7 +25,7 @@ def ifcomm(self, inp):
 
 
 def ifvip(self, inp):
-    if self.client.commanderid == inp.author.id:
+    if inp.author.id in self.client.commanderids:
         return True
     if inp.guild.owner == inp.author:
         return True
