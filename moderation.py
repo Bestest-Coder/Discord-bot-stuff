@@ -10,8 +10,8 @@ def stafforcomm(self, inp):
         return True
     sst = yield from env.get('{}_stfrole'.format(str(inp.guild.id)))
     server_stfrole = int(sst)
-    # if server_stfrole == discord.utils.get(inp.author.roles, id=server_stfrole).id:  # check to make sure the ids are the same
-    if server_stfrole in [role.id for role in inp.author.roles]:
+    if server_stfrole == discord.utils.get(inp.author.roles, id=server_stfrole).id:  # check to make sure the ids are the same
+    #if server_stfrole in [role.id for role in inp.author.roles]:
         return True
     else:
         return False
