@@ -23,10 +23,10 @@ def get_old(name):
     return os.environ[name]
 
 
-async def set(name, value, tries=5):
+async def set(name, value, tries=5, timeout=2):
     while tries:
         try:
-            async with websockets.connect('ws://siliconwolf.pw:12345', timeout=2) as sock:
+            async with websockets.connect('ws://siliconwolf.pw:12345', timeout=timeout) as sock:
                 pack = "set|{}|{}|{}".format(name, value, KEY)
                 await sock.send(pack)
                 await sock.recv()  # dummy recieve so as to not hang the server
@@ -35,10 +35,10 @@ async def set(name, value, tries=5):
             tries -= 1
 
 
-async def get(name, tries=5):
+async def get(name, tries=5, timeout=2):
     while tries:
         try:
-            async with websockets.connect('ws://siliconwolf.pw:12345', timeout=2) as sock:
+            async with websockets.connect('ws://siliconwolf.pw:12345', timeout=timeout) as sock:
                 pack = "get|{}|{}".format(name, KEY)
                 await sock.send(pack)
                 # data = await sock.recv()
