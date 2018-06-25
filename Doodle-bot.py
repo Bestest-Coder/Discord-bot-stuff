@@ -21,7 +21,8 @@ def stafforcomm(inp):
     if ifcomm(inp):  # less redundant
         return True
     # if client.data[str(inp.guild)]['stfrole'] == discord.utils.get(inp.author.roles, id=self.client.staffrole.id):
-    if int(await env.get('{}.stfrole'.format(inp.guild.id))) in [role.id for role in inp.author.roles]:  # more efficient, gets all role ids
+    eg = yield from env.get('{}.stfrole'.format(inp.guild.id))
+    if int(eg) in [role.id for role in inp.author.roles]:  # more efficient, gets all role ids
         return True
     else:
         return False
