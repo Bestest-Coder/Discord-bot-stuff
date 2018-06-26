@@ -11,7 +11,7 @@ def stafforcomm(self, inp):
     if not DEBUG:
         print = lambda *a, **k: None
     else:
-        print = __builtins__.print
+        print = __builtins__['print']
 
     print('please christ')
     if ifcomm(inp):
