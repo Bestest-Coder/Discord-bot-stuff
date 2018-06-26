@@ -7,10 +7,11 @@ DEBUG = True
 
 
 def stafforcomm(self, inp):
-    print('START MODERATION.STAFFORCOMM')
     return False  # literally just fucking return right away
     if not DEBUG:
         print = lambda *a, **k: None
+    else:
+        print = __builtins__.__print__
 
     print('please christ')
     if ifcomm(inp):
