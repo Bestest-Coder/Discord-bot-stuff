@@ -3,13 +3,23 @@ from discord.ext import commands
 import asyncio
 import env
 user = discord.Member
+DEBUG = True
 
 
 def stafforcomm(self, inp):
+    if not DEBUG:
+        print = lambda *a, **k: None
+
     if ifcomm(inp):
         return True
     sst = yield from env.get('{}_stfrole'.format(str(inp.guild.id)))
     server_stfrole = int(sst)
+    print('---moderation.stafforcomm---')
+    print(sst)
+    print(server_stfrole)
+    print(discord.utils.get(inp.author.roles, id=server_stfrole))
+    print(discord.utils.get(inp.author.roles, id=server_stfrole).id)
+    print('-----------------------------')
     if server_stfrole == discord.utils.get(inp.author.roles, id=server_stfrole).id:  # check to make sure the ids are the same
     #if server_stfrole in [role.id for role in inp.author.roles]:
         return True
