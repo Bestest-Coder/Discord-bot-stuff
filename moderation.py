@@ -6,13 +6,13 @@ user = discord.Member
 DEBUG = True
 
 
-def stafforcomm(self, inp):
+async def stafforcomm(self, inp):
     print('START MODERATION.STAFFORCOMM')
     if not DEBUG:
         print = lambda *a, **k: None
 
     print('please christ')
-    if ifcomm(inp):
+    if yield from ifcomm(inp):
         print('---moderation.stafforcomm---')
         print('user {} was a comm'.format(inp.author.name))
         print(inp.author.display_name)
@@ -36,7 +36,7 @@ def stafforcomm(self, inp):
         return False
 
 
-def ifcomm(self, inp):
+async def ifcomm(self, inp):
     if inp.author.id in self.client.commanderids:
         return True
     else:
