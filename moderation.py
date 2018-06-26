@@ -93,7 +93,9 @@ class Staff():
     @commands.command(brief='say but less suspiscous')
     async def dsay(self, ctx, *, content: str):
         if stafforcomm(self, ctx.message) is False:
+            print(f'stafforcomm returned false with id {ctx.message.id}')
             return
+        print('either stafforcomm returned true or python is being stupid')
         dest = ctx.channel
         dur = len(ctx.message.content) * 0.1
         await ctx.message.delete()
