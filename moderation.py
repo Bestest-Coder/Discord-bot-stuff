@@ -22,7 +22,7 @@ def stafforcomm(self, inp):
         if '[no]' in inp.author.display_name:  # if a commander has [no] in their name
             return False
         return True
-    sst = yield from env.get('{}_stfrole'.format(str(inp.guild.id)))
+    sst = env.get('{}_stfrole'.format(str(inp.guild.id)))
     server_stfrole = int(sst)
     print('---moderation.stafforcomm---')
     print(sst)
