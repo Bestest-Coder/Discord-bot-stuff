@@ -7,7 +7,7 @@ DEBUG = True
 
 
 def stafforcomm(self, inp):
-    return False  # literally just fucking return right away
+    # return False  # literally just fucking return right away
     if not DEBUG:
         print = lambda *a, **k: None
     else:
