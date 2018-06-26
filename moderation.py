@@ -10,6 +10,7 @@ def stafforcomm(self, inp):
     if not DEBUG:
         print = lambda *a, **k: None
 
+    print('please christ')
     if ifcomm(inp):
         print('---moderation.stafforcomm---')
         print('user {} was a comm'.format(inp.author.name))
