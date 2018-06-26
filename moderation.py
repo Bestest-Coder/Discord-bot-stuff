@@ -95,7 +95,9 @@ class Staff():
 
     @commands.command(brief='say but less suspiscous')
     async def dsay(self, ctx, *, content: str):
-        if stafforcomm(self, ctx.message) != True:
+        sfc = stafforcomm(self, ctx.message)
+        print(sfc)
+        if sfc != True:
             print(f'stafforcomm returned false with id {ctx.message.id}')
             return
         print('either stafforcomm returned true or python is being stupid')
