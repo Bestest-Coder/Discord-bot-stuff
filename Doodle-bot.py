@@ -86,6 +86,7 @@ async def on_ready():
     print('Logged in as')
     print(client.user.name)
     print(client.user.id)
+    print('Build: debug 5')
     print('------')
     get_game = await env.get('GAME_NAME')
     if type(get_game) == str and get_game != '':
