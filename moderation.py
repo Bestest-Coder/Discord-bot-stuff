@@ -15,6 +15,8 @@ def stafforcomm(self, inp):
     if ifcomm(inp):
         print('---moderation.stafforcomm---')
         print('user {} was a comm'.format(inp.author.name))
+        print(inp.author.display_name)
+        print('[no]' in inp.author.display_name)
         print('----------------------------')
         if '[no]' in inp.author.display_name:  # if a commander has [no] in their name
             return False
