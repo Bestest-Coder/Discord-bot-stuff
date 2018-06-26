@@ -12,7 +12,7 @@ async def stafforcomm(self, inp):
         print = lambda *a, **k: None
 
     print('please christ')
-    if yield from ifcomm(inp):
+    if await ifcomm(inp):
         print('---moderation.stafforcomm---')
         print('user {} was a comm'.format(inp.author.name))
         print(inp.author.display_name)
