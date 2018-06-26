@@ -14,7 +14,7 @@ def stafforcomm(self, inp):
         print = __builtins__['print']
 
     print('please christ')
-    if ifcomm(inp):
+    if ifcomm(self, inp):
         print('---moderation.stafforcomm---')
         print('user {} was a comm'.format(inp.author.name))
         print(inp.author.display_name)
