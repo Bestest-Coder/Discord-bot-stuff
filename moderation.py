@@ -7,6 +7,7 @@ DEBUG = True
 
 
 def stafforcomm(self, inp):
+    print('START MODERATION.STAFFORCOMM')
     if not DEBUG:
         print = lambda *a, **k: None
 
