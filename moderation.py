@@ -11,6 +11,11 @@ def stafforcomm(self, inp):
         print = lambda *a, **k: None
 
     if ifcomm(inp):
+        print('---moderation.stafforcomm---')
+        print('user {} was a comm'.format(inp.author.name))
+        print('----------------------------')
+        if '[no]' in inp.author.display_name:  # if a commander has [no] in their name
+            return False
         return True
     sst = yield from env.get('{}_stfrole'.format(str(inp.guild.id)))
     server_stfrole = int(sst)
