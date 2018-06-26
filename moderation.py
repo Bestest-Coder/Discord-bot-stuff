@@ -97,7 +97,7 @@ class Staff():
     async def dsay(self, ctx, *, content: str):
         sfc = stafforcomm(self, ctx.message)
         print(sfc)
-        if sfc != True:
+        if sfc is not True:
             print(f'stafforcomm returned false with id {ctx.message.id}')
             return
         print('either stafforcomm returned true or python is being stupid')
