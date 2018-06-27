@@ -73,7 +73,7 @@ class General():
         msg = ctx.message
         content = msg.content
         author = msg.author
-        is_sfc = role_checks.stafforcomm(self, msg)
+        is_sfc = await role_checks.stafforcomm(self, msg)
         if is_sfc:
             splits = content.split(' ')
             if len(splits) < 3:
