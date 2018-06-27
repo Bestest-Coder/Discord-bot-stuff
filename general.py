@@ -84,7 +84,7 @@ class General():
                 if not splits[1].startswith('<@') and not splits[1].endswith('>'):
                     await ctx.channel.send("Invalid syntax (bad mention). Usage: `=setusertag @username <tag>`")
                 else:
-                    to_mem = msg.guild.get_member(splits[1][2:-1])
+                    to_mem = msg.guild.get_member(int(splits[1][2:-1]))
                     print(to_mem)
                     if to_mem is None:
                         await ctx.channel.send("Not a valid mention. Usage: `=setusertag @username <tag>`")
