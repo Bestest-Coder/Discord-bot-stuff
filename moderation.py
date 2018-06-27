@@ -63,7 +63,7 @@ class Staff():
 
     @commands.command(brief='sends a message to warning channel')
     async def warn(self, ctx, war_user: user, *, reason: str):
-        if stafforcomm(self, ctx.message) is False:
+        if await stafforcomm(self, ctx.message) is False:
             print(str(ctx.author) + " tried to warn but isn't staff")
             return
         #com_send = ctx.author
@@ -89,7 +89,7 @@ class Staff():
 
     @commands.command(brief='makes the bot say the content')
     async def say(self, ctx, *, content: str):
-        if stafforcomm(self, ctx.message) is False:
+        if await stafforcomm(self, ctx.message) is False:
             return
         await ctx.channel.send(content.format(ctx.message))
         await ctx.message.delete()
@@ -125,7 +125,7 @@ class Staff():
 
     @commands.command(brief="Sets the bot's nickname")
     async def nick(self, ctx, *, name: str):
-        if stafforcomm(self, ctx.message) is False:
+        if await stafforcomm(self, ctx.message) is False:
             return
         await ctx.message.guild.me.edit(nick=name)
         await ctx.channel.send('Nickname is now "' + name + '"')
