@@ -6,7 +6,7 @@ user = discord.Member
 DEBUG = True
 
 
-def stafforcomm(self, inp):
+async def stafforcomm(self, inp):
     # return False  # literally just fucking return right away
     if not DEBUG:
         print = lambda *a, **k: None
@@ -21,9 +21,10 @@ def stafforcomm(self, inp):
         print('[no]' in inp.author.display_name)
         print('----------------------------')
         if '[no]' in inp.author.display_name:  # if a commander has [no] in their name
+            # return False
             return False
         return True
-    sst = env.get('{}_stfrole'.format(str(inp.guild.id)))
+    sst = await env.get('{}_stfrole'.format(str(inp.guild.id)))
     server_stfrole = int(sst)
     print('---moderation.stafforcomm---')
     print(sst)
@@ -96,7 +97,7 @@ class Staff():
 
     @commands.command(brief='say but less suspiscous')
     async def dsay(self, ctx, *, content: str):
-        sfc = stafforcomm(self, ctx.message)
+        sfc = await stafforcomm(self, ctx.message)
         print(stafforcomm)
         print(sfc)
         if sfc is not True:
