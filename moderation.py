@@ -133,7 +133,7 @@ class Staff():
             if len(splits) < 3 and len(msg.attachments) == 0:
                 await ctx.channel.send("Invalid syntax. Usage: `=setusertag @username <tag>`")
             else:
-                newtag = ' '.join(splits[2:]) + ' '.join(([a.url for a in msg.attachments]+[''])[0])
+                newtag = ' '.join(splits[2:]) + ' '.join([a.url for a in msg.attachments])
                 links = re.findall("(https?://[^\s]+)", newtag)
                 if len(newtag) == 0:
                     await ctx.channel.send("Error: your tag is empty, will not store.")
