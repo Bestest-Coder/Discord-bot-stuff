@@ -6,6 +6,9 @@ user = discord.Member
 DEBUG = True
 
 
+MAX_TAG_LEN = 300
+
+
 async def stafforcomm(self, inp):
     if '[no]' not in inp.author.display_name:
         if ifcomm(self, inp):
@@ -129,7 +132,14 @@ class Staff():
                 await ctx.channel.send("Invalid syntax. Usage: `=setusertag @username <tag>`")
             else:
                 newtag = ' '.join(splits[2:]) + ' '.join(([a.url for a in msg.attachments]+[''])[0])
-                if not splits[1].startswith('<@') and not splits[1].endswith('>'):
+                links = re.findall("(https?://[^\s]+)", newtag)
+                if len(newtag) == 0:
+                    await ctx.channel.send("Error: your tag is empty, will not store.")
+                elif len(newtag) >= MAX_TAG_LEN:
+                    await ctx.channel.send("Error: your tag is above {} characters, will not store.".format(MAX_TAG_LEN))
+                elif len(links) > 1:
+                    await ctx.channel.send("Error: your tag has more than one link and/or attachment, will not store.")
+                elif not splits[1].startswith('<@') and not splits[1].endswith('>'):
                     await ctx.channel.send("Invalid syntax (bad mention). Usage: `=setusertag @username <tag>`")
                 else:
                     to_mem = msg.guild.get_member(int(splits[1][2:-1].replace('!', '')))
