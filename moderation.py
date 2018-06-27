@@ -7,20 +7,8 @@ DEBUG = True
 
 
 async def stafforcomm(self, inp):
-    # return False  # literally just fucking return right away
-    if not DEBUG:
-        print = lambda *a, **k: None
-    else:
-        print = __builtins__['print']
-
-    print('please christ')
     if '[no]' not in inp.author.display_name:
         if ifcomm(self, inp):
-            print('---moderation.stafforcomm---')
-            print('user {} was a comm'.format(inp.author.name))
-            print(inp.author.display_name)
-            print('[no]' in inp.author.display_name)
-            print('----------------------------')
             return True
 
     sst = await env.get('{}_stfrole'.format(str(inp.guild.id)))
@@ -30,14 +18,7 @@ async def stafforcomm(self, inp):
         server_stfrole = int(sst)
     except ValueError:
         raise ValueError(f'server_stfrole can\'t be assigned to {sst}, probably not a real id. maybe define a staffrole with an id?')
-    print('---moderation.stafforcomm---')
-    print(sst)
-    print(server_stfrole)
-    print(discord.utils.get(inp.author.roles, id=server_stfrole))
-    print(discord.utils.get(inp.author.roles, id=server_stfrole).id)
-    print('-----------------------------')
     if server_stfrole == discord.utils.get(inp.author.roles, id=server_stfrole).id:  # check to make sure the ids are the same
-    #if server_stfrole in [role.id for role in inp.author.roles]:
         return True
     else:
         return False
