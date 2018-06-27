@@ -59,7 +59,7 @@ class General():
         tag += ' ' + ' '.join(aurls)
         links = re.findall("(https?://[^\s]+)", tag)
         if len(tag) == 0:
-            await ctx.channel.send("Error: your tag is empty, will not store.)
+            await ctx.channel.send("Error: your tag is empty, will not store.")
         elif len(tag) >= MAX_TAG_LEN:
             await ctx.channel.send("Error: your tag is above {} characters, will not store.".format(MAX_TAG_LEN))
         elif len(links) > 1:
