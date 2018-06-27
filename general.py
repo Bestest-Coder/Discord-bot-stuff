@@ -89,7 +89,7 @@ class General():
                     if to_mem is None:
                         await ctx.channel.send("Not a valid mention. Usage: `=setusertag @username <tag>`")
                     else:
-                        await env.set("{}_tag_{}".format(ctx.message.guild.id, ctx.message.author.id))
+                        await env.set("{}_tag_{}".format(ctx.message.guild.id, ctx.message.author.id), newtag)
                         await ctx.channel.send("Set {}'s tag.".format(to_mem.display_name))
         else:
             await ctx.channel.send("You are not permitted to use this command.")
