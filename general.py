@@ -2,6 +2,7 @@ import re
 import env
 import random
 import discord
+import role_checks
 from discord.ext import commands
 
 
@@ -48,7 +49,7 @@ class General():
         if usertag == 'variable does not exist':
             await ctx.channel.send("You don't have a tag. Set a tag with `=settag <text>`")
         else:
-            await ctx.channel.send('📎' + usertag)
+            await ctx.channel.send('📎 ' + usertag)
 
     @commands.command()
     async def settag(self, ctx):
@@ -57,13 +58,31 @@ class General():
         aurls = [a.url for a in ctx.message.attachments]
         tag += ' ' + ' '.join(aurls)
         links = re.findall("(https?://[^\s]+)", tag)
-        if len(tag) >= MAX_TAG_LEN:
+        if len(tag) == 0:
+            await ctx.channel.send("Error: your tag is empty, will not store.)
+        elif len(tag) >= MAX_TAG_LEN:
             await ctx.channel.send("Error: your tag is above {} characters, will not store.".format(MAX_TAG_LEN))
         elif len(links) > 1:
             await ctx.channel.send("Error: your tag has more than one link and/or attachment, will not store.")
         else:
             await env.set("{}_tag_{}".format(ctx.message.guild.id, ctx.message.author.id), tag)
             await ctx.channel.send("<@{}>, your tag has been set.".format(ctx.message.author.id))
+
+    @commands.command()
+    async def setusertag(self, ctx):
+        msg = ctx.message
+        content = msg.content
+        print(content)
+        return
+        author = msg.author
+        is_sfc = role_checks.stafforcomm(self, msg)
+        if is_sfc:
+            splits = content.split(' ')
+            if len(splits) < 3:
+                await ctx.channel.send("Invalid syntax. Usage: `=setusertag @username <tag>`")
+            else:
+                newtag = ' '.join(splits[2:])
+                
 
 
 def setup(client):
