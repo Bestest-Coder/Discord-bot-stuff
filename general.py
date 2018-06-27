@@ -76,6 +76,7 @@ class General():
         is_sfc = await role_checks.stafforcomm(self, msg)
         if is_sfc:
             splits = content.split(' ')
+            print(splits)
             if len(splits) < 3:
                 await ctx.channel.send("Invalid syntax. Usage: `=setusertag @username <tag>`")
             else:
@@ -84,6 +85,7 @@ class General():
                     await ctx.channel.send("Invalid syntax (bad mention). Usage: `=setusertag @username <tag>`")
                 else:
                     to_mem = msg.guild.get_member(splits[1][2:-1])
+                    print(to_mem)
                     if to_mem is None:
                         await ctx.channel.send("Not a valid mention. Usage: `=setusertag @username <tag>`")
                     else:
