@@ -24,7 +24,12 @@ async def stafforcomm(self, inp):
             return True
 
     sst = await env.get('{}_stfrole'.format(str(inp.guild.id)))
-    server_stfrole = int(sst)
+    try:
+        if sst == 'variable does not exist':  # if var error from server
+            return False  # since there is no mod role to compare against anyways
+        server_stfrole = int(sst)
+    except ValueError:
+        raise ValueError(f'server_stfrole can\'t be assigned to {sst}, probably not a real id. maybe define a staffrole with an id?')
     print('---moderation.stafforcomm---')
     print(sst)
     print(server_stfrole)
