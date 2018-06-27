@@ -43,7 +43,7 @@ class General():
     async def void(self, ctx):
         await ctx.channel.send('_ _')
 
-    @commands.command()
+    @commands.command(brief='show your tag')
     async def tag(self, ctx):
         usertag = await env.get('{}_tag_{}'.format(ctx.message.guild.id, ctx.message.author.id))
         if usertag == 'variable does not exist':
@@ -51,7 +51,7 @@ class General():
         else:
             await ctx.channel.send('📎 ' + usertag)
 
-    @commands.command()
+    @commands.command('set your own tag')
     async def settag(self, ctx):
         content = ctx.message.content
         tag = ' '.join(ctx.message.content.split(' ')[1:])  # get everything that isn't the first section
@@ -68,7 +68,7 @@ class General():
             await env.set("{}_tag_{}".format(ctx.message.guild.id, ctx.message.author.id), tag)
             await ctx.channel.send("<@{}>, your tag has been set.".format(ctx.message.author.id))
 
-    @commands.command()
+    @commands.command(brief='temp pos: change another\'s tag')
     async def setusertag(self, ctx):
         msg = ctx.message
         content = msg.content
@@ -84,7 +84,7 @@ class General():
                 if not splits[1].startswith('<@') and not splits[1].endswith('>'):
                     await ctx.channel.send("Invalid syntax (bad mention). Usage: `=setusertag @username <tag>`")
                 else:
-                    to_mem = msg.guild.get_member(int(splits[1][2:-1]))
+                    to_mem = msg.guild.get_member(int(splits[1][2:-1].replace('!', '')))
                     print(to_mem)
                     if to_mem is None:
                         await ctx.channel.send("Not a valid mention. Usage: `=setusertag @username <tag>`")
