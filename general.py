@@ -54,8 +54,9 @@ class General():
     async def settag(self, ctx):
         content = ctx.message.content
         tag = ' '.join(ctx.message.content.split(' ')[1:])  # get everything that isn't the first section
-        links = re.findall("(https?://[^\s]+)", content)
-        links += [a.url for a in ctx.message.attachments]
+        aurls = [a.url for a in ctx.message.attachments]
+        tag += ' ' + ' '.join(aurls)
+        links = re.findall("(https?://[^\s]+)", tag)
         if len(tag) >= MAX_TAG_LEN:
             await ctx.channel.send("Error: your tag is above {} characters, will not store.".format(MAX_TAG_LEN))
         elif len(links) > 1:
