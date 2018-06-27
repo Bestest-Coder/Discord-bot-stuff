@@ -1,6 +1,10 @@
+import re
 import random
 import discord
 from discord.ext import commands
+
+
+MAX_TAG_LEN = 300
 
 
 class General():
@@ -36,6 +40,27 @@ class General():
     @commands.command()
     async def void(self, ctx):
         await ctx.channel.send('_ _')
+
+    @commands.command()
+    async def tag(self, ctx):
+        usertag = await env.get('{}_tag_{}'.format(ctx.message.guild.id, ctx.message.author.id))
+        if usertag == 'variable does not exist':
+            await ctx.channel.send("You don't have a tag. Set a tag with `=settag <text>`")
+        else:
+            await ctx.channel.send('📎' + usertag)
+
+    @commands.command()
+    async def settag(self, ctx):
+        content = ctx.message.content
+        tag = ' '.join(ctx.message.content.split(' ')[1:])  # get everything that isn't the first section
+        links = re.findall("(https?://[^\s]+)", content)
+        links += [a.url for a in ctx.message.attachments]
+        if len(tag) >= MAX_TAG_LEN:
+            await ctx.channel.send("Error: your tag is above {} characters, will not store.".format(MAX_TAG_LEN))
+        elif len(links) > 1:
+            await ctx.channel.send("Error: your tag has more than one link and/or attachment, will not store.")
+        else:
+            await env.set("{}_tag_{}".format(ctx.message.guild.id, ctx.message.author.id), content)
 
 
 def setup(client):
