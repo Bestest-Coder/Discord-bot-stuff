@@ -116,7 +116,7 @@ class Staff():
         await ctx.channel.send('Nickname is now "' + name + '"')
 
         
-    @commands.command(brief='temp pos: change another\'s tag')
+    @commands.command(brief='change another\'s tag')
     async def setusertag(self, ctx):
         msg = ctx.message
         content = msg.content
