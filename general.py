@@ -72,8 +72,6 @@ class General():
     async def setusertag(self, ctx):
         msg = ctx.message
         content = msg.content
-        print(content)
-        return
         author = msg.author
         is_sfc = role_checks.stafforcomm(self, msg)
         if is_sfc:
@@ -82,7 +80,17 @@ class General():
                 await ctx.channel.send("Invalid syntax. Usage: `=setusertag @username <tag>`")
             else:
                 newtag = ' '.join(splits[2:])
-                
+                if not splits[1].startswith('<@') and not splits[1].endswith('>'):
+                    await ctx.channel.send("Invalid syntax (bad mention). Usage: `=setusertag @username <tag>`")
+                else:
+                    to_mem = msg.guild.get_member(splits[1][2:-1])
+                    if to_mem is None:
+                        await ctx.channel.send("Not a valid mention. Usage: `=setusertag @username <tag>`")
+                    else:
+                        await env.set("{}_tag_{}".format(ctx.message.guild.id, ctx.message.author.id))
+                        await ctx.channel.send("Set {}'s tag.".format(to_mem.display_name))
+        else:
+            await ctx.channel.send("You are not permitted to use this command.")
 
 
 def setup(client):
