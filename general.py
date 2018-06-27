@@ -63,6 +63,7 @@ class General():
             await ctx.channel.send("Error: your tag has more than one link and/or attachment, will not store.")
         else:
             await env.set("{}_tag_{}".format(ctx.message.guild.id, ctx.message.author.id), tag)
+            await ctx.channel.send("<@{}>, your tag has been set.".format(ctx.message.author.id))
 
 
 def setup(client):
