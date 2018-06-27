@@ -128,7 +128,7 @@ class Staff():
             if len(splits) < 3:
                 await ctx.channel.send("Invalid syntax. Usage: `=setusertag @username <tag>`")
             else:
-                newtag = ' '.join(splits[2:])
+                newtag = ' '.join(splits[2:]) + ' '.join(([a.url for a in msg.attachments]+[''])[0])
                 if not splits[1].startswith('<@') and not splits[1].endswith('>'):
                     await ctx.channel.send("Invalid syntax (bad mention). Usage: `=setusertag @username <tag>`")
                 else:
