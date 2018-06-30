@@ -12,9 +12,9 @@ MAX_TAG_LEN = 300
 
 
 async def stafforcomm(self, inp):
-    if '[no]' not in inp.author.display_name:
-        if ifcomm(self, inp):
-            return True
+    #if '[no]' not in inp.author.display_name:
+        #if ifcomm(self, inp):
+            #return True
 
     sst = await env.get('{}_stfrole'.format(str(inp.guild.id)))
     try:
