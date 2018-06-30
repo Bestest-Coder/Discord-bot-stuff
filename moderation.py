@@ -87,13 +87,15 @@ class Staff():
 
     @commands.command(brief='say but less suspiscous')
     async def dsay(self, ctx, *, content: str):
-        sfc = await stafforcomm(self, ctx.message)
-        print(stafforcomm)
-        print(sfc)
-        if sfc is not True:
-            print(f'stafforcomm returned false with id {ctx.message.id}')
+        if not stafforcomm(self, ctx.message):
             return
-        print('either stafforcomm returned true or python is being stupid')
+        #sfc = await stafforcomm(self, ctx.message)
+        #print(stafforcomm)
+        #print(sfc)
+        #if sfc is not True:
+            #print(f'stafforcomm returned false with id {ctx.message.id}')
+            #return
+        #print('either stafforcomm returned true or python is being stupid')
         dest = ctx.channel
         dur = len(ctx.message.content) * 0.1
         await ctx.message.delete()
@@ -120,7 +122,7 @@ class Staff():
         await ctx.message.guild.me.edit(nick=name)
         await ctx.channel.send('Nickname is now "' + name + '"')
 
-        
+
     @commands.command(brief='change another\'s tag')
     async def setusertag(self, ctx):
         msg = ctx.message
