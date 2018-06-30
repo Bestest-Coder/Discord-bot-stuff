@@ -15,7 +15,6 @@ async def stafforcomm(self, inp):
     #if '[no]' not in inp.author.display_name:
         #if ifcomm(self, inp):
             #return True
-
     sst = await env.get('{}_stfrole'.format(str(inp.guild.id)))
     try:
         if sst == 'variable does not exist':  # if var error from server
@@ -87,7 +86,8 @@ class Staff():
 
     @commands.command(brief='say but less suspiscous')
     async def dsay(self, ctx, *, content: str):
-        if not stafforcomm(self, ctx.message):
+        result = await stafforcomm(self, ctx.message)
+        if result is not True:
             return
         #sfc = await stafforcomm(self, ctx.message)
         #print(stafforcomm)
