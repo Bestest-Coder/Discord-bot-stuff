@@ -14,12 +14,13 @@ class Information():
         perms.embed_links = True
         perms.read_message_history = True
         perms.attach_files = True
-        app_info = await bot.application_info()
+        app_info = await self.client.application_info()
         await ctx.send("Here you go friend! One invite just for you!\n{0}".format(discord.utils.oauth_url(app_info.id, perms)))
 
     @commands.command(brief='tells you who made the bot')
     async def contributors(self, ctx):
-        await ctx.channel.send('''The Bestest User#6969: The original creator. GitHub: https://github.com/Bestest-Coder
+        await ctx.channel.send(
+        '''The Bestest User#6969: The original creator. GitHub: https://github.com/Bestest-Coder
         siliconwolf#0013: Cool man who helped make a lot of stuff work, and contributed his site to store data. GitHub: https://github.com/silicWulf''')
 
     @commands.command(brief='all the basic info about the bot')
