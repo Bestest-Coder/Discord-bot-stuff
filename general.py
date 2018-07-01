@@ -68,6 +68,10 @@ class General():
             await env.set("{}_tag_{}".format(ctx.message.guild.id, ctx.message.author.id), tag)
             await ctx.channel.send("<@{}>, your tag has been set.".format(ctx.message.author.id))
 
+    @commands.command(brief='WHAT. WHAT THE FUCK -Jontron')
+    async def wtf(self,ctx):
+        ctx.channel.send(file=discord.File('wtf.mp4', filename='wtf.mp4'))
+
 
 def setup(client):
     client.add_cog(General(client))
