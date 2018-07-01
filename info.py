@@ -19,9 +19,7 @@ class Information():
 
     @commands.command(brief='tells you who made the bot')
     async def contributors(self, ctx):
-        await ctx.channel.send('''
-        The Bestest User#6969: The original creator. GitHub: https://github.com/Bestest-Coder
-        siliconwolf#0013: Cool man who helped make a lot of stuff work, and contributed his site to store data. GitHub: https://github.com/silicWulf''')
+        await ctx.channel.send("The Bestest User#6969: The original creator. GitHub: https://github.com/Bestest-Coder \nsiliconwolf#0013: Cool man who helped make a lot of stuff work, and contributed his site to store data. GitHub: https://github.com/silicWulf")
 
     @commands.command(brief='all the basic info about the bot')
     async def info(self, ctx):
