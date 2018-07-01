@@ -1,1 +1,1 @@
-worker: python3 M'Bot.py
+worker: python3 MBot.py
