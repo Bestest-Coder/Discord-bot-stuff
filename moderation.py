@@ -15,6 +15,8 @@ async def stafforcomm(self, inp):
     #if '[no]' not in inp.author.display_name:
         #if ifcomm(self, inp):
             #return True
+    if ifcomm(self, inp):
+        return True
     sst = await env.get('{}_stfrole'.format(str(inp.guild.id)))
     try:
         if sst == 'variable does not exist':  # if var error from server
@@ -22,10 +24,13 @@ async def stafforcomm(self, inp):
         server_stfrole = int(sst)
     except ValueError:
         raise ValueError(f'server_stfrole can\'t be assigned to {sst}, probably not a real id. maybe define a staffrole with an id?')
-    if server_stfrole == discord.utils.get(inp.author.roles, id=server_stfrole).id:  # check to make sure the ids are the same
-        return True
-    else:
-        return False
+    try:
+        if server_stfrole == discord.utils.get(inp.author.roles, id=server_stfrole).id:  # check to make sure the ids are the same
+            return True
+        else:
+            return False
+    except AttributeError:  # if .id not on None
+        return False  # they don't have the required role
 
 
 def ifcomm(self, inp):
