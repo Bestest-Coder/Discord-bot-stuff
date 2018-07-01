@@ -86,7 +86,12 @@ class Staff():
         if await stafforcomm(self, ctx.message) is False:
             return
         await ctx.channel.send(content.format(ctx.message))
-        await ctx.message.delete()
+        try:
+            await ctx.message.delete()
+        except discord.ext.commands.errors.CommandInvokeError:
+            print('could not delete message (id: {}) in say'.format(ctx.message.id))
+        except discord.errors.Forbidden:
+            print('could not delete message (id: {}) in say'.format(ctx.message.id))
         #print(((str(ctx.author) + ': ') + 'Bot said : ') + content)
 
     @commands.command(brief='say but less suspiscous')
@@ -103,7 +108,12 @@ class Staff():
         #print('either stafforcomm returned true or python is being stupid')
         dest = ctx.channel
         dur = len(ctx.message.content) * 0.1
-        await ctx.message.delete()
+        try:
+            await ctx.message.delete()
+        except discord.ext.commands.errors.CommandInvokeError:
+            print('could not delete message (id: {}) in dsay'.format(ctx.message.id))
+        except discord.errors.Forbidden:
+            print('could not delete message (id: {}) in dsay'.format(ctx.message.id))
         await dest.trigger_typing()
         await asyncio.sleep(dur)
         await dest.send(content)
