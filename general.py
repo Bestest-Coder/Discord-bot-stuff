@@ -70,7 +70,7 @@ class General():
 
     @commands.command(brief='WHAT. WHAT THE FUCK -Jontron')
     async def wtf(self,ctx):
-        ctx.channel.send(file=discord.File('wtf.mp4', filename='wtf.mp4'))
+        await ctx.channel.send(file=discord.File('wtf.mp4', filename='wtf.mp4'))
 
 
 def setup(client):
