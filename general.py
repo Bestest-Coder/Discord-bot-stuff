@@ -72,6 +72,10 @@ class General():
     async def wtf(self,ctx):
         await ctx.channel.send(file=discord.File('wtf.mp4', filename='wtf.mp4'))
 
+    @commands.command(brief='No. NOOOOOOOO -Lion Moses')
+    async def no(self,ctx):
+        await ctx.channel.send(file=discord.File('no.mp4', filename='no.mp4'))
+
 
 def setup(client):
     client.add_cog(General(client))
