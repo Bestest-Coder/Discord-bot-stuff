@@ -19,7 +19,7 @@ class Information():
 
     @commands.command(brief='tells you who made the bot')
     async def contributors(self, ctx):
-        await ctx.channel.send("""The Bestest User#6969: The original creator. GitHub: https://github.com/Bestest-Coder 
+        await ctx.channel.send("""The Bestest User#6969: The original creator. GitHub: https://github.com/Bestest-Coder
 siliconwolf#0013: Cool man who helped make a lot of stuff work, and contributed his site to store data. GitHub: https://github.com/silicWulf""")
 
     @commands.command(brief='all the basic info about the bot')
@@ -28,7 +28,7 @@ siliconwolf#0013: Cool man who helped make a lot of stuff work, and contributed 
 
     @commands.command(brief='gives you the link to the development/testing server')
     async def server(self, ctx):
-        await ctx.channel.send("Come see the testing server: https://discord.gg/EkAZfk9")
+        await ctx.channel.send("Questions, comments, or suggestions? Come see the testing server at https://discord.gg/EkAZfk9")
 
 def setup(client):
     client.add_cog(Information(client))
