@@ -190,7 +190,6 @@ class Staff():
 
     @commands.command(brief="alter the clink char limit")
     async def clinkmaxchars(self, ctx):
-        global CLINK_MAX_CHARS
         is_comm = ifcomm(self, ctx)
         if is_comm:
             sp = ctx.message.content.split(" ")
@@ -203,8 +202,8 @@ class Staff():
             except ValueError:
                 await ctx.channel.send("That's not a number.")
                 return
-            CLINK_MAX_CHARS = arg
-            await ctx.channel.send("CLINK_MAX_CHARS set.")
+            await env.set("clink-max-chars", arg)
+            await ctx.channel.send("CLINK_MAX_CHARS/clink-max-chars set.")
 
     @commands.command(brief="ban a user from clink")
     async def clinkban(self, ctx):
