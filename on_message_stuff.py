@@ -28,6 +28,9 @@ class on_msg():
         if message.author == self.client.user:
             return  # we do not want the bot to reply to itself
 
+        if message.author.bot is True:  # disallow bots from getting responses
+            return
+
         if message.channel.name == CLINK_NAME:  # for now, let's have all bots be able to send their messages through
             banlist = await env.get("clink-banlist")
             banlist = banlist.split("\x00")
@@ -50,8 +53,6 @@ class on_msg():
                                     att = " ".join(att)
                                     await channel.send(f"({message.guild.name}) {message.author.name} - {msg} {att}")  # message
 
-        if message.author.bot is True:
-            return
         for i in range(len(message.mentions)):
             if message.mentions[i] == self.client.user:
                 await message.channel.send('the fuck you want {0.author.mention}'.format(message))
