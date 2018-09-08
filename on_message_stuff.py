@@ -41,7 +41,7 @@ class on_msg():
                                     msg = msg.replace("@", "(at)")  # gets rid of @here and @everyone
                                     for mention in message.mentions:
                                         msg = msg.replace(mention.mention, f"(at){mention.name}".replace("@", "(at)"))  # removes all mentions
-                                    att = [f"<a.url>" for a in message.attachments]
+                                    att = [f"<{a.url}>" for a in message.attachments]
                                     att = str(att).replace("[]", "")
                                     await channel.send(f"({message.guild.name}) {message.author.name} - {msg} {att}")  # message
 
