@@ -9,10 +9,10 @@ try:
     CLINK_CHAR_LIMIT = 300   # aHHHH figure out a way to get the abiove to woi tirjk
 except ValueError:
     CLINK_CHAR_LIMIT = 300
-    await env.set("clink-char-limit", 300)
+    # await env.set("clink-char-limit", 300)
 except env.GetReturnedNothing:
     CLINK_CHAR_LIMIT = 300
-    await env.set("clink-char-limit", 300)
+    # await env.set("clink-char-limit", 300)
 user = discord.Member
 safe = discord.Object
 
