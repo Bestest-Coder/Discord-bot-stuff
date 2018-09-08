@@ -203,10 +203,37 @@ class Staff():
                     if str(mem.id) == arg or str(mem) == arg:  # if mem.id == given id or smth yeah
                         banlist = await env.get("clink-banlist")
                         banlist = banlist.split("\x00")
-                        banlist.append(str(mem.id))
+                        if str(mem.id) not in banlist:
+                            banlist.append(str(mem.id))
+                        else:
+                            await ctx.channel.send("Ban already given to user!")
+                            return
                         await env.set("clink-banlist", "\x00".join(banlist))
                         await ctx.channel.send(f"Ban given to {str(mem)}.")
                         return
+            await ctx.channel.send("User not found with given ID or username.")
+
+    @commands.command(brief="unban a user from clink")
+    async def clinkunban(self, ctx):
+        is_comm = ifcomm(self, ctx)
+        if is_comm:
+            sp = ctx.message.content.split(" ")
+            if len(sp) != 2:
+                await ctx.channel.send("Incorrect syntax. Syntax: `=clinkban <id or full username>`")
+                return
+            arg = ctx.message.content.split(" ")[1]
+            member = None
+            for guild in self.client.guilds:
+                for mem in guild.members:
+                    if str(mem.id) == arg or str(mem) == arg:  # if mem.id == given id or smth yeah
+                        banlist = await evn.get("clink-banlist")
+                        banlist = banlist.split("\x00")
+                        if str(mem.id) not in banlist:
+                            await ctx.channel.send("User is not banned!")
+                            return
+                        banlist.remove(str(mem.id))
+                        await env.set("clink-banlist", "\x00".join(banlist))
+                        await ctx.channel.send(f"Lifted ban on {str(mem)}.")
 
     @commands.command(brief='change another\'s tag')
     async def setusertag(self, ctx):
