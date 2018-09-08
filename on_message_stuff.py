@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import env
+import re
 
 
 CLINK_NAME = "clink"
@@ -76,6 +77,9 @@ class on_msg():
                                     if channel.id != message.channel.id:
                                         if channel.name == CLINK_NAME:  # the
                                             msg = message.content
+                                            urls = re.findall("https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+", msg)
+                                            for url in urls:
+                                                msg = msg.replace(url, f"<{url}>")  # remove all url embeds
                                             for mention in message.mentions:
                                                 msg = msg.replace(mention.mention, f"(at){mention.name}".replace("@", "(at)"))  # removes all mentions
                                             msg = msg.replace("@", "(at)")  # gets rid of @here and @everyone
