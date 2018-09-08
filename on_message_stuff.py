@@ -33,6 +33,11 @@ class on_msg():
     def __init__(self, client):
         self.client = client
 
+    async def on_ready(self):
+        global CLINK_CHAR_LIMIT
+        CLINK_CHAR_LIMIT = await env.get("clink-char-limit")
+        CLINK_CHAR_LIMIT = int(CLINK_CHAR_LIMIT)
+
     async def on_message(self, message):
         global CLINK_CHAR_LIMIT
         if message.content == "":  # if for some reason the content is empty, possibly a pin?
