@@ -202,7 +202,7 @@ class Staff():
             except ValueError:
                 await ctx.channel.send("That's not a number.")
                 return
-            await env.set("clink-max-chars", arg)
+            await env.set("clink-char-limit", arg)
             await ctx.channel.send("CLINK_MAX_CHARS/clink-max-chars set.")
 
     @commands.command(brief="ban a user from clink")
