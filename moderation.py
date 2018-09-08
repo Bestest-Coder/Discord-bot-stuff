@@ -188,6 +188,24 @@ class Staff():
                         await env.set(f"{gid}-clink_toggle", int(not x))
                         await ctx.channel.send(f"Set server name Clink toggle to {bool(gid)}")
 
+    @commands.command(brief="alter the clink char limit")
+    async def clinkmaxchars(self, ctx):
+        global CLINK_MAX_CHARS
+        is_comm = ifcomm(self, ctx)
+        if is_comm:
+            sp = ctx.message.content.split(" ")
+            if len(sp) != 2:
+                await ctx.channel.send("Incorrect syntax. Syntax: `=clinkmaxchars <max char number>`")
+                return
+            arg = sp[1]
+            try:
+                arg = int(arg)
+            except ValueError:
+                await ctx.channel.send("That's not a number.")
+                return
+            CLINK_MAX_CHARS = arg
+            await ctx.channel.send("CLINK_MAX_CHARS set.")
+
     @commands.command(brief="ban a user from clink")
     async def clinkban(self, ctx):
         is_comm = ifcomm(self, ctx)
@@ -196,7 +214,7 @@ class Staff():
             if len(sp) != 2:
                 await ctx.channel.send("Incorrect syntax. Syntax: `=clinkban <id or full username>`")
                 return
-            arg = ctx.message.content.split(" ")[1]
+            arg = sp[1]
             member = None
             for guild in self.client.guilds:
                 for mem in guild.members:
