@@ -36,7 +36,7 @@ class on_msg():
                                 msg = message.content
                                 msg = msg.replace("@", "(at)")  # gets rid of @here and @everyone
                                 for mention in msg.mentions:
-                                    msg = msg.replace(mention.mention, f"(at){mention.name}".replace("@", "(at)")  # removes all mentions
+                                    msg = msg.replace(mention.mention, f"(at){mention.name}".replace("@", "(at)"))  # removes all mentions
                                 channel.send(f"({message.guild.name}) - {msg}")  # message
 
         if message.author.bot is True:
