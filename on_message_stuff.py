@@ -1,8 +1,20 @@
 import discord
 from discord.ext import commands
 import env
+
+
+CLINK_NAME = "clink"
 user = discord.Member
 safe = discord.Object
+
+
+async def get_clink_toggle(sid):
+    try:
+        ct = env.get(str(sid) + "-clink_toggle")
+        ct = bool(int(ct))
+    except env.GetReturnedNothing:
+        ct = True
+    return ct
 
 
 class on_msg():
@@ -12,6 +24,21 @@ class on_msg():
     async def on_message(self, message):
         if message.author == self.client.user:
             return  # we do not want the bot to reply to itself
+
+        if message.channel.name == CLINK_NAME:  # for now, let's have all bots be able to send their messages through
+            this_clink_toggle = await get_clink_toggle(message.guild.id)
+            if this_clink_toggle:  # if they want to send messages
+                for guild in self.client.guilds:  # for each server
+                    x = await get_clink_toggle(guild.id)
+                    if x:  # if this server wants to get messages
+                        for channel in guild.channels:  # send
+                            if channel.name == CLINK_NAME:  # the
+                                msg = message.content
+                                msg = msg.replace("@", "(at)"))  # gets rid of @here and @everyone
+                                for mention in msg.mentions:
+                                    msg = msg.replace(mention.mention, f"(at){mention.name}".replace("@", "(at)")  # removes all mentions
+                                channel.send(f"({message.guild.name}) - {msg}")  # message
+
         if message.author.bot is True:
             return
         for i in range(len(message.mentions)):
