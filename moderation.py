@@ -151,7 +151,7 @@ class Staff():
     async def guildlist(self, ctx):
         is_comm = await role_check.ifcomm(self, ctx)
         if is_comm:
-            await ctx.channel.send("\n".join([f"{g.name} ({g.id})" for g in self.client.guilds]))
+            await ctx.author.send("\n".join([f"{g.name} ({g.id})" for g in self.client.guilds]))
 
     @commands.command(brief="toggle another server's clink")
     async def toggleguildclink(self, ctx):
