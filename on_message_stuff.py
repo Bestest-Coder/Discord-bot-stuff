@@ -4,6 +4,7 @@ import env
 
 
 CLINK_NAME = "clink"
+CLINK_CHAR_LIMIT = 300
 user = discord.Member
 safe = discord.Object
 
@@ -40,6 +41,9 @@ class on_msg():
             pass
         else:
             if message.channel.name == CLINK_NAME:  # for now, let's have all bots be able to send their messages through
+                if len(message.content) >= CLINK_CHAR_LIMIT:
+                    await message.author.send(f"Your Clink message was too long. Messages must be lower than {CLINK_CHAR_LIMIT} characters in length.")
+                    return
                 banlist = await env.get("clink-banlist")
                 banlist = banlist.split("\x00")
                 for ban in banlist:
