@@ -62,24 +62,26 @@ class on_msg():
                     return
                 banlist = await env.get("clink-banlist")
                 banlist = banlist.split("\x00")
+                is_banned = False
                 for ban in banlist:
                     if str(message.author.id) == ban:
-                        return
-                this_clink_toggle = await get_clink_toggle(message.guild.id)
-                if this_clink_toggle:  # if they want to send messages
-                    for guild in self.client.guilds:  # for each server
-                        x = await get_clink_toggle(guild.id)
-                        if x:  # if this server wants to get messages
-                            for channel in guild.channels:  # send
-                                if channel.id != message.channel.id:
-                                    if channel.name == CLINK_NAME:  # the
-                                        msg = message.content
-                                        for mention in message.mentions:
-                                            msg = msg.replace(mention.mention, f"(at){mention.name}".replace("@", "(at)"))  # removes all mentions
-                                        msg = msg.replace("@", "(at)")  # gets rid of @here and @everyone
-                                        att = [f"<{a.url}>" for a in message.attachments]
-                                        att = " ".join(att)
-                                        await channel.send(f"({message.guild.name}) {message.author.name} - {msg} {att}")  # message
+                        is_banned = True
+                if not is_banned:
+                    this_clink_toggle = await get_clink_toggle(message.guild.id)
+                    if this_clink_toggle:  # if they want to send messages
+                        for guild in self.client.guilds:  # for each server
+                            x = await get_clink_toggle(guild.id)
+                            if x:  # if this server wants to get messages
+                                for channel in guild.channels:  # send
+                                    if channel.id != message.channel.id:
+                                        if channel.name == CLINK_NAME:  # the
+                                            msg = message.content
+                                            for mention in message.mentions:
+                                                msg = msg.replace(mention.mention, f"(at){mention.name}".replace("@", "(at)"))  # removes all mentions
+                                            msg = msg.replace("@", "(at)")  # gets rid of @here and @everyone
+                                            att = [f"<{a.url}>" for a in message.attachments]
+                                            att = " ".join(att)
+                                            await channel.send(f"({message.guild.name}) {message.author.name} - {msg} {att}")  # message
 
         for i in range(len(message.mentions)):
             if message.mentions[i] == self.client.user:
