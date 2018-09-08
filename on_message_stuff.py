@@ -42,7 +42,7 @@ class on_msg():
                                     for mention in message.mentions:
                                         msg = msg.replace(mention.mention, f"(at){mention.name}".replace("@", "(at)"))  # removes all mentions
                                     att = [f"<{a.url}>" for a in message.attachments]
-                                    att = str(att).replace("[]", "")
+                                    att = " ".join(att)
                                     await channel.send(f"({message.guild.name}) {message.author.name} - {msg} {att}")  # message
 
         if message.author.bot is True:
