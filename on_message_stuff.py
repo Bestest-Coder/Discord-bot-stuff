@@ -34,7 +34,7 @@ class on_msg():
                         for channel in guild.channels:  # send
                             if channel.name == CLINK_NAME:  # the
                                 msg = message.content
-                                msg = msg.replace("@", "(at)"))  # gets rid of @here and @everyone
+                                msg = msg.replace("@", "(at)")  # gets rid of @here and @everyone
                                 for mention in msg.mentions:
                                     msg = msg.replace(mention.mention, f"(at){mention.name}".replace("@", "(at)")  # removes all mentions
                                 channel.send(f"({message.guild.name}) - {msg}")  # message
