@@ -147,7 +147,8 @@ class Staff():
             x = await env.get(ct)
             x = not x
             await env.set(ct, int(x))
-            await ctx.channel.send("Toggled. Clink on: {'yes' if x else 'no'}")
+            print("debug", ct, int(x))
+            await ctx.channel.send(f"Toggled. Clink on: {'yes' if x else 'no'}")
 
     @commands.command(brief="list all servers/ids with this bot")
     async def guildlist(self, ctx):
