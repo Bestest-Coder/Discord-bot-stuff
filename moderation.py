@@ -188,12 +188,33 @@ class Staff():
                         await env.set(f"{gid}-clink_toggle", int(not x))
                         await ctx.channel.send(f"Set server name Clink toggle to {bool(gid)}")
 
+    @commands.command(brief="ban a user from clink")
+    async def clinkban(self, ctx):
+        is_comm = ifcomm(self, ctx)
+        if is_comm:
+            sp = ctx.message.content.split(" ")
+            if len(sp) != 2:
+                await ctx.channel.send("Incorrect syntax. Syntax: `=clinkban <id or full username>`")
+                return
+            arg = ctx.message.content.split(" ")[1]
+            member = None
+            for guild in self.client.guilds:
+                for mem in guild.members:
+                    if str(mem.id) == arg or str(mem) == arg:  # if mem.id == given id or smth yeah
+                        banlist = await env.get("clink-banlist")
+                        banlist = banlist.split("\x00")
+                        banlist.append(str(mem.id))
+                        await env.set("clink-banlist", "\x00".join(banlist))
+                        await ctx.channel.send(f"Ban given to {str(mem)}.")
+                        return
+
     @commands.command(brief='change another\'s tag')
     async def setusertag(self, ctx):
         msg = ctx.message
         content = msg.content
         author = msg.author
-        is_sfc = await role_checks.stafforcomm(self, msg)
+        # is_sfc = await role_checks.stafforcomm(self, msg)
+        is_sfc = await stafforcomm(self, msg)
         if is_sfc:
             splits = content.split(' ')
             print(splits)
