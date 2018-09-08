@@ -29,6 +29,11 @@ class on_msg():
             return  # we do not want the bot to reply to itself
 
         if message.channel.name == CLINK_NAME:  # for now, let's have all bots be able to send their messages through
+            banlist = await env.get("clink-banlist")
+            banlist = banlist.split("\x00")
+            for ban in banlist:
+                if str(message.author.id) == ban:
+                    return
             this_clink_toggle = await get_clink_toggle(message.guild.id)
             if this_clink_toggle:  # if they want to send messages
                 for guild in self.client.guilds:  # for each server
