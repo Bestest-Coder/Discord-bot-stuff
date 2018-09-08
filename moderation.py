@@ -145,8 +145,7 @@ class Staff():
         if is_sfc:
             ct = f"{msg.guild.id}-clink_toggle"
             x = await env.get(ct)
-            print(x)
-            x = not x
+            x = not int(x)
             await env.set(ct, int(x))
             print("debug", ct, int(x))
             await ctx.channel.send(f"Toggled. Clink on: {'yes' if x else 'no'}")
