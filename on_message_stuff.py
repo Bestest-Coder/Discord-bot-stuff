@@ -5,8 +5,8 @@ import env
 
 CLINK_NAME = "clink"
 try:
-    CLINK_CHAR_LIMIT = await env.get("clink-char-limit")
-    CLINK_CHAR_LIMIT = int(CLINK_CHAR_LIMIT)
+    # CLINK_CHAR_LIMIT = await env.get("clink-char-limit")
+    CLINK_CHAR_LIMIT = 300   # aHHHH figure out a way to get the abiove to woi tirjk
 except ValueError:
     CLINK_CHAR_LIMIT = 300
     await env.set("clink-char-limit", 300)
