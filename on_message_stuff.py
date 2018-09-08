@@ -50,8 +50,8 @@ class on_msg():
             pass
         else:
             if message.channel.name == CLINK_NAME:  # for now, let's have all bots be able to send their messages through
-                    CLINK_CHAR_LIMIT = await env.get("clink-char-limit")
-                    CLINK_CHAR_LIMIT = int(CLINK_CHAR_LIMIT)
+                CLINK_CHAR_LIMIT = await env.get("clink-char-limit")
+                CLINK_CHAR_LIMIT = int(CLINK_CHAR_LIMIT)
                 if len(message.content) >= CLINK_CHAR_LIMIT:
                     await message.author.send(f"Your Clink message was too long. Messages must be lower than {CLINK_CHAR_LIMIT} characters in length.")
                     return
