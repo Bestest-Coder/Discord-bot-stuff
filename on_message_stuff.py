@@ -32,12 +32,13 @@ class on_msg():
                     x = await get_clink_toggle(guild.id)
                     if x:  # if this server wants to get messages
                         for channel in guild.channels:  # send
-                            if channel.name == CLINK_NAME:  # the
-                                msg = message.content
-                                msg = msg.replace("@", "(at)")  # gets rid of @here and @everyone
-                                for mention in msg.mentions:
-                                    msg = msg.replace(mention.mention, f"(at){mention.name}".replace("@", "(at)"))  # removes all mentions
-                                channel.send(f"({message.guild.name}) - {msg}")  # message
+                            if channel.id != message.channel.id:
+                                if channel.name == CLINK_NAME:  # the
+                                    msg = message.content
+                                    msg = msg.replace("@", "(at)")  # gets rid of @here and @everyone
+                                    for mention in msg.mentions:
+                                        msg = msg.replace(mention.mention, f"(at){mention.name}".replace("@", "(at)"))  # removes all mentions
+                                    channel.send(f"({message.guild.name}) - {msg}")  # message
 
         if message.author.bot is True:
             return
