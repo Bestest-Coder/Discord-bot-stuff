@@ -145,6 +145,7 @@ class Staff():
         if is_sfc:
             ct = f"{msg.guild.id}-clink_toggle"
             x = await env.get(ct)
+            print(x)
             x = not x
             await env.set(ct, int(x))
             print("debug", ct, int(x))
