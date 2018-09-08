@@ -140,6 +140,7 @@ class Staff():
     @commands.command(brief="toggle cross-server chat (clink)")
     async def toggleclink(self, ctx):
         # is_sfc = await role_checks.stafforcomm(self, msg)
+        msg = ctx.message
         is_sfc = await stafforcomm(self, msg)
         if is_sfc:
             ct = f"{msg.guild.id}-clink_toggle"
