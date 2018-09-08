@@ -11,8 +11,11 @@ safe = discord.Object
 async def get_clink_toggle(sid):
     try:
         ct = await env.get(str(sid) + "-clink_toggle")
+        if ct == "variable does not exist":
+            raise env.GetReturnedNothing
         ct = bool(int(ct))
     except env.GetReturnedNothing:
+        await env.set(str(sid) + "-clink_toggle", "1")
         ct = True
     return ct
 
