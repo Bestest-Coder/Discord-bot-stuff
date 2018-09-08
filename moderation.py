@@ -139,7 +139,8 @@ class Staff():
 
     @commands.command(brief="toggle cross-server chat (clink)")
     async def toggleclink(self, ctx):
-        is_sfc = await role_checks.stafforcomm(self, msg)
+        # is_sfc = await role_checks.stafforcomm(self, msg)
+        is_sfc = await stafforcomm(self, msg)
         if is_sfc:
             ct = f"{msg.guild.id}-clink_toggle"
             x = await env.get(ct)
@@ -149,13 +150,15 @@ class Staff():
 
     @commands.command(brief="list all servers/ids with this bot")
     async def guildlist(self, ctx):
-        is_comm = await role_checks.ifcomm(self, ctx)
+        # is_comm = await role_checks.ifcomm(self, ctx)
+        is_comm = ifcomm(self, ctx)
         if is_comm:
             await ctx.author.send("\n".join([f"{g.name} ({g.id})" for g in self.client.guilds]))
 
     @commands.command(brief="toggle another server's clink")
     async def toggleguildclink(self, ctx):
-        is_comm = await role_check.ifcomm(self, ctx)
+        # is_comm = await role_check.ifcomm(self, ctx)
+        is_comm = ifcomm(self, ctx)
         if is_comm:
             arg = ctx.message.content.split(" ")
             if len(arg) != 2:
