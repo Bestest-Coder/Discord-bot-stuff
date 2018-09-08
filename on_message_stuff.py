@@ -40,7 +40,7 @@ class on_msg():
 
     async def on_message(self, message):
         global CLINK_CHAR_LIMIT
-        if message.content == "":  # if for some reason the content is empty, possibly a pin?
+        if message.content == "" and len(message.attachments) == 0:  # if for some reason the content is empty, possibly a pin?
             return
 
         if message.author == self.client.user:
