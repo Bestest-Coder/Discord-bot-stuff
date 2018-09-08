@@ -149,7 +149,7 @@ class Staff():
 
     @commands.command(brief="list all servers/ids with this bot")
     async def guildlist(self, ctx):
-        is_comm = await role_check.ifcomm(self, ctx)
+        is_comm = await role_checks.ifcomm(self, ctx)
         if is_comm:
             await ctx.author.send("\n".join([f"{g.name} ({g.id})" for g in self.client.guilds]))
 
