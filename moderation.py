@@ -137,6 +137,51 @@ class Staff():
         await ctx.message.guild.me.edit(nick=name)
         await ctx.channel.send('Nickname is now "' + name + '"')
 
+    @commands.command(brief="toggle cross-server chat (clink)")
+    async def toggleclink(self, ctx):
+        is_sfc = await role_checks.stafforcomm(self, msg)
+        if is_sfc:
+            ct = f"{msg.guild.id}-clink_toggle"
+            x = await env.get(ct)
+            x = not x
+            await env.set(ct, int(x))
+            await ctx.channel.send("Toggled. Clink on: {'yes' if x else 'no'}")
+
+    @commands.command(brief="list all servers/ids with this bot")
+    async def guildlist(self, ctx):
+        is_comm = await role_check.ifcomm(self, ctx)
+        if is_comm:
+            await ctx.channel.send("\n".join([f"{g.name} ({g.id})" for g in self.client.guilds]))
+
+    @commands.command(brief="toggle another server's clink")
+    async def toggleguildclink(self, ctx):
+        is_comm = await role_check.ifcomm(self, ctx)
+        if is_comm:
+            arg = ctx.message.content.split(" ")
+            if len(arg) != 2:
+                await ctx.channel.send("Incorrect syntax. Syntax: `=toggleguildclink <guild id or name>`")
+            try:
+                gid = int(arg[1])
+                gcount = [g.id for g in self.client.guilds].count(gid)
+                if gcount == 0:
+                    await ctx.channel.send(f"Server ID {gid} not found in bot server list.")
+                    return
+                elif gcount > 1:
+                    await ctx.channel.send("More than one server has this ID. If this happens, something is wrong with the bot.")
+                    return
+                x = await env.get(f"{gid}-clink_toggle")
+                await env.set(f"{gid}-clink_toggle", int(not x))
+                await ctx.channel.send(f"Set server ID (or maybe name) Clink toggle to {bool(gid)}")
+            except ValueError:  # not only numbers, probably in the first line int()
+                c = self.client.guilds.count(arg[1])
+                if c != 1:
+                    await ctx.channel.send("There is more than one server with that name. Use the command =guildlist to find the desired server ID.")
+                    return
+                for guild in self.client.guilds:
+                    if guild.name == arg[1]:
+                        x = await env.get(f"{gid}-clink_toggle")
+                        await env.set(f"{gid}-clink_toggle", int(not x))
+                        await ctx.channel.send(f"Set server name Clink toggle to {bool(gid)}")
 
     @commands.command(brief='change another\'s tag')
     async def setusertag(self, ctx):
