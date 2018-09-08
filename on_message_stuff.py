@@ -4,7 +4,15 @@ import env
 
 
 CLINK_NAME = "clink"
-CLINK_CHAR_LIMIT = 300
+try:
+    CLINK_CHAR_LIMIT = await env.get("clink-char-limit")
+    CLINK_CHAR_LIMIT = int(CLINK_CHAR_LIMIT)
+except ValueError:
+    CLINK_CHAR_LIMIT = 300
+    await env.set("clink-char-limit", 300)
+except env.GetReturnedNothing:
+    CLINK_CHAR_LIMIT = 300
+    await env.set("clink-char-limit", 300)
 user = discord.Member
 safe = discord.Object
 
@@ -26,6 +34,7 @@ class on_msg():
         self.client = client
 
     async def on_message(self, message):
+        global CLINK_CHAR_LIMIT
         if message.content == "":  # if for some reason the content is empty, possibly a pin?
             return
 
@@ -41,6 +50,8 @@ class on_msg():
             pass
         else:
             if message.channel.name == CLINK_NAME:  # for now, let's have all bots be able to send their messages through
+                    CLINK_CHAR_LIMIT = await env.get("clink-char-limit")
+                    CLINK_CHAR_LIMIT = int(CLINK_CHAR_LIMIT)
                 if len(message.content) >= CLINK_CHAR_LIMIT:
                     await message.author.send(f"Your Clink message was too long. Messages must be lower than {CLINK_CHAR_LIMIT} characters in length.")
                     return
