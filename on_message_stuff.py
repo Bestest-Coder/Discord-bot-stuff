@@ -85,7 +85,10 @@ class on_msg():
                                             msg = msg.replace("@", "(at)")  # gets rid of @here and @everyone
                                             att = [f"<{a.url}>" for a in message.attachments]
                                             att = " ".join(att)
-                                            await channel.send(f"({message.guild.name}) {message.author.name} - {msg} {att}")  # message
+                                            try:
+                                                await channel.send(f"({message.guild.name}) {message.author.name} - {msg} {att}")  # message
+                                            except AttributeError:  # definitely happens on CategoryChannel, which for some reason gets detected?
+                                                pass  # ignore
 
         for i in range(len(message.mentions)):
             if message.mentions[i] == self.client.user:
