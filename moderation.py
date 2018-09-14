@@ -205,6 +205,38 @@ class Staff():
             await env.set("clink-char-limit", arg)
             await ctx.channel.send("CLINK_MAX_CHARS/clink-max-chars set.")
 
+    @commands.command(brief="ban a word from clink")
+    async def clinkwordban(self, ctx):
+        is_comm = ifcomm(self, ctx)
+        if is_comm:
+            sp = ctx.message.content.split(" ")
+            if len(sp) != 2:
+                await ctx.channel.send("Incorrect syntax. Syntax: `=clinkwordban <word>`")
+                return
+            arg = sp[1]
+            banlist = await env.get("clink-blockedwords")
+            banlist = set(banlist.split("\x00"))
+            banlist.add(arg)
+            banlist = "\x00".join(banlist)
+            await env.set("clink-blockedwords", banlist)
+            await ctx.channel.send(f"Word '{arg}' banned.")
+
+    @commands.command(brief="unban a word from clink")
+    async def clinkwordunban(self, ctx):
+        is_comm = ifcomm(self, ctx)
+        if is_comm:
+            sp = ctx.message.content.split(" ")
+            if len(sp) != 2:
+                await ctx.channel.send("Incorrect syntax. Syntax: `=clinkwordunban <word>`")
+                return
+            arg = sp[1]
+            banlist = await env.get("clink-blockedwords")
+            banlist = set(banlist.split("\x00"))
+            banlist.remove(arg)
+            banlist = "\x00".join(banlist)
+            await env.set("clink-blockedwords", banlist)
+            await ctx.channel.send(f"Word '{arg}' unbanned.")
+
     @commands.command(brief="ban a user from clink")
     async def clinkban(self, ctx):
         is_comm = ifcomm(self, ctx)
