@@ -61,6 +61,11 @@ class on_msg():
                 if len(message.content) >= CLINK_CHAR_LIMIT:
                     await message.author.send(f"Your Clink message was too long. Messages must be lower than {CLINK_CHAR_LIMIT} characters in length.")
                     return
+                blockwords = await env.get("clink-blockedwords")
+                blockwords = blockwords.split("\x00")
+                for word in blockwords:
+                    if word in message.content:
+                        return
                 banlist = await env.get("clink-banlist")
                 banlist = banlist.split("\x00")
                 is_banned = False
