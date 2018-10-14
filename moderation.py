@@ -321,7 +321,7 @@ class Staff():
 
     @commands.command(brief="removes specified amount of messages from channel")
     async def purge(self,ctx,amt : int):
-        if stafforcomm == False:
+        if await stafforcomm(self, ctx.message) == False:
             await ctx.channel.send("You are not permitted to use this command.")
         deleted = await ctx.channel.purge(limit=amt)
         await channel.send('Deleted {} message(s)'.format(len(deleted)))
