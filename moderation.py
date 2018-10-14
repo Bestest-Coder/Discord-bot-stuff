@@ -319,6 +319,12 @@ class Staff():
         else:
             await ctx.channel.send("You are not permitted to use this command.")
 
+    @commands.command(brief="removes specified amount of messages from channel")
+    async def purge(self,ctx,amt : int):
+        if stafforcomm == False:
+            await ctx.channel.send("You are not permitted to use this command.")
+        deleted = await ctx.channel.purge(limit=amt)
+        await channel.send('Deleted {} message(s)'.format(len(deleted)))
 
 def setup(client):
     client.add_cog(Staff(client))
