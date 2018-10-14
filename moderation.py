@@ -323,8 +323,11 @@ class Staff():
     async def purge(self,ctx,amt : int):
         if await stafforcomm(self, ctx.message) == False:
             await ctx.channel.send("You are not permitted to use this command.")
-        deleted = await ctx.channel.purge(limit=amt)
-        await channel.send('Deleted {} message(s)'.format(len(deleted)))
+        try:
+            deleted = await ctx.channel.purge(limit=amt)
+            await ctx.channel.send('Deleted {} message(s)'.format(len(deleted)))
+        except Forbidden:
+            await ctx.channel.send("Message purge failed; insufficient permissions")
 
 def setup(client):
     client.add_cog(Staff(client))
