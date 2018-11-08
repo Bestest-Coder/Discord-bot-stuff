@@ -64,7 +64,7 @@ class General():
             await ctx.channel.send("Error: your tag is above {} characters, will not store.".format(MAX_TAG_LEN))
         elif len(links) > 1:
             await ctx.channel.send("Error: your tag has more than one link and/or attachment, will not store.")
-        elif len(ctx.message.mentions[]) != 0:
+        elif len(ctx.message.mentions) != 0:
             await ctx.channel.send("Error: your tag has one or more mentions.")
         else:
             await env.set("{}_tag_{}".format(ctx.message.guild.id, ctx.message.author.id), tag)
