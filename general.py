@@ -39,7 +39,7 @@ class General():
             em = discord.Embed()
             em.set_image(url=user.avatar_url_as(static_format='png'))
             await ctx.channel.send(embed=em)
-        except Forbidden:
+        except discord.errors.Forbidden:
             await ctx.channel.send("Error: cannot send embeds")
 
     @commands.command()
