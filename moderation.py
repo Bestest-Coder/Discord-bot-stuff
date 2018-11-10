@@ -89,9 +89,9 @@ class Staff():
         try:
             await ctx.message.delete()
         except discord.ext.commands.errors.CommandInvokeError:
-            print('could not delete message (id: {}) in say'.format(ctx.message.id))
+            print('could not delete message (commandinvokeerror) (id: {}) in say'.format(ctx.message.id))
         except discord.errors.Forbidden:
-            print('could not delete message (id: {}) in say'.format(ctx.message.id))
+            print('could not delete message (permissions) (id: {}) in say'.format(ctx.message.id))
         #print(((str(ctx.author) + ': ') + 'Bot said : ') + content)
 
     @commands.command(brief='say but less suspiscous')
