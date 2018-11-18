@@ -69,6 +69,8 @@ class General():
             await ctx.channel.send("Error: your tag has more than one link and/or attachment, will not store.")
         elif len(ctx.message.mentions) != 0:
             await ctx.channel.send("Error: your tag has one or more mentions.")
+        elif "@everyone" in content or "@here" in content:
+            await ctx.channel.send("Error: your message contains a mass ping")
         else:
             await env.set("{}_tag_{}".format(ctx.message.guild.id, ctx.message.author.id), tag)
             await ctx.channel.send("<@{}>, your tag has been set.".format(ctx.message.author.id))
