@@ -326,7 +326,7 @@ class Staff():
         try:
             deleted = await ctx.channel.purge(limit=amt)
             await ctx.channel.send('Deleted {} message(s)'.format(len(deleted)))
-        except Forbidden:
+        except discord.errors.Forbidden:
             await ctx.channel.send("Message purge failed; insufficient permissions")
 
 def setup(client):
