@@ -104,7 +104,7 @@ class on_msg():
 
         for i in range(len(message.mentions)):
             if await env.get("{}_isafk".format(message.mentions[i].id)) == "True":
-                await message.channel.send(env.get("{}_afkmsg".format(message.mentions[i].id)))
+                await message.channel.send(await env.get("{}_afkmsg".format(message.mentions[i].id)))
 
         if await env.get("{}_isafk".format(message.author.id)) == "True":
             await env.set("{}_isafk".format(message.author.id), False)
