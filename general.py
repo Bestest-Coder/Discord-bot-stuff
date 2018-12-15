@@ -93,7 +93,7 @@ class General():
 
     @commands.command(brief="sets your afk response message")
     async def afkmsgset(self, ctx, *, content: str):
-        if ctx.message.mentions == []:
+        if ctx.message.mentions != []:
             await ctx.channel.send("You cannot mention people in your afk message")
         elif "@everyone" in content or "@here" in content:
             await ctx.channel.send("You cannot mass ping in your afk message")
