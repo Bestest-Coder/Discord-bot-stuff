@@ -92,9 +92,14 @@ class General():
             await ctx.channel.send("You are now AFK")
 
     @commands.command(brief="sets your afk response message")
-    async def afkmessageset(self, ctx, *, content: str):
-        await env.set("{}_afkmsg".format(ctx.message.author.id),content)
-        await ctx.channel.send("Your AFK message is now: {}".format(content))
+    async def afkmsgset(self, ctx, *, content: str):
+        if ctx.message.mentions is not None:
+            await ctx.channel.send("You cannot mention people in your afk message")
+        elif "@everyone" in content or "@here" in content:
+            await ctx.channel.send("You cannot mass ping in your afk message")
+        else:
+            await env.set("{}_afkmsg".format(ctx.message.author.id),content)
+            await ctx.channel.send("Your AFK message is now: {}".format(content))
 
 
 def setup(client):
