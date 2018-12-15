@@ -83,6 +83,19 @@ class General():
     async def no(self,ctx):
         await ctx.channel.send(file=discord.File('no.mp4', filename='no.mp4'))
 
+    @commands.command(brief="Sets you to AFK")
+    async def afk(self,ctx):
+        if await env.get("{}_afkmsg".format(ctx.message.author.id)) == 'variable does not exist':
+            await ctx.channel.send("You have no AFK message, set one before continuing")
+        else:
+            await env.set("{}_isafk".format(ctx.message.author.id),True)
+            await ctx.channel.send("You are now AFK")
+
+    @commands.command(brief="sets your afk response message")
+    async def afkmessageset(self, ctx, *, content: str):
+        await env.set("{}_afkmsg".format(ctx.message.author.id),content)
+        await ctx.channel.send("Your AFK message is now: {}".format(content))
+
 
 def setup(client):
     client.add_cog(General(client))

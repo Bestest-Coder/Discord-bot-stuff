@@ -94,13 +94,22 @@ class on_msg():
                                                 await channel.send(f"({message.guild.name}) {message.author.name} - {msg} {att}")  # message
                                             except AttributeError:  # definitely happens on CategoryChannel, which for some reason gets detected?
                                                 pass  # ignore
-
         for i in range(len(message.mentions)):
             if message.mentions[i] == self.client.user:
                 await message.channel.send('the fuck you want {0.author.mention}'.format(message))
+
         if message.content[0:2] == 'r/':
             msg = 'Did you mean: https://reddit.com/' + message.content
             await message.channel.send(msg)
+
+        for i in range(len(message.mentions)):
+            if await env.get("{}_isafk".format(message.mentions[i].id)):
+                await message.channel.send(env.get("{}_afkmsg".format(message.mentions[i].id)))
+
+        if await env.get("{}_isafk".format(message.author.id)):
+            await env.set("{}_isafk".format(message.author.id),False)
+            await message.channel.send("{} is no longer AFK".format(message.author.mention))
+
     '''
         for i in range(len(message.content)):
             if message.content[i:i+4] == 'fuck' or message.content[i:i+4] == 'shit' or message.content[i:i+5] == 'bitch':
