@@ -32,11 +32,11 @@ class General():
     async def random_(self, ctx, num1: int, num2: int):
         await ctx.channel.send(str(random.randint(num1, num2)))
 
-    @commands.command(brief="get's the users avatar/pfp")
-    async def pfp(self, ctx, *, user="h"):
+    @commands.command(brief="get's the users avatar/pfp, by default returns your own")
+    async def pfp(self, ctx, *, user : discord.User=None):
         try:
             em = discord.Embed()
-            if user != "h":
+            if user is not None:
                 em.set_image(url=user.avatar_url_as(static_format='png'))
             else:
                 em.set_image(url=ctx.message.author.avatar_url_as(static_format='png'))
