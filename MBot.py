@@ -104,10 +104,13 @@ async def on_ready():
 
 @client.event
 async def on_guild_join(guild):
-    await client.get_user(357596253472948224).send(''''M'Bot was added to: {}
-    Owned by: {}
-    ID: {}
-    Icon: {}'''.format(guild.name,guild.owner.name,guild.id,guild.icon_url))
+    icn = guild.icon_url
+    if guild.icon_url == '':
+        icn = "no icon"
+    await client.get_user(357596253472948224).send('''M'Bot was added to: {}
+Owned by: {}
+ID: {}
+Icon: {}'''.format(guild.name, guild.owner.name, guild.id, icn))
 
 if __name__ == '__main__':
     for extension in startup_extensions:
