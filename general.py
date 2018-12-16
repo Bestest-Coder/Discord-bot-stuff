@@ -7,7 +7,7 @@ from discord.ext import commands
 
 
 MAX_TAG_LEN = 300
-
+auth = ctx.message.author
 
 class General():
     def __init__(self, client):
@@ -34,7 +34,7 @@ class General():
         await ctx.channel.send(str(random.randint(num1, num2)))
 
     @commands.command(brief="get's the users avatar/pfp")
-    async def pfp(self, ctx, *, user=ctx.message.author):
+    async def pfp(self, ctx, *, user=auth):
         try:
             em = discord.Embed()
             em.set_image(url=user.avatar_url_as(static_format='png'))
