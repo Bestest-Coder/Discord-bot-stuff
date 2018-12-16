@@ -104,7 +104,7 @@ async def on_ready():
 
 @client.event
 async def on_guild_join(guild):
-    await get_user(os.environ["ME-ID"]).dm_channel.send(''''M'Bot was added to: {}
+    await client.get_user(os.environ["ME-ID"]).dm_channel.send(''''M'Bot was added to: {}
     Owned by: {}
     ID: {}
     Icon: {}'''.format(guild.name,guild.owner.name,guild.id,guild.icon_url))
