@@ -7,7 +7,6 @@ from discord.ext import commands
 
 
 MAX_TAG_LEN = 300
-auth = ctx.message.author
 
 class General():
     def __init__(self, client):
@@ -34,10 +33,13 @@ class General():
         await ctx.channel.send(str(random.randint(num1, num2)))
 
     @commands.command(brief="get's the users avatar/pfp")
-    async def pfp(self, ctx, *, user=auth):
+    async def pfp(self, ctx, *, user="h"):
         try:
             em = discord.Embed()
-            em.set_image(url=user.avatar_url_as(static_format='png'))
+            if user != "h":
+                em.set_image(url=user.avatar_url_as(static_format='png'))
+            else:
+                em.set_image(url=ctx.message.author.avatar_url_as(static_format='png'))
             await ctx.channel.send(embed=em)
         except discord.errors.Forbidden:
             await ctx.channel.send("Error: cannot send embeds")
