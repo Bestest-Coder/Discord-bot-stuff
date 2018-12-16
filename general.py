@@ -34,7 +34,7 @@ class General():
         await ctx.channel.send(str(random.randint(num1, num2)))
 
     @commands.command(brief="get's the users avatar/pfp")
-    async def pfp(self, ctx, *, user: discord.User):
+    async def pfp(self, ctx, *, user=ctx.message.author):
         try:
             em = discord.Embed()
             em.set_image(url=user.avatar_url_as(static_format='png'))

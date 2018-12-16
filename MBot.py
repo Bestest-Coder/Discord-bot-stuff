@@ -10,7 +10,7 @@ import base64
 
 Client = discord.Client()
 client = commands.Bot(command_prefix='=')
-client.commanderids = [357596253472948224, 227598467621584908]
+client.commanderids = [os.environ["ME-ID"], os.environ["SILI-ID"]]
 client.commanderids = list(client.commanderids)
 user = discord.Member
 startup_extensions = ['moderation', 'general', 'on_message_stuff', 'info']
@@ -102,6 +102,12 @@ async def on_ready():
         game = discord.Game("with katana")
     await client.change_presence(activity=game)
 
+@client.event
+async def on_guild_join(guild):
+    await get_user(os.environ["ME-ID"]).dm_channel.send(''''M'Bot was added to: {}
+    Owned by: {}
+    ID: {}
+    Icon: {}'''.format(guild.name,guild.owner.name,guild.id,guild.icon_url))
 
 if __name__ == '__main__':
     for extension in startup_extensions:
