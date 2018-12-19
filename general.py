@@ -99,6 +99,8 @@ class General():
             await ctx.channel.send("You cannot mention people in your afk message")
         elif "@everyone" in content or "@here" in content:
             await ctx.channel.send("You cannot mass ping in your afk message")
+        elif len(content) > 30:
+            await ctx.channel.send("Your message is too long")
         else:
             await env.set("{}_afkmsg".format(ctx.message.author.id),content)
             await ctx.channel.send("Your AFK message is now: {}".format(content))
