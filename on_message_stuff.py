@@ -110,10 +110,11 @@ class on_msg():
             await env.set("{}_isafk".format(message.author.id), False)
             await message.channel.send("{} is no longer AFK".format(message.author.mention))
 
-    async def on_reaction_add(self, react,user):
-        if react.emoji == "stuffed_flatbread":
+    async def on_reaction_add(self,react,user):
+        if react.emoji == ":stuffed_flatbread:":
             if react.count == 1:
-                if await env.get(f"{react.message.guild.id}-react_channel") == 'variable does not exist':
+                bith = await env.get(f"{react.message.guild.id}-react_channel")
+                if bith == 'variable does not exist':
                     await react.message.channel.send("There is no set channel for breadpins")
                 else:
                     em = discord.Embed()
