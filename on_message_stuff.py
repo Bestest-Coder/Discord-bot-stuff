@@ -113,13 +113,14 @@ class on_msg():
     async def on_reaction_add(react,user):
         if react.emoji.name == ":stuffed_flatbread:":
             if react.count >= 5:
-                if env.get(f"{react.message.guild.id}-react_channel") == 'variable does not exist':
+                if await env.get(f"{react.message.guild.id}-react_channel") == 'variable does not exist':
                     await react.message.channel.send("There is no set channel for breadpins")
                 else:
                     em = discord.Embed()
                     em.set_author(react.message.author.name,icon_url=react.message.author.avatar_url)
                     em.description = react.message.content
-                    await discord.utils.get(self.client.get_all_channels(), id=env.get(f"{react.message.guild.id}-react_channel")).send(embed=em)
+                    ech = await env.get(f"{react.message.guild.id}-react_channel")
+                    await discord.utils.get(self.client.get_all_channels(), id=ech)).send(embed=em)
 
 def setup(client):
     client.add_cog(on_msg(client))
