@@ -110,13 +110,16 @@ class on_msg():
             await env.set("{}_isafk".format(message.author.id), False)
             await message.channel.send("{} is no longer AFK".format(message.author.mention))
 
-    '''
-        for i in range(len(message.content)):
-            if message.content[i:i+4] == 'fuck' or message.content[i:i+4] == 'shit' or message.content[i:i+5] == 'bitch':
-                #msg = '[insert christian server joke here]'.format(message)
-                #await self.client.send_message(message.channel, msg)
-                await self.client.delete_message(message)
-    '''
+    async def on_reaction_add(react,user):
+        if react.emoji.name == ":stuffed_flatbread:":
+            if react.count >= 5:
+                if env.get(f"{react.message.guild.id}-react_channel") == 'variable does not exist':
+                    react.message.channel.send("There is no set channel for breadpins")
+                else:
+                    em = discord.Embed()
+                    em.set_author(react.message.author.name,icon_url=react.message.author.avatar_url)
+                    em.description = react.message.content
+                    discord.utils.get(self.client.get_all_channels(), id=env.get(f"{react.message.guild.id}-react_channel")).send(embed=em)
 
 def setup(client):
     client.add_cog(on_msg(client))

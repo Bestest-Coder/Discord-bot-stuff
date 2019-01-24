@@ -329,5 +329,10 @@ class Staff():
         except discord.errors.Forbidden:
             await ctx.channel.send("Message purge failed; insufficient permissions")
 
+    @commands.command(brief="sets the channel to log breadpins")
+    async def pinchannel(self,ctx, chan : discord.TextChannel):
+        env.set(f"{ctx.message.guild.id}-react_channel",chan.id)
+        ctx.channel.send("Breadpin channel set as {}".format(chan))
+
 def setup(client):
     client.add_cog(Staff(client))
