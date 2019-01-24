@@ -114,12 +114,12 @@ class on_msg():
         if react.emoji.name == ":stuffed_flatbread:":
             if react.count >= 5:
                 if env.get(f"{react.message.guild.id}-react_channel") == 'variable does not exist':
-                    react.message.channel.send("There is no set channel for breadpins")
+                    await react.message.channel.send("There is no set channel for breadpins")
                 else:
                     em = discord.Embed()
                     em.set_author(react.message.author.name,icon_url=react.message.author.avatar_url)
                     em.description = react.message.content
-                    discord.utils.get(self.client.get_all_channels(), id=env.get(f"{react.message.guild.id}-react_channel")).send(embed=em)
+                    await discord.utils.get(self.client.get_all_channels(), id=env.get(f"{react.message.guild.id}-react_channel")).send(embed=em)
 
 def setup(client):
     client.add_cog(on_msg(client))
