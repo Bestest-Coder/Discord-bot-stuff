@@ -110,7 +110,7 @@ class on_msg():
             await env.set("{}_isafk".format(message.author.id), False)
             await message.channel.send("{} is no longer AFK".format(message.author.mention))
 
-    async def on_reaction_add(react,user):
+    async def on_reaction_add(self, react,user):
         if react.emoji.name == "stuffed_flatbread":
             if react.count == 1:
                 if await env.get(f"{react.message.guild.id}-react_channel") == 'variable does not exist':
