@@ -332,7 +332,7 @@ class Staff():
     @commands.command(brief="sets the channel to log breadpins")
     async def pinchannel(self,ctx, chan : discord.TextChannel):
         env.set(f"{ctx.message.guild.id}-react_channel",chan.id)
-        ctx.channel.send("Breadpin channel set as {}".format(chan))
+        ctx.channel.send("Breadpin channel set as {}".format(chan.name))
 
 def setup(client):
     client.add_cog(Staff(client))
