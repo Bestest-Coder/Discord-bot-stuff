@@ -120,7 +120,7 @@ class on_msg():
                     em.set_author(react.message.author.name,icon_url=react.message.author.avatar_url)
                     em.description = react.message.content
                     ech = await env.get(f"{react.message.guild.id}-react_channel")
-                    await discord.utils.get(self.client.get_all_channels(), id=ech)).send(embed=em)
+                    await discord.utils.get(self.client.get_all_channels(), id=ech).send(embed=em)
 
 def setup(client):
     client.add_cog(on_msg(client))
