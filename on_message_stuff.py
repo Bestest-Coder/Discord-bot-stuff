@@ -112,7 +112,7 @@ class on_msg():
 
     async def on_reaction_add(self,react,user):
         if react.emoji == ":stuffed_flatbread:":
-            if react.count == 1:
+            if react.count == 10:
                 bith = await env.get(f"{react.message.guild.id}-react_channel")
                 if bith == 'variable does not exist':
                     await react.message.channel.send("There is no set channel for breadpins")
