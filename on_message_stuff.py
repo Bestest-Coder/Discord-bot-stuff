@@ -109,7 +109,7 @@ class on_msg():
         if await env.get("{}_isafk".format(message.author.id)) == "True":
             await env.set("{}_isafk".format(message.author.id), False)
             await message.channel.send("{} is no longer AFK".format(message.author.mention))
-
+'''
     async def on_reaction_add(self,react,user):
         if react.emoji == ":stuffed_flatbread:":
             if react.count == 10:
@@ -122,6 +122,7 @@ class on_msg():
                     em.description = react.message.content
                     ech = await env.get(f"{react.message.guild.id}-react_channel")
                     await discord.utils.get(self.client.get_all_channels(), id=ech).send(embed=em)
+                    '''
 
 def setup(client):
     client.add_cog(on_msg(client))
