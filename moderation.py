@@ -39,6 +39,7 @@ def ifcomm(self, inp):
         print("is yes")
     else:
         return False
+        print("is no")
 
 
 def ifvip(self, inp):
