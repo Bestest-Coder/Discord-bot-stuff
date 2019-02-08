@@ -6,12 +6,17 @@ import websockets
 
 NOT_HEROKU, HEROKU = [r(10,99) for r in (random.randint,)*2]
 
+KEY = os.environ['SILI_SECRET']
+PLATFORM = NOT_HEROKU
+
+"""
 try:
     KEY = os.environ['SILI_SECRET']
     PLATFORM = HEROKU
 except KeyError:
     PLATFORM = NOT_HEROKU
     KEY = ''
+"""
 print(PLATFORM)
 
 
