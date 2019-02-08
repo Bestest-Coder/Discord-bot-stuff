@@ -36,6 +36,7 @@ async def stafforcomm(self, inp):
 def ifcomm(self, inp):
     if inp.author.id in self.client.commanderids:
         return True
+        print("is yes")
     else:
         return False
 
@@ -83,7 +84,7 @@ class Staff():
 
     @commands.command(brief='makes the bot say the content')
     async def say(self, ctx, *, content: str):
-        if await stafforcomm(self, ctx.message) is False:
+        if ifcomm(self, ctx.message) is False:
             return
         await ctx.channel.send(content.format(ctx.message))
         try:
