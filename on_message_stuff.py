@@ -22,9 +22,9 @@ async def get_clink_toggle(sid):
     try:
         ct = await env.get(str(sid) + "-clink_toggle")
         if ct == "variable does not exist":
-            raise env.GetReturnedNothing("")
+            raise TypeError("")
         ct = bool(int(ct))
-    except env.GetReturnedNothing:
+    except TypeError:
         await env.set(str(sid) + "-clink_toggle", "1")
         ct = True
     return ct
