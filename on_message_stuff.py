@@ -108,7 +108,7 @@ class on_msg(commands.Cog):
             if await env.get("{}_isafk".format(message.mentions[i].id)) == "True":
                 await message.channel.send(":speaker: {}, {} is afk because: {}".format(message.author.mention,message.mentions[i].name,await env.get("{}_afkmsg".format(message.mentions[i].id))))
 
-        d_dat = env.get("{}_isafk".format(message.author.id))
+        d_dat = await env.get("{}_isafk".format(message.author.id))
         print("---begin debug---")
         print("d_dat:", d_dat)
         print("type(d_dat):", type(d_dat))
