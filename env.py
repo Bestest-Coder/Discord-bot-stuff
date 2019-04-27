@@ -1,10 +1,13 @@
 import os
 import asyncio
+import pickle
 
+
+db = pickle.load(open("db.pkl", "rb"))
 
 async def set(name, value, tries=5, timeout=2):
-    os.environ[name] = str(value)
-
+    db['bestest'][name] = value
+    pickle.dump(db, open("db.pkl", "wb"))
 
 async def get(name, tries=5, timeout=2):
-    return os.environ[name]
+    return db['bestest'][name]
