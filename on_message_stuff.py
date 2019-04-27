@@ -40,7 +40,7 @@ class on_msg(commands.Cog):
         CLINK_CHAR_LIMIT = await env.get("clink-char-limit")
         CLINK_CHAR_LIMIT = int(CLINK_CHAR_LIMIT)
 
-    @commmands.Cog.listener()
+    @commands.Cog.listener()
     async def on_message(self, message):
         global CLINK_CHAR_LIMIT
         if message.content == "" and len(message.attachments) == 0:  # if for some reason the content is empty, possibly a pin?
