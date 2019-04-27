@@ -10,4 +10,7 @@ async def set(name, value, tries=5, timeout=2):
     pickle.dump(db, open("db.pkl", "wb"))
 
 async def get(name, tries=5, timeout=2):
-    return db['bestest'][name]
+    try:
+        return db['bestest'][name]
+    except KeyError:
+        return 'variable does not exist'
