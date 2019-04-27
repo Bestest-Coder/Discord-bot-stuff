@@ -11,6 +11,6 @@ async def set(name, value, tries=5, timeout=2):
 
 async def get(name, tries=5, timeout=2):
     try:
-        return db['bestest'][name]
+        return str(db['bestest'][name])
     except KeyError:
         return 'variable does not exist'
