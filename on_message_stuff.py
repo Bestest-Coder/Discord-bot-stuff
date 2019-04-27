@@ -106,6 +106,13 @@ class on_msg():
             if await env.get("{}_isafk".format(message.mentions[i].id)) == "True":
                 await message.channel.send(":speaker: {}, {} is afk because: {}".format(message.author.mention,message.mentions[i].name,await env.get("{}_afkmsg".format(message.mentions[i].id))))
 
+        d_dat = env.get("{}_isafk".format(message.author.id))
+        print("---begin debug---")
+        print("d_dat:", d_dat)
+        print("type(d_dat):", type(d_dat))
+        print("message.author.id:", message.author.id)
+        print("----end debug----")
+        
         if await env.get("{}_isafk".format(message.author.id)) == "True":
             await env.set("{}_isafk".format(message.author.id), False)
             await message.channel.send("{} is no longer AFK".format(message.author.mention))
