@@ -96,6 +96,8 @@ class on_msg(commands.Cog):
                                                 await channel.send(f"({message.guild.name}) {message.author.name} - {msg} {att}")  # message
                                             except AttributeError:  # definitely happens on CategoryChannel, which for some reason gets detected?
                                                 pass  # ignore
+                                            except discord.Forbidden:
+                                                pass  # ignore inability to send message to channel
         for i in range(len(message.mentions)):
             if message.mentions[i] == self.client.user:
                 await message.channel.send('the fuck you want {0.author.mention}'.format(message))
@@ -107,13 +109,6 @@ class on_msg(commands.Cog):
         for i in range(len(message.mentions)):
             if await env.get("{}_isafk".format(message.mentions[i].id)) == "True":
                 await message.channel.send(":speaker: {}, {} is afk because: {}".format(message.author.mention,message.mentions[i].name,await env.get("{}_afkmsg".format(message.mentions[i].id))))
-
-        d_dat = await env.get("{}_isafk".format(message.author.id))
-        print("---begin debug---")
-        print("d_dat:", d_dat)
-        print("type(d_dat):", type(d_dat))
-        print("message.author.id:", message.author.id)
-        print("----end debug----")
 
         if await env.get("{}_isafk".format(message.author.id)) == "True" and not message.content.startswith("=afk"):
             await env.set("{}_isafk".format(message.author.id), False)
