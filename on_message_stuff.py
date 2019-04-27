@@ -30,7 +30,7 @@ async def get_clink_toggle(sid):
     return ct
 
 
-class on_msg():
+class on_msg(commands.Cog):
     def __init__(self, client):
         self.client = client
 
@@ -112,7 +112,7 @@ class on_msg():
         print("type(d_dat):", type(d_dat))
         print("message.author.id:", message.author.id)
         print("----end debug----")
-        
+
         if await env.get("{}_isafk".format(message.author.id)) == "True":
             await env.set("{}_isafk".format(message.author.id), False)
             await message.channel.send("{} is no longer AFK".format(message.author.mention))
