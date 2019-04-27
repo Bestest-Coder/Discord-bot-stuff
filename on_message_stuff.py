@@ -115,7 +115,7 @@ class on_msg(commands.Cog):
         print("message.author.id:", message.author.id)
         print("----end debug----")
 
-        if await env.get("{}_isafk".format(message.author.id)) == "True":
+        if await env.get("{}_isafk".format(message.author.id)) == "True" and not message.content.startswith("=afk"):
             await env.set("{}_isafk".format(message.author.id), False)
             await message.channel.send("{} is no longer AFK".format(message.author.mention))
 '''
