@@ -7,6 +7,7 @@ import random
 import os
 import env
 import base64
+import requests
 
 Client = discord.Client()
 client = commands.Bot(command_prefix='=')
@@ -15,7 +16,7 @@ client.commanderids = list(client.commanderids)
 user = discord.Member
 startup_extensions = ['moderation', 'general', 'on_message_stuff', 'info']
 client.data = {'test': 'test object'}
-
+client.bfdtoken = os.environ["BFDTOKEN"]
 
 async def stafforcomm(self, inp):
     if '[no]' not in inp.author.display_name:
@@ -111,6 +112,14 @@ async def on_guild_join(guild):
 Owned by: {}
 ID: {}
 Icon: {}'''.format(guild.name, guild.owner.name, guild.id, icn))
+    payload = {"server_count" : len(client.guilds)}
+    r = requests.post('https://botsfordiscord.com/api/bot/429781887486001163', headers={"Content-Type" : "application/json", "Authorization" : client.bfdtoken}, json=payload)
+    await client.get_user(357596253472948224).send(str(r))
+
+@client.event
+async def on_guild_remove(guild):
+    await client.get_user(357596253472948224).send('''M'Bot was removed from: {}
+Owned by: {}'''.format(guild.name, guild.owner.name))
 
 if __name__ == '__main__':
     for extension in startup_extensions:
