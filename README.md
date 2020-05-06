@@ -18,5 +18,4 @@ settag: have a server-specific tag that can be called at any time, max 300 chara
 ## Other
 If you name a channel "clink" it will be connected with every other bot connected clink channel
 
-
-            [![Bots for Discord](https://botsfordiscord.com/api/bot/429781887486001163/widget)](https://botsfordiscord.com/bots/429781887486001163)
+[![Bots for Discord](https://botsfordiscord.com/api/bot/429781887486001163/widget)](https://botsfordiscord.com/bots/429781887486001163)
