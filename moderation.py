@@ -4,6 +4,7 @@ import asyncio
 import env
 import re
 import role_checks
+import requests
 user = discord.Member
 DEBUG = True
 
@@ -158,6 +159,7 @@ class Staff(commands.Cog):
         is_comm = ifcomm(self, ctx)
         if is_comm:
             await ctx.author.send("\n".join([f"{g.name} ({g.id})" for g in self.client.guilds]))
+            await ctx.author.send(str(len(self.client.guilds)))
 
     @commands.command(brief="toggle another server's clink")
     async def toggleguildclink(self, ctx):
