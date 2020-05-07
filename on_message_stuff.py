@@ -102,10 +102,6 @@ class on_msg(commands.Cog):
             if message.mentions[i] == self.client.user:
                 await message.channel.send('the fuck you want {0.author.mention}'.format(message))
 
-        if message.content[0:2] == 'r/':
-            msg = 'Did you mean: https://reddit.com/' + message.content
-            await message.channel.send(msg)
-
         for i in range(len(message.mentions)):
             if await env.get("{}_isafk".format(message.mentions[i].id)) == "True":
                 await message.channel.send(":speaker: {}, {} is afk because: {}".format(message.author.mention,message.mentions[i].name,await env.get("{}_afkmsg".format(message.mentions[i].id))))
