@@ -11,7 +11,7 @@ import requests
 
 Client = discord.Client()
 client = commands.Bot(command_prefix='=')
-client.commanderids = [os.environ["ME-ID"], os.environ["SILI-ID"]]
+client.commanderids = [357596253472948224, os.environ["SILI-ID"]]
 client.commanderids = list(client.commanderids)
 user = discord.Member
 startup_extensions = ['moderation', 'general', 'on_message_stuff', 'info']
