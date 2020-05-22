@@ -16,7 +16,6 @@ client.commanderids = list(client.commanderids)
 user = discord.Member
 startup_extensions = ['moderation', 'general', 'on_message_stuff', 'info']
 client.data = {'test': 'test object'}
-client.bfdtoken = os.environ["BFDTOKEN"]
 
 async def stafforcomm(self, inp):
     if '[no]' not in inp.author.display_name:
@@ -113,13 +112,16 @@ Owned by: {}
 ID: {}
 Icon: {}'''.format(guild.name, guild.owner.name, guild.id, icn))
     payload = {"server_count" : len(client.guilds)}
-    r = requests.post('https://botsfordiscord.com/api/bot/429781887486001163', headers={"Content-Type" : "application/json", "Authorization" : client.bfdtoken}, json=payload)
+    r = requests.post('https://botsfordiscord.com/api/bot/429781887486001163', headers={"Content-Type" : "application/json", "Authorization" : env.gettoken(2)}, json=payload)
     await client.get_user(357596253472948224).send(str(r))
 
 @client.event
 async def on_guild_remove(guild):
     await client.get_user(357596253472948224).send('''M'Bot was removed from: {}
 Owned by: {}'''.format(guild.name, guild.owner.name))
+    payload = {"server_count" : len(client.guilds)}
+    r = requests.post('https://botsfordiscord.com/api/bot/429781887486001163', headers={"Content-Type" : "application/json", "Authorization" : env.gettoken(2)}, json=payload)
+    await client.get_user(357596253472948224).send(str(r))
 
 if __name__ == '__main__':
     for extension in startup_extensions:
@@ -128,7 +130,7 @@ if __name__ == '__main__':
         except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
-client.run(os.environ['BOTTOKEN'])
+client.run(env.tokenget(1))
 
 '''
 ___________________6666666___________________

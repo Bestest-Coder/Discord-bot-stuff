@@ -161,7 +161,7 @@ class Staff(commands.Cog):
             await ctx.author.send("\n".join([f"{g.name} ({g.id})" for g in self.client.guilds]))
             await ctx.author.send(str(len(self.client.guilds)))
             payload = {"server_count" : len(client.guilds)}
-            r = requests.post('https://botsfordiscord.com/api/bot/429781887486001163', headers={"Content-Type" : "application/json", "Authorization" : self.client.BFDTOKEN}, json=payload)
+            r = requests.post('https://botsfordiscord.com/api/bot/429781887486001163', headers={"Content-Type" : "application/json", "Authorization" : env.gettoken(2)}, json=payload)
             await client.get_user(357596253472948224).send(str(r))
 
     @commands.command(brief="toggle another server's clink")
