@@ -29,17 +29,17 @@ class General(commands.Cog):
         await ctx.message.delete()
 
     @commands.command(brief='generates a random number between the two given numbers', name='random')
-    async def random_(self, ctx, num1: int, num2: int):
+    async def random_(self, ctx, num1: int, num2: int): #could probably fix naming, but it works
         await ctx.channel.send(str(random.randint(num1, num2)))
 
     @commands.command(brief="get's the users avatar/pfp, by default returns your own")
     async def pfp(self, ctx, *, user : discord.User=None):
         try:
-            em = discord.Embed()
+            em = discord.Embed() #issues arise when just using straight URL so embeds work beetter
             if user is not None:
                 em.set_image(url=user.avatar_url_as(static_format='png'))
             else:
-                em.set_image(url=ctx.message.author.avatar_url_as(static_format='png'))
+                em.set_image(url=ctx.message.author.avatar_url_as(static_format='png')) #in case some specifics don't work
             await ctx.channel.send(embed=em)
         except discord.errors.Forbidden:
             await ctx.channel.send("Error: cannot send embeds")
@@ -50,11 +50,11 @@ class General(commands.Cog):
 
     @commands.command(brief='show your tag')
     async def tag(self, ctx):
-        usertag = await env.get('{}_tag_{}'.format(ctx.message.guild.id, ctx.message.author.id))
+        usertag = await env.get('{}_tag_{}'.format(ctx.message.guild.id, ctx.message.author.id)) #gets tag from the pickle database
         if usertag == 'variable does not exist':
             await ctx.channel.send("You don't have a tag. Set a tag with `=settag <text>`")
         else:
-            await ctx.channel.send('📎 ' + usertag)
+            await ctx.channel.send('📎 ' + usertag) #use a file emote to prevent bot commands from being used
 
     @commands.command(brief='set your own tag')
     async def settag(self, ctx):
@@ -63,7 +63,7 @@ class General(commands.Cog):
         aurls = [a.url for a in ctx.message.attachments]
         tag += ' ' + ' '.join(aurls)
         links = re.findall("(https?://[^\s]+)", tag)
-        if len(tag) == 0:
+        if len(tag) == 0: #elif stack to remove problematic tags
             await ctx.channel.send("Error: your tag is empty, will not store.")
         elif len(tag) >= MAX_TAG_LEN:
             await ctx.channel.send("Error: your tag is above {} characters, will not store.".format(MAX_TAG_LEN))
@@ -74,7 +74,7 @@ class General(commands.Cog):
         elif "@everyone" in content or "@here" in content:
             await ctx.channel.send("Error: your message contains a mass ping")
         else:
-            await env.set("{}_tag_{}".format(ctx.message.guild.id, ctx.message.author.id), tag)
+            await env.set("{}_tag_{}".format(ctx.message.guild.id, ctx.message.author.id), tag) #tags are stored in pickle database using format guildid_tag_userid
             await ctx.channel.send("<@{}>, your tag has been set.".format(ctx.message.author.id))
 
     @commands.command(brief='WHAT. WHAT THE FUCK -Jontron')
@@ -87,15 +87,15 @@ class General(commands.Cog):
 
     @commands.command(brief="Sets you to AFK")
     async def afk(self,ctx):
-        if await env.get("{}_afkmsg".format(ctx.message.author.id)) == 'variable does not exist':
+        if await env.get("{}_afkmsg".format(ctx.message.author.id)) == 'variable does not exist': #prevent AFK with no message, might add default message in future
             await ctx.channel.send("You have no AFK message, set one before continuing")
         else:
-            await env.set("{}_isafk".format(ctx.message.author.id),True)
+            await env.set("{}_isafk".format(ctx.message.author.id),True) #afk status is defined only by userid as it's cross-server
             await ctx.channel.send("You are now AFK")
 
     @commands.command(brief="sets your afk response message")
     async def afkmsgset(self, ctx, *, content: str):
-        if ctx.message.mentions != []:
+        if ctx.message.mentions != []: #elif stacks to check for unwanted stuff again
             await ctx.channel.send("You cannot mention people in your afk message")
         elif "@everyone" in content or "@here" in content:
             await ctx.channel.send("You cannot mass ping in your afk message")

@@ -2,9 +2,10 @@ import os
 import asyncio
 import pickle
 
-
+#if either of these gets uploaded to github sometihng went VERY WRONG
 db = pickle.load(open("db.pkl", "rb"))
 tokenfile = open("tokens.txt", "r")
+
 lines = tokenfile.readlines()
 
 async def set(name, value, tries=5, timeout=2):

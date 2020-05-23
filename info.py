@@ -7,9 +7,9 @@ class Information(commands.Cog):
 
     @commands.command(brief='Gets the invite link for the bot')
     async def invite(self, ctx):
-        perms = discord.Permissions.none()
+        perms = discord.Permissions.none() #autogenerate bot link with proper permissions
         perms.read_messages = True
-        perms.send_messages = True
+        perms.send_messages = True #better safe then sorry
         perms.manage_messages = True
         perms.embed_links = True
         perms.read_message_history = True

@@ -104,7 +104,7 @@ class on_msg(commands.Cog):
 
         for i in range(len(message.mentions)):
             if await env.get("{}_isafk".format(message.mentions[i].id)) == "True":
-                await message.channel.send(":speaker: {}, {} is afk because: {}".format(message.author.mention,message.mentions[i].name,await env.get("{}_afkmsg".format(message.mentions[i].id))))
+                await message.channel.send(":speaker: {}, {} is afk because: {}".format(message.author.mention,message.mentions[i].name,await env.get("{}_afkmsg".format(message.mentions[i].id)))) #current record for longest line in the code at 196
 
         if await env.get("{}_isafk".format(message.author.id)) == "True" and not message.content.startswith("=afk"):
             await env.set("{}_isafk".format(message.author.id), False)
@@ -122,7 +122,7 @@ class on_msg(commands.Cog):
                     em.description = react.message.content
                     ech = await env.get(f"{react.message.guild.id}-react_channel")
                     await discord.utils.get(self.client.get_all_channels(), id=ech).send(embed=em)
-                    '''
+                    ''' #breadpin original code, probably has some issues but no plans to fix
 
 def setup(client):
     client.add_cog(on_msg(client))

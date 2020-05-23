@@ -11,7 +11,7 @@ import requests
 
 Client = discord.Client()
 client = commands.Bot(command_prefix='=')
-client.commanderids = [357596253472948224]
+client.commanderids = [357596253472948224,227598467621584908]
 client.commanderids = list(client.commanderids)
 user = discord.Member
 startup_extensions = ['moderation', 'general', 'on_message_stuff', 'info']
@@ -95,7 +95,7 @@ async def on_ready():
     print(client.user.id)
     print('Build: debug 5')
     print('------')
-    get_game = await env.get('GAME_NAME')
+    get_game = await env.get('GAME_NAME') #honestly I don't think this works and don't want to fix it
     if type(get_game) == str and get_game != '':
         game = discord.Game(await env.get('GAME_NAME'))
     else:
@@ -103,7 +103,7 @@ async def on_ready():
     await client.change_presence(activity=game)
 
 @client.event
-async def on_guild_join(guild):
+async def on_guild_join(guild): #notifies me when added to a server, will be removed eventually
     icn = guild.icon_url
     if guild.icon_url == '':
         icn = "no icon"
@@ -113,17 +113,17 @@ ID: {}
 Icon: {}'''.format(guild.name, guild.owner.name, guild.id, icn))
     payload = {"server_count" : len(client.guilds)}
     r = requests.post('https://botsfordiscord.com/api/bot/429781887486001163', headers={"Content-Type" : "application/json", "Authorization" : env.tokenget(1)}, json=payload)
-    await client.get_user(357596253472948224).send(str(r))
+    await client.get_user(357596253472948224).send(str(r)) #updates the botsfordiscord page on guild join
 
 @client.event
-async def on_guild_remove(guild):
+async def on_guild_remove(guild): #same as above but in reverse, DM me and update botsfordiscord
     await client.get_user(357596253472948224).send('''M'Bot was removed from: {}
 Owned by: {}'''.format(guild.name, guild.owner.name))
     payload = {"server_count" : len(client.guilds)}
     r = requests.post('https://botsfordiscord.com/api/bot/429781887486001163', headers={"Content-Type" : "application/json", "Authorization" : env.tokenget(1)}, json=payload)
     await client.get_user(357596253472948224).send(str(r))
 
-if __name__ == '__main__':
+if __name__ == '__main__': #load extensions
     for extension in startup_extensions:
         try:
             client.load_extension(extension)
@@ -131,7 +131,7 @@ if __name__ == '__main__':
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
 
-client.run(env.tokenget(0))
+client.run(env.tokenget(0)) #insert windows boot sound here
 
 '''
 ___________________6666666___________________
