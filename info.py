@@ -24,7 +24,7 @@ siliconwolf#0013: Cool man who helped make a lot of stuff work, and contributed 
 
     @commands.command(brief='all the basic info about the bot')
     async def info(self, ctx):
-        await ctx.channel.send("This bot was first created November 20th 2017, and has gone through several name iterations. It can be found on GitHub at https://github.com/Bestest-Coder/Discord-bot-stuff and on Bots for Discord at https://botsfordiscord.com/bot/429781887486001163")
+        await ctx.channel.send("This bot was first created November 20th 2017, and has gone through several name iterations.\nFor details, help, or to offer support visit Bots for Discord at https://botsfordiscord.com/bot/429781887486001163")
 
     @commands.command(brief='gives you the link to the development/testing server')
     async def server(self, ctx):

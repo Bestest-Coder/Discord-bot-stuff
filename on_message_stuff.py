@@ -63,6 +63,9 @@ class on_msg(commands.Cog):
                 if len(message.content) >= CLINK_CHAR_LIMIT:
                     await message.author.send(f"Your Clink message was too long. Messages must be lower than {CLINK_CHAR_LIMIT} characters in length.")
                     return
+                if message.content.count('\n') >= 3:
+                    await message,author.send("Your Clink message was too long. Messages must have less than 3 new lines")
+                    return
                 blockwords = await env.get("clink-blockedwords")
                 blockwords = blockwords.split("\x00")
                 for word in blockwords:
@@ -100,7 +103,7 @@ class on_msg(commands.Cog):
                                                 pass  # ignore inability to send message to channel
         for i in range(len(message.mentions)):
             if message.mentions[i] == self.client.user:
-                await message.channel.send('the fuck you want {0.author.mention}'.format(message))
+                await message.channel.send('use = next time you want to talk moron'.format(message))
 
         for i in range(len(message.mentions)):
             if await env.get("{}_isafk".format(message.mentions[i].id)) == "True":
