@@ -63,9 +63,20 @@ class on_msg(commands.Cog):
                 if len(message.content) >= CLINK_CHAR_LIMIT:
                     await message.author.send(f"Your Clink message was too long. Messages must be lower than {CLINK_CHAR_LIMIT} characters in length.")
                     return
-                if message.content.count('\n') >= 3:
-                    await message,author.send("Your Clink message was too long. Messages must have less than 3 new lines")
-                    return
+                if message.content.count('\n') >= 2:
+                    try:
+                        await message.author.send("Your Clink message was too long. Messages must have less than 3 new lines")
+                        return
+                    except discord.Forbidden:
+                        await message.channel.send("{}, your Clink message was too long. Messages must have less than 3 new lines".format(message.author.mention))
+                        return
+                if message.content == '_ _':
+                    try:
+                        await message.author.send("Your Clink message cannot appear to be empty")
+                        return
+                    except discord.Forbidden:
+                        await message.channel.send("{}, your Clink message cannot appear to be empty".format(message.author.mention))
+                        return
                 blockwords = await env.get("clink-blockedwords")
                 blockwords = blockwords.split("\x00")
                 for word in blockwords:
