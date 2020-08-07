@@ -9,7 +9,8 @@ import env
 import base64
 import requests
 
-Client = discord.Client()
+plsnoping = discord.AllowedMentions(everyone=false)
+Client = discord.Client(allowed_mentions=plsnoping)
 client = commands.Bot(command_prefix='=')
 client.commanderids = [357596253472948224,227598467621584908]
 client.commanderids = list(client.commanderids)
