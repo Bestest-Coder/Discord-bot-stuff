@@ -107,7 +107,8 @@ class on_msg(commands.Cog):
                                             att = [f"<{a.url}>" for a in message.attachments]
                                             att = " ".join(att)
                                             try:
-                                                await channel.send(f"({message.guild.name}) {message.author.name} - {msg} {att}")  # message
+                                                bigfatvariable = str(message.author)
+                                                await channel.send(f"({message.guild.name}) {bigfatvariable} - {msg} {att}")  # message
                                             except AttributeError:  # definitely happens on CategoryChannel, which for some reason gets detected?
                                                 pass  # ignore
                                             except discord.Forbidden:

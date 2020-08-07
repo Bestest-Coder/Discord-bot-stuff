@@ -158,7 +158,13 @@ class Staff(commands.Cog):
         # is_comm = await role_checks.ifcomm(self, ctx)
         is_comm = ifcomm(self, ctx)
         if is_comm:
-            await ctx.author.send("\n".join([f"{g.name} ({g.id})" for g in self.client.guilds]))
+            damessag = "\n".join([f"{g.name} ({g.id})" for g in self.client.guilds])
+            for i in range(len(damessag) % 2000):
+                if (i+1)*2000 > len(damessag):
+                    await ctx.author.send(damessag[i*2000:])
+                else:
+                    await ctx.author.send(damessag[i*2000:(i+1)*2000])
+            #await ctx.author.send(damessag)
             await ctx.author.send(str(len(self.client.guilds)))
             payload = {"server_count" : len(self.client.guilds)}
             r = requests.post('https://botsfordiscord.com/api/bot/429781887486001163', headers={"Content-Type" : "application/json", "Authorization" : env.tokenget(1)}, json=payload)
@@ -252,7 +258,7 @@ class Staff(commands.Cog):
             if len(sp) != 2:
                 await ctx.channel.send("Incorrect syntax. Syntax: `=clinkban <id or full username>`")
                 return
-            arg = sp[1]
+            arg = ctx
             member = None
             for guild in self.client.guilds:
                 for mem in guild.members:
