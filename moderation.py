@@ -43,7 +43,7 @@ def ifcomm(self, inp):
         print("is no")
 
 
-def ifvip(self, inp): #will probably have to fix and use more for basic commands/setup commands
+def ifvip(self, inp):
     if inp.author.id in self.client.commanderids:
         return True
     if inp.guild.owner == inp.author:
@@ -59,7 +59,7 @@ class Staff(commands.Cog):
         self.client = client
 
     @commands.command(brief='sends a message to warning channel')
-    async def warn(self, ctx, war_user: user, *, reason: str): #not quite unusable but has issues and not looking to improve soon
+    async def warn(self, ctx, war_user: user, *, reason: str):
         if await stafforcomm(self, ctx.message) is False:
             print(str(ctx.author) + " tried to warn but isn't staff")
             return
@@ -74,7 +74,7 @@ class Staff(commands.Cog):
         #print((((str(ctx.author) + ': ') + str(war_user)) + ' has been warned for: ') + reason)
 
     @commands.command(brief="set's the warning channel")
-    async def wchan(self, ctx, wchan: discord.TextChannel): #see comment on warn command
+    async def wchan(self, ctx, wchan: discord.TextChannel):
         if ifcomm(self, ctx.message) is False:
             return
         # self.client.data[str(ctx.message.guild.id)]['wchan'] = wchan.id
@@ -85,7 +85,7 @@ class Staff(commands.Cog):
         #print((str(ctx.author) + ': ') + msg)
 
     @commands.command(brief='makes the bot say the content')
-    async def say(self, ctx, *, content: str): #only accessible to commanders, might open to staff later
+    async def say(self, ctx, *, content: str):
         if ifcomm(self, ctx.message) is False:
             return
         await ctx.channel.send(content.format(ctx.message))
@@ -98,10 +98,17 @@ class Staff(commands.Cog):
         #print(((str(ctx.author) + ': ') + 'Bot said : ') + content)
 
     @commands.command(brief='say but less suspiscous')
-    async def dsay(self, ctx, *, content: str): #not sure why only this one is open to server staff but no reason to change
+    async def dsay(self, ctx, *, content: str):
         result = await stafforcomm(self, ctx.message)
         if result is not True:
             return
+        #sfc = await stafforcomm(self, ctx.message)
+        #print(stafforcomm)
+        #print(sfc)
+        #if sfc is not True:
+            #print(f'stafforcomm returned false with id {ctx.message.id}')
+            #return
+        #print('either stafforcomm returned true or python is being stupid')
         dest = ctx.channel
         dur = len(ctx.message.content) * 0.1
         try:
@@ -115,9 +122,12 @@ class Staff(commands.Cog):
         await dest.send(content)
 
     @commands.command(brief='sets the staff role')
-    async def staffrole(self, ctx, *, staffrole: discord.Role): #integral to a lot of bot commands on a server level, add error handling
+    async def staffrole(self, ctx, *, staffrole: discord.Role):
         if ifvip(self, ctx.message) is False:
             return
+        #if str(ctx.message.guild) in self.client.data == False:
+            #self.client.data[str(ctx.message.guild.id)]
+        # self.client.data[str(ctx.message.guild.id)] = {'stfrole': staffrole}
         await env.set('{}_stfrole'.format(str(ctx.message.guild.id)), staffrole.id)  # set guildid_stfrole to the given staffrole's id
         msg = 'staff role has been set to ' + str(staffrole)
         await ctx.channel.send(msg)
@@ -131,7 +141,7 @@ class Staff(commands.Cog):
         await ctx.channel.send('Nickname is now "' + name + '"')
 
     @commands.command(brief="toggle cross-server chat (clink)")
-    async def toggleclink(self, ctx): #allows staff to disable clink if needed
+    async def toggleclink(self, ctx):
         # is_sfc = await role_checks.stafforcomm(self, msg)
         msg = ctx.message
         is_sfc = await stafforcomm(self, msg)
@@ -144,7 +154,7 @@ class Staff(commands.Cog):
             await ctx.channel.send(f"Toggled. Clink on: {'yes' if x else 'no'}")
 
     @commands.command(brief="list all servers/ids with this bot")
-    async def guildlist(self, ctx): #DMs author list of servers, server count, and manual botsfordiscord updating
+    async def guildlist(self, ctx):
         # is_comm = await role_checks.ifcomm(self, ctx)
         is_comm = ifcomm(self, ctx)
         if is_comm:
@@ -152,10 +162,10 @@ class Staff(commands.Cog):
             await ctx.author.send(str(len(self.client.guilds)))
             payload = {"server_count" : len(self.client.guilds)}
             r = requests.post('https://botsfordiscord.com/api/bot/429781887486001163', headers={"Content-Type" : "application/json", "Authorization" : env.tokenget(1)}, json=payload)
-            await self.client.get_user(357596253472948224).send(str(r))
+            await client.get_user(357596253472948224).send(str(r))
 
     @commands.command(brief="toggle another server's clink")
-    async def toggleguildclink(self, ctx): #remotely disable a server's clink access if problems arise
+    async def toggleguildclink(self, ctx):
         # is_comm = await role_check.ifcomm(self, ctx)
         is_comm = ifcomm(self, ctx)
         if is_comm:
@@ -203,7 +213,7 @@ class Staff(commands.Cog):
             await ctx.channel.send("CLINK_MAX_CHARS/clink-max-chars set.")
 
     @commands.command(brief="ban a word from clink")
-    async def clinkwordban(self, ctx): #may or may not work needs testing, will need to make work if clink gets bigger
+    async def clinkwordban(self, ctx):
         is_comm = ifcomm(self, ctx)
         if is_comm:
             sp = ctx.message.content.split(" ")
@@ -219,7 +229,7 @@ class Staff(commands.Cog):
             await ctx.channel.send(f"Word '{arg}' banned.")
 
     @commands.command(brief="unban a word from clink")
-    async def clinkwordunban(self, ctx): #inverse of above
+    async def clinkwordunban(self, ctx):
         is_comm = ifcomm(self, ctx)
         if is_comm:
             sp = ctx.message.content.split(" ")
@@ -282,7 +292,7 @@ class Staff(commands.Cog):
                         await ctx.channel.send(f"Lifted ban on {str(mem)}.")
 
     @commands.command(brief='change another\'s tag')
-    async def setusertag(self, ctx): #if user has bad tag can be changed
+    async def setusertag(self, ctx):
         msg = ctx.message
         content = msg.content
         author = msg.author
@@ -328,7 +338,7 @@ class Staff(commands.Cog):
             await ctx.channel.send("Message purge failed; insufficient permissions")
 
     @commands.command(brief="sets the channel to log breadpins")
-    async def pinchannel(self,ctx, chan : discord.TextChannel): #testing feature similar to carl-bot's starboard, no plans to improve
+    async def pinchannel(self,ctx, chan : discord.TextChannel):
         await env.set(f"{ctx.message.guild.id}-react_channel",chan.id)
         await ctx.channel.send("Breadpin channel set as {}".format(chan.name))
 
