@@ -255,10 +255,10 @@ class Staff(commands.Cog):
         is_comm = ifcomm(self, ctx)
         if is_comm:
             sp = ctx.message.content.split(" ")
-            if len(sp) != 2:
-                await ctx.channel.send("Incorrect syntax. Syntax: `=clinkban <id or full username>`")
-                return
-            print(ctx.message.content[10:])
+            #if len(sp) != 2:
+                #await ctx.channel.send("Incorrect syntax. Syntax: `=clinkban <id or full username>`")
+                #return
+            #print(ctx.message.content[10:])
             arg = ctx.message.content[10:]
             member = None
             for guild in self.client.guilds:
