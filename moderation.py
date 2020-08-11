@@ -258,7 +258,7 @@ class Staff(commands.Cog):
             if len(sp) != 2:
                 await ctx.channel.send("Incorrect syntax. Syntax: `=clinkban <id or full username>`")
                 return
-            arg = ctx
+            arg = ctx.message.content
             member = None
             for guild in self.client.guilds:
                 for mem in guild.members:
