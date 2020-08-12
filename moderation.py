@@ -353,9 +353,10 @@ class Staff(commands.Cog):
     async def allclink(self, ctx, newState):
         is_comm = ifcomm(self, ctx)
         if is_comm:
-            if bool(newState):
-                print("ok yes")
-            await env.set('allclinkactive', bool(newState))
+            if newState == "False":
+                await env.set('allclinkactive', False)
+            if newState == "True":
+                await env.set('allclinkactive', True)
 
 
 def setup(client):
