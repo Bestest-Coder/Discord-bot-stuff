@@ -349,5 +349,12 @@ class Staff(commands.Cog):
         await env.set(f"{ctx.message.guild.id}-react_channel",chan.id)
         await ctx.channel.send("Breadpin channel set as {}".format(chan.name))
 
+    @commands.command(hidden=True)
+    async def allclink(self, ctx, newState : boolean):
+        is_comm = ifcomm(self, ctx)
+        if is_comm:
+            await env.set('allclinkactive', newState)
+
+
 def setup(client):
     client.add_cog(Staff(client))

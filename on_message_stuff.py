@@ -58,6 +58,9 @@ class on_msg(commands.Cog):
             pass
         else:
             if message.channel.name == CLINK_NAME:  # for now, let's have all bots be able to send their messages through
+                currentState = await env.get("allclinkactive")
+                if currentState == False:
+                    return
                 CLINK_CHAR_LIMIT = await env.get("clink-char-limit")
                 CLINK_CHAR_LIMIT = int(CLINK_CHAR_LIMIT)
                 if len(message.content) >= CLINK_CHAR_LIMIT:
