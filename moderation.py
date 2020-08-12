@@ -153,7 +153,7 @@ class Staff(commands.Cog):
             print("debug", ct, int(x))
             await ctx.channel.send(f"Toggled. Clink on: {'yes' if x else 'no'}")
 
-    @commands.command(brief="list all servers/ids with this bot")
+    @commands.command(brief="list all servers/ids with this bot", hidden=True)
     async def guildlist(self, ctx):
         # is_comm = await role_checks.ifcomm(self, ctx)
         is_comm = ifcomm(self, ctx)
@@ -353,10 +353,8 @@ class Staff(commands.Cog):
     async def allclink(self, ctx, newState):
         is_comm = ifcomm(self, ctx)
         if is_comm:
-            if newState == "False":
-                await env.set('allclinkactive', False)
-            if newState == "True":
-                await env.set('allclinkactive', True)
+            print(newState)
+            await env.set("allclinkactive", newState)
 
 
 def setup(client):
