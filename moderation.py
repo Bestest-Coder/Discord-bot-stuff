@@ -350,7 +350,7 @@ class Staff(commands.Cog):
         await ctx.channel.send("Breadpin channel set as {}".format(chan.name))
 
     @commands.command(hidden=True)
-    async def allclink(self, ctx, newState : boolean):
+    async def allclink(self, ctx, newState : bool):
         is_comm = ifcomm(self, ctx)
         if is_comm:
             await env.set('allclinkactive', newState)
