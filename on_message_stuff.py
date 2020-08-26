@@ -83,7 +83,7 @@ class on_msg(commands.Cog):
                 blockwords = await env.get("clink-blockedwords")
                 blockwords = blockwords.split("\x00")
                 for word in blockwords:
-                    if word in message.content:
+                    if word in message.content.lower():
                         return
                 banlist = await env.get("clink-banlist")
                 banlist = banlist.split("\x00")
