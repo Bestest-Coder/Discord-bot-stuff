@@ -15,7 +15,7 @@ client = commands.Bot(command_prefix='=')
 client.commanderids = [357596253472948224,227598467621584908]
 client.commanderids = list(client.commanderids)
 user = discord.Member
-startup_extensions = ['moderation', 'general', 'on_message_stuff', 'info']
+startup_extensions = ['moderation', 'general', 'on_message_stuff', 'info','image_editing']
 client.data = {'test': 'test object'}
 
 async def stafforcomm(self, inp):
