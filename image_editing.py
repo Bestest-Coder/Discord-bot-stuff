@@ -10,7 +10,7 @@ class Images(commands.Cog):
         self.client = client
         self.session = aiohttp.ClientSession(loop=client.loop)
 
-    async def get_avatar(self, user : discord.User or discord.Member) -> bytes:
+    async def get_avatar(self, user : discord.Member) -> bytes:
         avatar_url = user.avatar_url_as(format="png")
 
         async with self.session.get(avatar_url) as response:
