@@ -10,10 +10,13 @@ class Images(commands.Cog):
         self.client = client
         self.session = aiohttp.ClientSession(loop=client.loop)
 
-    async def get_avatar(self, user : discord.Member) -> bytes:
+    async def get_avatar(self, user:discord.Member) -> bytes:
+
+        # generally an avatar will be 1024x1024, but we shouldn't rely on this
         avatar_url = user.avatar_url_as(format="png")
 
         async with self.session.get(avatar_url) as response:
+            # this gives us our response object, and now we can read the bytes from it.
             avatar_bytes = await response.read()
 
         return avatar_bytes
