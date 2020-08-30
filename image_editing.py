@@ -21,7 +21,7 @@ class Images(commands.Cog):
 
         return avatar_bytes
 
-    @commands.command(brief="returns pfp in greyscale")
+    @commands.command(brief="returns pfp in greyscale", aliases=['grayscale'])
     async def greyscale(self, ctx, *,member :discord.User=None):
         member = member or ctx.author
         async with ctx.typing():
