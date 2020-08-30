@@ -23,7 +23,7 @@ class Images(commands.Cog):
         member = member or ctx.author
         async with ctx.typing():
             avatar_bytes = await self.get_avatar(member)
-            with Image.open(BytesIO(avatar_bytes) as im:
+            with Image.open(BytesIO(avatar_bytes)) as im:
                 im = im.convert("L")
             final_buffer = BytesIO()
 
