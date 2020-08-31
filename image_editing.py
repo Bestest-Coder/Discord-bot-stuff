@@ -8,32 +8,36 @@ from PIL import Image, ImageDraw
 class Images(commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.session = aiohttp.ClientSession(loop=client.loop)
+        self.session = aiohttp.ClientSession(loop=client.loop) #make session that can fetch images from URLs
 
-    async def get_avatar(self, user:discord.Member) -> bytes:
+    async def get_image(self, imageSource) -> bytes:
 
-        # generally an avatar will be 1024x1024, but we shouldn't rely on this
-        avatar_url = str(user.avatar_url_as(format="png"))
+        if type(imageSource) == discord.Member: #get profile picture if user/member
+            image_url = str(imageSource.avatar_url_as(format="png"))
+        elif type(imageSource) == discord.Attachment: #get image if attachment
+            image_url = str(imageSource.url)
+        elif type(imageSource) == discord.Asset: #get image if asset, which idk if that can happen naturally
+            image_url = str(imageSource)
 
-        async with self.session.get(avatar_url) as response:
+        async with self.session.get(image_url) as response:
             # this gives us our response object, and now we can read the bytes from it.
-            avatar_bytes = await response.read()
+            image_bytes = await response.read()
 
-        return avatar_bytes
+        return image_bytes
 
     @commands.command(brief="returns pfp in greyscale", aliases=['grayscale'])
     async def greyscale(self, ctx, *,member :discord.User=None):
-        member = member or ctx.author
+        daImage = member or ctx.message.attachment or ctx.author
         async with ctx.typing():
-            avatar_bytes = await self.get_avatar(member)
-            with Image.open(BytesIO(avatar_bytes)) as im:
+            image_bytes = await self.get_image(daImage)
+            with Image.open(BytesIO(image_bytes)) as im:
                 im = im.convert("L")
             final_buffer = BytesIO()
 
             im.save(final_buffer, "png")
             final_buffer.seek(0)
 
-            file = discord.File(filename="circle.png", fp=final_buffer)
+            file = discord.File(filename="greayscale.png", fp=final_buffer)
 
             await ctx.send(file=file)
 
