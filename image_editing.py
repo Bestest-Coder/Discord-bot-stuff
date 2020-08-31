@@ -27,7 +27,7 @@ class Images(commands.Cog):
 
     @commands.command(brief="returns pfp in greyscale", aliases=['grayscale'])
     async def greyscale(self, ctx, *,member :discord.User=None):
-        daImage = member or ctx.message.attachment or ctx.author
+        daImage = member or ctx.message.attachments[0] or ctx.author
         async with ctx.typing():
             image_bytes = await self.get_image(daImage)
             with Image.open(BytesIO(image_bytes)) as im:
