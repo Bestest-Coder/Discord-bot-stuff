@@ -28,8 +28,11 @@ class Images(commands.Cog):
     @commands.command(brief="returns pfp in greyscale", aliases=['grayscale'])
     async def greyscale(self, ctx, *,member :discord.User=None):
         daImage = member or ctx.author
-        if ctx.message.attachments != None:
+        try:
             daImage = ctx.message.attachments[0]
+        except IndexError:
+            #there's no attachments but I can't figure out a better way to deal with it
+            pass
         async with ctx.typing():
             image_bytes = await self.get_image(daImage)
             with Image.open(BytesIO(image_bytes)) as im:
