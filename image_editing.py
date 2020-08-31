@@ -12,7 +12,7 @@ class Images(commands.Cog):
 
     async def get_image(self, imageSource) -> bytes:
 
-        if type(imageSource) == discord.User: #get profile picture if user/member
+        if type(imageSource) == discord.User or type(imageSource) == discord.Member: #get profile picture if user/member
             image_url = str(imageSource.avatar_url_as(format="png"))
         elif type(imageSource) == discord.Attachment: #get image if attachment
             image_url = str(imageSource.url)
