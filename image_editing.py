@@ -12,7 +12,7 @@ class Images(commands.Cog):
 
     async def get_image(self, imageSource) -> bytes:
 
-        if type(imageSource) == discord.Member: #get profile picture if user/member
+        if type(imageSource) == discord.User: #get profile picture if user/member
             image_url = str(imageSource.avatar_url_as(format="png"))
         elif type(imageSource) == discord.Attachment: #get image if attachment
             image_url = str(imageSource.url)
@@ -27,7 +27,9 @@ class Images(commands.Cog):
 
     @commands.command(brief="returns pfp in greyscale", aliases=['grayscale'])
     async def greyscale(self, ctx, *,member :discord.User=None):
-        daImage = member or ctx.message.attachments[0] or ctx.author
+        daImage = member or ctx.author
+        if ctx.message.attachments != None:
+            daImage = ctx.message.attachments[0]
         async with ctx.typing():
             image_bytes = await self.get_image(daImage)
             with Image.open(BytesIO(image_bytes)) as im:
