@@ -84,7 +84,7 @@ class on_msg(commands.Cog):
                 blockwords = blockwords.split("\x00")
                 for word in blockwords:
                     if word in message.content.lower():
-                        message.channel.send("Your server name, username, or message contains one or more banned words")
+                        await message.channel.send("Your server name, username, or message contains one or more banned words")
                         return
                 banlist = await env.get("clink-banlist")
                 banlist = banlist.split("\x00")
