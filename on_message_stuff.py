@@ -68,10 +68,10 @@ class on_msg(commands.Cog):
                     return
                 if message.content.count('\n') >= 2:
                     try:
-                        await message.author.send("Your Clink message was too long. Messages must have less than 3 new lines")
+                        await message.author.send("Your Clink message was too long. Messages must have less than 2 new lines")
                         return
                     except discord.Forbidden:
-                        await message.channel.send("{}, your Clink message was too long. Messages must have less than 3 new lines".format(message.author.mention))
+                        await message.channel.send("{}, your Clink message was too long. Messages must have less than 2 new lines".format(message.author.mention))
                         return
                 if message.content == '_ _':
                     try:
@@ -83,7 +83,7 @@ class on_msg(commands.Cog):
                 blockwords = await env.get("clink-blockedwords")
                 blockwords = blockwords.split("\x00")
                 for word in blockwords:
-                    if word in message.content.lower():
+                    if word in message.content.lower() or word in message.guild.name.lower() or word in str(message.author).lower()
                         await message.channel.send("Your server name, username, or message contains one or more banned words")
                         return
                 banlist = await env.get("clink-banlist")
