@@ -83,7 +83,7 @@ class on_msg(commands.Cog):
                 blockwords = await env.get("clink-blockedwords")
                 blockwords = blockwords.split("\x00")
                 for word in blockwords:
-                    if word in message.content.lower() or word in message.guild.name.lower() or word in str(message.author).lower()
+                    if word in message.content.lower() or word in message.guild.name.lower() or word in str(message.author).lower():
                         await message.channel.send("Your server name, username, or message contains one or more banned words")
                         return
                 banlist = await env.get("clink-banlist")
