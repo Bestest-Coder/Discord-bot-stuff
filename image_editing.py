@@ -47,7 +47,7 @@ class Images(commands.Cog):
             await ctx.send(file=file)
 
     @commands.command(brief="adds attached image as a filter over your avatar")
-    async def filterme(self,ctx):
+    async def filterme(self,ctx, alphaAmount : float=0.25):
         avatar_bytes = await self.get_image(ctx.author)
         try:
             filter_bytes = await self.get_image(ctx.message.attachments[0])
@@ -60,7 +60,7 @@ class Images(commands.Cog):
                     filterImage = filterImage.resize(userImage.size)
                     filterImage = filterImage.convert("RGBA")
                     userImage = userImage.convert("RGBA")
-                    resultImage = Image.blend(userImage, filterImage, 0.25)
+                    resultImage = Image.blend(userImage, filterImage, alphaAmount)
 
                     output_buffer = BytesIO()
                     resultImage.save(output_buffer, "png")
