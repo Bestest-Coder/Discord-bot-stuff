@@ -58,6 +58,7 @@ class Images(commands.Cog):
             with Image.open(BytesIO(avatar_bytes)) as userImage:
                 with Image.open(BytesIO(filter_bytes)) as filterImage:
                     filterImage.resize(userImage.size)
+                    filterImage = filterImage.convert(userImage.mode)
                     resultImage = Image.blend(userImage, filterImage, 0.25)
 
                     output_buffer = BytesIO()
