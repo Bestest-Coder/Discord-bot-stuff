@@ -57,7 +57,7 @@ class Images(commands.Cog):
         async with ctx.typing():
             with Image.open(BytesIO(avatar_bytes)) as userImage:
                 with Image.open(BytesIO(filter_bytes)) as filterImage:
-                    filterImage.resize(userImage.size)
+                    filterImage = filterImage.resize(userImage.size)
                     filterImage = filterImage.convert("RGBA")
                     userImage = userImage.convert("RGBA")
                     resultImage = Image.blend(userImage, filterImage, 0.25)
