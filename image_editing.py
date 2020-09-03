@@ -46,6 +46,26 @@ class Images(commands.Cog):
 
             await ctx.send(file=file)
 
+    @commands.command(brief="adds attached image as a filter over your avatar")
+    async def filterme(self,ctx):
+        avatar_bytes = await self.get_image(ctx.author)
+        try:
+            filter_bytes = await self.get_image(ctx.message.attachments[0])
+        except IndexError:
+            await ctx.send("Error: Message has no attached image")
+            return
+        async with ctx.typing():
+            with Image.open(BytesIO(avatar_bytes)) as userImage:
+                with Image.open(BytesIO(filter_bytes)) as filterImage:
+                    filterImage.resize(userImage.size)
+                    resultImage = Image.blend(userImage, filterImage, 0.25)
+
+                    output_buffer = BytesIO()
+                    resultImage.save(output_buffer, "png")
+                    output_buffer.seek(0)
+
+                    outputFile = discord.File(filename="filtered_Avatar.png",fp=output_buffer)
+                    await ctx.send(file=outputFile)
 
 def setup(client):
     client.add_cog(Images(client))
