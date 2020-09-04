@@ -4,6 +4,7 @@ from discord.ext import commands
 import aiohttp
 from io import BytesIO
 from PIL import Image, ImageDraw
+import asyncio
 
 class Images(commands.Cog):
     def __init__(self, client):
@@ -48,10 +49,13 @@ class Images(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     async def filter(self,ctx):
-        ctx.send('''put description of filter commands here''')
+        await ctx.send('''Guide to filter commands:
+        filter level - determines how much of each image to show, higher filter level means more filter than base image
+        =filter me {filter level} - the image attached to the command message is placed over your avatar
+        =filter these {filter level} - the image attached to the command message is filtered by the image attached to a second message, limited 10 seconds later''')
 
     @filter.command(brief="adds attached image as a filter over your avatar")
-    async def me(self,ctx, alphaAmount : float=0.25):
+    async def me(self,ctx, filterLevel : float=0.25):
         avatar_bytes = await self.get_image(ctx.author)
         try:
             filter_bytes = await self.get_image(ctx.message.attachments[0])
@@ -64,7 +68,7 @@ class Images(commands.Cog):
                     filterImage = filterImage.resize(userImage.size)
                     filterImage = filterImage.convert("RGBA")
                     userImage = userImage.convert("RGBA")
-                    resultImage = Image.blend(userImage, filterImage, alphaAmount)
+                    resultImage = Image.blend(userImage, filterImage, filterLevel)
 
                     output_buffer = BytesIO()
                     resultImage.save(output_buffer, "png")
