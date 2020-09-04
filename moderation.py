@@ -358,6 +358,8 @@ class Staff(commands.Cog):
 
     @commands.command(hidden=True)
     async def leaveguild(self,ctx, targetID : int):
+        if ifcomm(self,ctx) == False:
+            return
         try:
             targetGuild = await self.client.fetch_guild(targetID)
         except discord.Forbidden:
