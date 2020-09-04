@@ -85,7 +85,7 @@ class Images(commands.Cog):
 
         try:
             msg2 = await client.wait_for('message', timeout=10.0, check=check)
-        except: asyncio.TimeoutError:
+        except asyncio.TimeoutError:
             await ctx.send("Error: second image was not recieved fast enough")
             return
         try:
