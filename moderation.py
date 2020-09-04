@@ -356,6 +356,19 @@ class Staff(commands.Cog):
             print(newState)
             await env.set("allclinkactive", newState)
 
+    @commands.command(hidden=True)
+    async def leaveguild(self,ctx, targetID : int):
+        try:
+            targetGuild = await self.client.fetch_guild(targetID)
+        except discord.Forbidden:
+            ctx.send("Error: cannot find server")
+            return
+
+        try:
+            await targetGuild.leave()
+        except discord.HTTPException:
+            ctx.send("Error: cannot leave for whatever reason, probably a larger issue")
+
 
 def setup(client):
     client.add_cog(Staff(client))
