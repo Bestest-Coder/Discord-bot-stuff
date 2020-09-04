@@ -46,8 +46,12 @@ class Images(commands.Cog):
 
             await ctx.send(file=file)
 
-    @commands.command(brief="adds attached image as a filter over your avatar")
-    async def filterme(self,ctx, alphaAmount : float=0.25):
+    @commands.group(invoke_without_command=True)
+    async def filter(self,ctx):
+        ctx.send('''put description of filter commands here''')
+
+    @filter.command(brief="adds attached image as a filter over your avatar")
+    async def me(self,ctx, alphaAmount : float=0.25):
         avatar_bytes = await self.get_image(ctx.author)
         try:
             filter_bytes = await self.get_image(ctx.message.attachments[0])
@@ -61,6 +65,42 @@ class Images(commands.Cog):
                     filterImage = filterImage.convert("RGBA")
                     userImage = userImage.convert("RGBA")
                     resultImage = Image.blend(userImage, filterImage, alphaAmount)
+
+                    output_buffer = BytesIO()
+                    resultImage.save(output_buffer, "png")
+                    output_buffer.seek(0)
+
+                    outputFile = discord.File(filename="filtered_Avatar.png",fp=output_buffer)
+                    await ctx.send(file=outputFile)
+
+    @filter.command(brief="adds second image as filter over first image")
+    async def these(self,ctx, alphaAmount : float=0.25):
+        try:
+            first_bytes = await self.get_image(ctx.message.attachments[0])
+        except IndexError:
+            await ctx.send("Error: Message has no attached image")
+            return
+        def check(msg):
+            return msg.author == ctx.message.author
+
+        try:
+            msg2 = await client.wait_for('message', timeout=10.0, check=check)
+        except: asyncio.TimeoutError:
+            await ctx.send("Error: second image was not recieved fast enough")
+            return
+        try:
+            second_bytes = await self.get_image(msg2.attachments[0])
+        except IndexError:
+            await ctx.send("Error: Second message has no attached image")
+            return
+
+        async with ctx.typing():
+            with Image.open(BytesIO(first_bytes)) as firstImage:
+                with Image.open(BytesIO(second_bytes)) as secondImage:
+                    secondImage = secondImage.resize(firstImage.size)
+                    secondImage = secondImage.convert("RGBA")
+                    firstImage = firstImage.convert("RGBA")
+                    resultImage = Image.blend(firstImage, secondImage, alphaAmount)
 
                     output_buffer = BytesIO()
                     resultImage.save(output_buffer, "png")
