@@ -37,8 +37,6 @@ class General(commands.Cog):
         try:
             em = discord.Embed() #issues arise when just using straight URL so embeds work beetter
             if user is not None:
-                em.set_image(url=targetUser.avatar_url_as(static_format='png'))
-            else:
                 try:
                     targetUser = await commands.UserConverter().convert(ctx, user)
                 except commands.errors.BadArgument:
@@ -46,6 +44,8 @@ class General(commands.Cog):
                         targetUser = await client.fetch_user(int(user))
                     except discord.NotFound:
                         ctx.send("Error: no user found with ID")
+                em.set_image(url=targetUser.avatar_url_as(static_format='png'))
+            else:
                 em.set_image(url=ctx.message.author.avatar_url_as(static_format='png')) #in case some specifics don't work
             await ctx.channel.send(embed=em)
         except discord.errors.Forbidden:
