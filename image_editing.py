@@ -50,7 +50,7 @@ class Images(commands.Cog):
     @commands.group(invoke_without_command=True)
     async def filter(self,ctx):
         await ctx.send('''Guide to filter commands:
-filter level - determines how much of each image to show, higher filter level means more filter than base image
+filter level - determines how much of each image to show on a scale of 0 to 1.0, higher filter level means more filter than base image
 =filter me {filter level} - the image attached to the command message is placed over your avatar
 =filter these {filter level} - the image attached to the command message is filtered by the image attached to a second message, limited 10 seconds later''')
 

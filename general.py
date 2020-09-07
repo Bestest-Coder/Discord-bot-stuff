@@ -33,11 +33,18 @@ class General(commands.Cog):
         await ctx.channel.send(str(random.randint(num1, num2)))
 
     @commands.command(brief="get's the users avatar/pfp, by default returns your own")
-    async def pfp(self, ctx, *, user : discord.User=None):
+    async def pfp(self, ctx, *, user=None):
+        try:
+            targetUser = user : discord.User
+        except commands.errors.BadArgument:
+            try:
+                targetUser = await client.fetch_user(int(user))
+            except discord.NotFound:
+                ctx.send("Error: no user found with ID")
         try:
             em = discord.Embed() #issues arise when just using straight URL so embeds work beetter
             if user is not None:
-                em.set_image(url=user.avatar_url_as(static_format='png'))
+                em.set_image(url=targetUser.avatar_url_as(static_format='png'))
             else:
                 em.set_image(url=ctx.message.author.avatar_url_as(static_format='png')) #in case some specifics don't work
             await ctx.channel.send(embed=em)
