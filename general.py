@@ -35,7 +35,7 @@ class General(commands.Cog):
     @commands.command(brief="get's the users avatar/pfp, by default returns your own")
     async def pfp(self, ctx, *, user=None):
         try:
-            targetUser = await commands.UserConverter.convert(ctx, user)
+            targetUser = await commands.UserConverter().convert(ctx, user)
         except commands.errors.BadArgument:
             try:
                 targetUser = await client.fetch_user(int(user))
