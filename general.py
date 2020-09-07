@@ -41,7 +41,7 @@ class General(commands.Cog):
                     targetUser = await commands.UserConverter().convert(ctx, user)
                 except commands.errors.BadArgument:
                     try:
-                        targetUser = await client.fetch_user(int(user))
+                        targetUser = await self.client.fetch_user(int(user))
                     except discord.NotFound:
                         ctx.send("Error: no user found with ID")
                 em.set_image(url=targetUser.avatar_url_as(static_format='png'))
