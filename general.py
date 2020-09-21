@@ -52,10 +52,10 @@ class General(commands.Cog):
                     except discord.NotFound:
                         ctx.send("Error: no user found with ID")
                 em.set_image(url=targetUser.avatar_url_as(static_format='png'))
-                embedAvatarDetails(targetUser, em)
+                embedAvatarDetails(self,targetUser, em)
             else:
                 em.set_image(url=ctx.message.author.avatar_url_as(static_format='png')) #in case some specifics don't work
-                embedAvatarDetails(ctx.message.author,em)
+                embedAvatarDetails(self,ctx.message.author,em)
             await ctx.channel.send(embed=em)
         except discord.errors.Forbidden:
             await ctx.channel.send("Error: cannot send embeds")
