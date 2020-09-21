@@ -11,7 +11,7 @@ MAX_TAG_LEN = 300
 def embedAvatarDetails(self, daUser, daEmbed):
     daEmbed.set_footer(text=str(daEmbed.image.width)+"x"+str(daEmbed.image.height)) #'{}x{}'.format(daEmbed.image.width,daEmbed.image.height))
     daEmbed.set_author(name=daUser.mention[1:], url=daUser.avatar_url_as(static_format='png'))
-    daEmbed.color = discord.Color.from_rgb(random.randint(0,255),(random.randint(0,255),(random.randint(0,255))))
+    daEmbed.color = discord.Color.from_rgb(random.randint(0,255),random.randint(0,255),random.randint(0,255))
     return daEmbed
 
 class General(commands.Cog):
