@@ -8,6 +8,12 @@ from discord.ext import commands
 
 MAX_TAG_LEN = 300
 
+def embedAvatarDetails(daUser, daEmbed):
+    daEmbed.set_footer(str('{}x{}'.format(daEmbed.image.width, daEmbed.image.height)))
+    daEmbed.set_author(daUser.mention[1:], icon_url=daUser.avatar_url_as(static_format='png'))
+    daEmbed.color = discord.Color(random.randint(0,255),(random.randint(0,255),(random.randint(0,255)))
+    return daEmbed
+
 class General(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -45,8 +51,10 @@ class General(commands.Cog):
                     except discord.NotFound:
                         ctx.send("Error: no user found with ID")
                 em.set_image(url=targetUser.avatar_url_as(static_format='png'))
+                embedAvatarDetails(targetUser, em)
             else:
                 em.set_image(url=ctx.message.author.avatar_url_as(static_format='png')) #in case some specifics don't work
+                embedAvatarDetails(ctx.message.author,em)
             await ctx.channel.send(embed=em)
         except discord.errors.Forbidden:
             await ctx.channel.send("Error: cannot send embeds")
