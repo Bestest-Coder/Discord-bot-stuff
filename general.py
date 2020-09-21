@@ -9,7 +9,7 @@ from discord.ext import commands
 MAX_TAG_LEN = 300
 
 def embedAvatarDetails(daUser, daEmbed):
-    daEmbed.set_footer(str(daEmbed.image.width)+"x"+str(daEmbed.image.height)) #'{}x{}'.format(daEmbed.image.width,daEmbed.image.height))
+    daEmbed.set_footer(text=str(daEmbed.image.width)+"x"+str(daEmbed.image.height)) #'{}x{}'.format(daEmbed.image.width,daEmbed.image.height))
     daEmbed.set_author(daUser.mention[1:], icon_url=daUser.avatar_url_as(static_format='png'))
     daEmbed.color = discord.Color(random.randint(0,255),(random.randint(0,255),(random.randint(0,255))))
     return daEmbed
