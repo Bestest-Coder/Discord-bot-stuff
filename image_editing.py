@@ -37,7 +37,7 @@ class Images(commands.Cog):
         async with ctx.typing():
             image_bytes = await self.get_image(daImage)
             with Image.open(BytesIO(image_bytes)) as im:
-                im = im.convert("L")
+                im = im.convert("LA")
             final_buffer = BytesIO()
 
             im.save(final_buffer, "png")
