@@ -149,7 +149,6 @@ class General(commands.Cog):
             daEmbed = discord.Embed()
             daEmbed.title = "Title: " + results[0].title
             daEmbed.url = results[0].url
-            print(results[0].author_url)
             if results[0].author_name is not None:
                 daEmbed.set_author(name="Author: " + results[0].author_name,
                                    url=results[0].author_url if results[0].author_url is not None else results[0].url)
