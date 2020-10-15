@@ -4,6 +4,7 @@ import random
 import discord
 import role_checks
 from discord.ext import commands
+import pysaucenao
 
 
 MAX_TAG_LEN = 300
@@ -18,6 +19,7 @@ def embedAvatarDetails(self, daUser, daEmbed):
 class General(commands.Cog):
     def __init__(self, client):
         self.client = client
+        self.sauce = pysaucenao.SauceNao(api_key=env.tokenget(2))
 
 
     @commands.command(brief='sends the "Several people are typing" gif')
@@ -122,6 +124,44 @@ class General(commands.Cog):
             await env.set("{}_afkmsg".format(ctx.message.author.id),content)
             await ctx.channel.send("Your AFK message is now: {}".format(content))
 
+    @commands.command(brief="Uses the SauceNao API to find the sources of images", aliases=["saucethis"])
+    async def sourcethis(self,ctx, *, givenURL=None):
+        if givenURL is None:
+            if len(ctx.message.attachments) != 0:
+                targetUrl = ctx.message.attachments[0].url
+            else:
+                await ctx.send("No attachment or URL provided")
+                return
+        else:
+            targetUrl = givenURL
+        async with ctx.typing():
+            try:
+                results = await self.sauce.from_url(targetUrl)
+            except pysaucenao.errors.DailyLimitReachedException:
+                await ctx.send("Error: Daily limit reached, try again later")
+                return
+            except pysaucenao.errors.ShortLimitReachedException:
+                await ctx.send("Error: 30 second limit reached, try again in a minute")
+                return
+            if len(results) == 0:
+                await ctx.send("No source found, website may have better results")
+                return
+            daEmbed = discord.Embed()
+            daEmbed.title = "Title: " + results[0].title
+            daEmbed.url = results[0].url
+            print(results[0].author_url)
+            if results[0].author_name is not None:
+                daEmbed.set_author(name="Author: " + results[0].author_name,
+                                   url=results[0].author_url if results[0].author_url is not None else results[0].url)
+            footerText = f'Similarity: {str(results[0].similarity)}% | Remaining requests: {results.long_remaining}'
+            daEmbed.set_footer(text=footerText)
+            daEmbed.set_thumbnail(url=results[0].thumbnail)
+            if len(results) >= 2:
+                daEmbed.add_field(name="Alternate Sources", value="Primary source is linked in title and author fields",
+                                  inline=False)
+                for result in results[1:]:
+                    daEmbed.add_field(name=result.title, value=result.url, inline=True)
+            await ctx.send(embed=daEmbed)
 
 def setup(client):
     client.add_cog(General(client))
