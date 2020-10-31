@@ -53,7 +53,11 @@ class General(commands.Cog):
                     try:
                         targetUser = await self.client.fetch_user(int(user))
                     except discord.NotFound:
-                        ctx.send("Error: no user found with ID")
+                        await ctx.send("Error: no user found with ID")
+                        return
+                    except ValueError:
+                        await ctx.send("Error: Invalid input, possible server issue try again in a few minutes")
+                        return
                 em.set_image(url=targetUser.avatar_url_as(static_format='png'))
                 em = embedAvatarDetails(self,targetUser, em)
             else:
