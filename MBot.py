@@ -13,8 +13,7 @@ plsnoping = discord.AllowedMentions(everyone=False)
 intent = discord.Intents.default()
 intent.members = True
 intent.guilds = True
-Client = discord.Client(allowed_mentions=plsnoping, intents=intent)
-client = commands.Bot(command_prefix='=', allowed_mentions=plsnoping)
+client = commands.Bot(command_prefix='=', allowed_mentions=plsnoping, intents=intent)
 client.commanderids = [357596253472948224,227598467621584908]
 client.commanderids = list(client.commanderids)
 user = discord.Member
