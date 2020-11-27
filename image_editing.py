@@ -151,39 +151,40 @@ filter level - determines how much of each image to show on a scale of 0 to 1.0,
 =color [color name] ex: ~color red/Red
 Note: color names are based on HTML standards""")
             return
-        print(daColor)
         try:
             imageBytes = await self.get_image(ctx.message.attachments[0])
         except IndexError:
             await ctx.send("Error: no attached image or gif")
             return
         inputImage = Image.open(BytesIO(imageBytes))
-        print(inputImage.info)
         if getattr(inputImage, "is_animated", False):
-            bgImage = Image.new("RGBA", (inputImage.width, inputImage.height), daColor)
-            images = []
-            print("is animated ya fuck")
-            for i in range(inputImage.n_frames):
-                bgFrame = bgImage.copy()
-                inputImage.seek(i)
-                currentFrame = (inputImage.copy()).convert('RGBA')
-                bgFrame.alpha_composite(currentFrame)
-                images.append(bgFrame)
-            inputImage.seek(0)
-            outputBytes = BytesIO()
-            images[0].save(outputBytes, "gif", save_all=True, append_images=images[1:], loop=inputImage.info['loop'],
-                           duration=(inputImage.info['duration']), disposal=2)
-            outputBytes.seek(0)
-            outputFile = discord.File(filename="backgrounded.gif", fp=outputBytes)
-            await ctx.send("Note: gif backgrounds are WIP and inconsistent", file=outputFile)
+            async with ctx.typing():
+                bgImage = Image.new("RGBA", (inputImage.width, inputImage.height), daColor)
+                images = []
+                print("is animated ya fuck")
+                for i in range(inputImage.n_frames):
+                    bgFrame = bgImage.copy()
+                    inputImage.seek(i)
+                    currentFrame = (inputImage.copy()).convert('RGBA')
+                    bgFrame.alpha_composite(currentFrame)
+                    images.append(bgFrame)
+                inputImage.seek(0)
+                outputBytes = BytesIO()
+                images[0].save(outputBytes, "gif", save_all=True, append_images=images[1:], loop=inputImage.info['loop'],
+                               duration=(inputImage.info['duration']), disposal=2)
+                outputBytes.seek(0)
+                outputFile = discord.File(filename="backgrounded.gif", fp=outputBytes)
+                await ctx.send("Note: gif backgrounds are WIP and inconsistent", file=outputFile)
         else:
-            bgImage = Image.new("RGBA", (inputImage.width, inputImage.height), daColor)
-            bgImage.alpha_composite(inputImage)
-            outputBytes = BytesIO()
-            bgImage.save(outputBytes, "png")
-            outputBytes.seek(0)
-            outputFile = discord.File(filename="backgrounded.png", fp=outputBytes)
-            await ctx.send(file=outputFile)
+            async with ctx.typing():
+                bgImage = Image.new("RGBA", (inputImage.width, inputImage.height), daColor)
+                newInput = inputImage.convert("RGBA")
+                bgImage.alpha_composite(newInput)
+                outputBytes = BytesIO()
+                bgImage.save(outputBytes, "png")
+                outputBytes.seek(0)
+                outputFile = discord.File(filename="backgrounded.png", fp=outputBytes)
+                await ctx.send(file=outputFile)
 
 def setup(client):
     client.add_cog(Images(client))
