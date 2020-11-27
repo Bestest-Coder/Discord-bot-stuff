@@ -35,10 +35,10 @@ class Images(commands.Cog):
                 daColor = ImageColor.getrgb(f"rgb({input1},{input2},{input3})")
         except ValueError:
             await ctx.send("""Error: invalid color format, valid formats include:
-    ~color #[hex color code] ex: ~color #ff0000
-    ~color [red] [green] [blue] ex: ~color 255 0 0
-    ~color [color name] ex: ~color red OR Red
-    Note: color names are based on HTML standards""")
+=color #[hex color code] ex: ~color #ff0000
+=color [red] [green] [blue] ex: ~color 255 0 0
+=color [color name] ex: ~color red OR Red
+Note: color names are based on HTML standards""")
             return
         daImage = Image.new('RGB', (100, 100), daColor)
         outputBytes = BytesIO()
@@ -47,7 +47,7 @@ class Images(commands.Cog):
         daFile = discord.File(filename="color.png", fp=outputBytes)
         daColorHex = f'#{daColor[0]:02x}{daColor[1]:02x}{daColor[2]:02x}'
         daMessage = f"""RGB:{daColor}
-        Hex: {daColorHex}"""
+Hex: {daColorHex}"""
         await ctx.send(daMessage, file=daFile)
 
     @commands.command(brief="returns pfp in greyscale", aliases=['grayscale'])
@@ -146,10 +146,10 @@ filter level - determines how much of each image to show on a scale of 0 to 1.0,
                 daColor = ImageColor.getrgb(f"rgb({input1},{input2},{input3})")
         except ValueError:
             await ctx.send("""Error: invalid color format, valid formats include:
-    ~color #[hex color code] ex: ~color #ff0000
-    ~color [red] [green] [blue] ex: ~color 255 0 0
-    ~color [color name] ex: ~color red/Red
-    Note: color names are based on HTML standards""")
+=color #[hex color code] ex: ~color #ff0000
+=color [red] [green] [blue] ex: ~color 255 0 0
+=color [color name] ex: ~color red/Red
+Note: color names are based on HTML standards""")
             return
         print(daColor)
         try:
