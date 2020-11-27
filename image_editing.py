@@ -3,7 +3,7 @@ import role_checks
 from discord.ext import commands
 import aiohttp
 from io import BytesIO
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageColor
 import asyncio
 
 class Images(commands.Cog):
@@ -25,6 +25,30 @@ class Images(commands.Cog):
             image_bytes = await response.read()
 
         return image_bytes
+
+    @commands.command(name='color')
+    async def showColor(self,ctx, input1, input2=None, input3=None):
+        try:
+            if input2 == None:
+                daColor = ImageColor.getrgb(input1)
+            else:
+                daColor = ImageColor.getrgb(f"rgb({input1},{input2},{input3})")
+        except ValueError:
+            await ctx.send("""Error: invalid color format, valid formats include:
+    ~color #[hex color code] ex: ~color #ff0000
+    ~color [red] [green] [blue] ex: ~color 255 0 0
+    ~color [color name] ex: ~color red OR Red
+    Note: color names are based on HTML standards""")
+            return
+        daImage = Image.new('RGB', (100, 100), daColor)
+        outputBytes = BytesIO()
+        daImage.save(outputBytes, 'png')
+        outputBytes.seek(0)
+        daFile = discord.File(filename="color.png", fp=outputBytes)
+        daColorHex = f'#{daColor[0]:02x}{daColor[1]:02x}{daColor[2]:02x}'
+        daMessage = f"""RGB:{daColor}
+        Hex: {daColorHex}"""
+        await ctx.send(daMessage, file=daFile)
 
     @commands.command(brief="returns pfp in greyscale", aliases=['grayscale'])
     async def greyscale(self, ctx, *,member :discord.User=None):
@@ -90,7 +114,7 @@ filter level - determines how much of each image to show on a scale of 0 to 1.0,
         try:
             msg2 = await self.client.wait_for('message', timeout=10.0, check=check)
         except asyncio.TimeoutError:
-            await ctx.send("Error: second image was not recieved fast enough")
+            await ctx.send("Error: second image was not received fast enough")
             return
         try:
             second_bytes = await self.get_image(msg2.attachments[0])
@@ -112,6 +136,54 @@ filter level - determines how much of each image to show on a scale of 0 to 1.0,
 
                     outputFile = discord.File(filename="filtered_Avatar.png",fp=output_buffer)
                     await ctx.send(file=outputFile)
+
+    @commands.command(brief="replaces transparent parts of images and gifs with specified color (gifs WIP)")
+    async def background(self,ctx, input1, input2=None, input3=None):
+        try:
+            if input2 == None:
+                daColor = ImageColor.getrgb(input1)
+            else:
+                daColor = ImageColor.getrgb(f"rgb({input1},{input2},{input3})")
+        except ValueError:
+            await ctx.send("""Error: invalid color format, valid formats include:
+    ~color #[hex color code] ex: ~color #ff0000
+    ~color [red] [green] [blue] ex: ~color 255 0 0
+    ~color [color name] ex: ~color red/Red
+    Note: color names are based on HTML standards""")
+            return
+        print(daColor)
+        try:
+            imageBytes = await self.get_image(ctx.message.attachments[0])
+        except IndexError:
+            await ctx.send("Error: no attached image or gif")
+            return
+        inputImage = Image.open(BytesIO(imageBytes))
+        print(inputImage.info)
+        if getattr(inputImage, "is_animated", False):
+            bgImage = Image.new("RGBA", (inputImage.width, inputImage.height), daColor)
+            images = []
+            print("is animated ya fuck")
+            for i in range(inputImage.n_frames):
+                bgFrame = bgImage.copy()
+                inputImage.seek(i)
+                currentFrame = (inputImage.copy()).convert('RGBA')
+                bgFrame.alpha_composite(currentFrame)
+                images.append(bgFrame)
+            inputImage.seek(0)
+            outputBytes = BytesIO()
+            images[0].save(outputBytes, "gif", save_all=True, append_images=images[1:], loop=inputImage.info['loop'],
+                           duration=(inputImage.info['duration']), disposal=2)
+            outputBytes.seek(0)
+            outputFile = discord.File(filename="backgrounded.gif", fp=outputBytes)
+            await ctx.send("Note: gif backgrounds are WIP and inconsistent", file=outputFile)
+        else:
+            bgImage = Image.new("RGBA", (inputImage.width, inputImage.height), daColor)
+            bgImage.alpha_composite(inputImage)
+            outputBytes = BytesIO()
+            bgImage.save(outputBytes, "png")
+            outputBytes.seek(0)
+            outputFile = discord.File(filename="backgrounded.png", fp=outputBytes)
+            await ctx.send(file=outputFile)
 
 def setup(client):
     client.add_cog(Images(client))
