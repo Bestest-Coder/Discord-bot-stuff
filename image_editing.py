@@ -5,6 +5,7 @@ import aiohttp
 from io import BytesIO
 from PIL import Image, ImageDraw, ImageColor
 import asyncio
+import re
 
 class Images(commands.Cog):
     def __init__(self, client):
@@ -26,14 +27,23 @@ class Images(commands.Cog):
 
         return image_bytes
 
+    def returnColor(inp1, inp2, inp3):
+        try:
+            if inp2 == None:
+                if re.match(r'^#?(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$', inp1):
+                    outColor = ImageColor.getrgb(f"{'#' if inp1[0] != '#' else ''}{inp1}")
+                else:
+                    outColor = ImageColor.getrgb(inp1)
+            else:
+                outColor = ImageColor.getrgb(f"rgb({inp1},{inp2},{inp3})")
+        except ValueError:
+            return None
+        return outColor
+
     @commands.command(name='color')
     async def showColor(self,ctx, input1, input2=None, input3=None):
-        try:
-            if input2 == None:
-                daColor = ImageColor.getrgb(input1)
-            else:
-                daColor = ImageColor.getrgb(f"rgb({input1},{input2},{input3})")
-        except ValueError:
+        daColor = self.returnColor(input1,input2,input3)
+        if daColor == None:
             await ctx.send("""Error: invalid color format, valid formats include:
 =color #[hex color code] ex: ~color #ff0000
 =color [red] [green] [blue] ex: ~color 255 0 0
@@ -139,12 +149,8 @@ filter level - determines how much of each image to show on a scale of 0 to 1.0,
 
     @commands.command(brief="replaces transparent parts of images and gifs with specified color (gifs WIP)")
     async def background(self,ctx, input1, input2=None, input3=None):
-        try:
-            if input2 == None:
-                daColor = ImageColor.getrgb(input1)
-            else:
-                daColor = ImageColor.getrgb(f"rgb({input1},{input2},{input3})")
-        except ValueError:
+        daColor = self.returnColor(input1,input2,input3)
+        if daColor == None:
             await ctx.send("""Error: invalid color format, valid formats include:
 =color #[hex color code] ex: ~color #ff0000
 =color [red] [green] [blue] ex: ~color 255 0 0
