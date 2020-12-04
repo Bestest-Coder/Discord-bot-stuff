@@ -5,6 +5,7 @@ import discord
 import role_checks
 from discord.ext import commands
 import pysaucenao
+import hashlib
 
 
 MAX_TAG_LEN = 300
@@ -20,7 +21,20 @@ class General(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.sauce = pysaucenao.SauceNao(api_key=env.tokenget(2))
+        self.eightBallResponses = ['It is certain', 'Without a doubt', 'You may rely on it', 'Yes definitely', 'It is decidedly so',
+                  'As I see it, yes', 'Most likely', 'Yes', 'Outlook good', 'Signs point to yes', 'Reply hazy try again',
+                  'Better not tell you now', 'Ask again later', 'Cannot predict now', 'Concentrate and ask again',
+                  "Don't count on it", 'Outlook not so good', 'My sources say no', 'Very doubtful', 'My reply is no']
 
+    @commands.command(name='8ball')
+    async def balls(self, ctx, *, question):
+        questionbytes = bytes(question, 'utf-8')
+        slinger = hashlib.md5()
+        slinger.update(questionbytes)
+        answer = self.eightBallResponses[(int(slinger.hexdigest(), 16)) % 19]
+        print((int(slinger.hexdigest(), 16)) % 19)
+        daMessage = f"> {question}\n{answer}"
+        await ctx.send(daMessage)
 
     @commands.command(brief='sends the "Several people are typing" gif')
     async def sevpeople(self, ctx):
