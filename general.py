@@ -32,7 +32,6 @@ class General(commands.Cog):
         slinger = hashlib.md5()
         slinger.update(questionbytes)
         answer = self.eightBallResponses[(int(slinger.hexdigest(), 16)) % 19]
-        print((int(slinger.hexdigest(), 16)) % 19)
         daMessage = f"> {question}\n{answer}"
         await ctx.send(daMessage)
 
