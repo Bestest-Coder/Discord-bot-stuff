@@ -27,7 +27,7 @@ class Images(commands.Cog):
 
         return image_bytes
 
-    def returnColor(inp1, inp2, inp3):
+    def returnColor(self, inp1, inp2, inp3):
         try:
             if inp2 == None:
                 if re.match(r'^#?(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$', inp1):
