@@ -3,7 +3,7 @@ import role_checks
 from discord.ext import commands
 import aiohttp
 from io import BytesIO
-from PIL import Image, ImageDraw, ImageColor
+from PIL import Image, ImageDraw, ImageColor, ImageFont
 import asyncio
 import re
 
@@ -191,6 +191,38 @@ Note: color names are based on HTML standards""")
                 outputBytes.seek(0)
                 outputFile = discord.File(filename="backgrounded.png", fp=outputBytes)
                 await ctx.send(file=outputFile)
+
+    @commands.command(brief='Adds meme-style impact font text to an image, splitting top from bottom on | character')
+    async def memethis(self, ctx, *, inputText):
+        try:
+            imageBytes = await self.get_image(ctx.message.attachments[0])
+        except IndexError:
+            await ctx.send('Error: no attached image')
+            return
+        memeImage = Image.open(BytesIO(imageBytes))
+        impactFont = ImageFont.truetype('impact.ttf', memeImage.height // 7)
+        strokeWidth = ((memeImage.width + memeImage.height) // 2) // 100
+        if '|' in inputText:
+            memeText = inputText.split('|')
+        else:
+            memeText = inputText.splitlines()
+        memeDraw = ImageDraw.Draw(memeImage)
+        if len(memeText) == 2:
+            memeDraw.text((memeImage.width // 2, 0), memeText[0], font=impactFont, anchor='ma', align='center',
+                          fill=(255, 255, 255), stroke_fill=(0, 0, 0), stroke_width=strokeWidth)
+            memeDraw.text((memeImage.width // 2, memeImage.height), memeText[1], font=impactFont, anchor='md',
+                          align='center',
+                          fill=(255, 255, 255), stroke_fill=(0, 0, 0), stroke_width=strokeWidth)
+        else:
+            memeDraw.text((memeImage.width // 2, memeImage.height), memeText[0], font=impactFont, anchor='md',
+                          align='center',
+                          fill=(255, 255, 255), stroke_fill=(0, 0, 0), stroke_width=strokeWidth)
+        memeImage.seek(0)
+        outputBytes = BytesIO()
+        memeImage.save(outputBytes, "png")
+        outputBytes.seek(0)
+        outputFile = discord.File(filename='memed.png', fp=outputBytes)
+        await ctx.send(file=outputFile)
 
 def setup(client):
     client.add_cog(Images(client))
