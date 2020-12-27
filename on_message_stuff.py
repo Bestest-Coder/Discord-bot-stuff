@@ -114,7 +114,7 @@ class on_msg(commands.Cog):
                                                 bigfatvariable = str(message.author)
                                                 funnyvariablename = f"({message.guild.name}) {bigfatvariable} - {msg} {att}"
                                                 if "https" in funnyvariablename or "imgur.com" in funnyvariablename or "discord.gg" in funnyvariablename or "://" in funnyvariablename:
-                                                    await channel.send(f"{message.author.mention}, there can be no links in your message, including username and/or server name")
+                                                    await message.channel.send(f"{message.author.mention}, there can be no links in your message, including username and/or server name")
                                                     return
                                                 await channel.send(funnyvariablename)  # message
                                             except AttributeError:  # definitely happens on CategoryChannel, which for some reason gets detected?
