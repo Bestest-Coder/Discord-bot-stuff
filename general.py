@@ -164,7 +164,7 @@ class General(commands.Cog):
                 await ctx.send("No source found, website may have better results")
                 return
             daEmbed = discord.Embed()
-            daEmbed.title = "Title: " + results[0].title
+            daEmbed.title = ("Title: "+results[0].title if results[0].title is not None else 'Title not found')
             daEmbed.url = results[0].url
             if results[0].author_name is not None:
                 daEmbed.set_author(name="Author: " + results[0].author_name,
