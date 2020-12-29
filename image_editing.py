@@ -6,6 +6,8 @@ from io import BytesIO
 from PIL import Image, ImageDraw, ImageColor, ImageFont
 import asyncio
 import re
+import shlex
+import argparse
 
 class Images(commands.Cog):
     def __init__(self, client):
@@ -194,35 +196,89 @@ Note: color names are based on HTML standards""")
 
     @commands.command(brief='Adds meme-style impact font text to an image, splitting top from bottom on | character')
     async def memethis(self, ctx, *, inputText):
+        async with ctx.typing():
+            try:
+                imageBytes = await self.get_image(ctx.message.attachments[0])
+            except IndexError:
+                await ctx.send('Error: no attached image')
+                return
+            memeImage = Image.open(BytesIO(imageBytes))
+            impactFont = ImageFont.truetype('impact.ttf', memeImage.height // 7)
+            strokeWidth = ((memeImage.width + memeImage.height) // 2) // 100
+            if '|' in inputText:
+                memeText = inputText.split('|')
+            else:
+                memeText = inputText.splitlines()
+            memeDraw = ImageDraw.Draw(memeImage)
+            if len(memeText) == 2:
+                memeDraw.text((memeImage.width // 2, 0), memeText[0], font=impactFont, anchor='ma', align='center',
+                              fill=(255, 255, 255), stroke_fill=(0, 0, 0), stroke_width=strokeWidth)
+                memeDraw.text((memeImage.width // 2, memeImage.height), memeText[1], font=impactFont, anchor='md',
+                              align='center',
+                              fill=(255, 255, 255), stroke_fill=(0, 0, 0), stroke_width=strokeWidth)
+            else:
+                memeDraw.text((memeImage.width // 2, memeImage.height), memeText[0], font=impactFont, anchor='md',
+                              align='center',
+                              fill=(255, 255, 255), stroke_fill=(0, 0, 0), stroke_width=strokeWidth)
+            memeImage.seek(0)
+            outputBytes = BytesIO()
+            memeImage.save(outputBytes, "png")
+            outputBytes.seek(0)
+            outputFile = discord.File(filename='memed.png', fp=outputBytes)
+            await ctx.send(file=outputFile)
+
+    @commands.command()
+    async def memethiscustom(self, ctx, *, args: str):
+        parser = argparse.ArgumentParser()
+        parser.add_argument('-fontsize')
+        parser.add_argument('-strokewidth')
+        parser.add_argument('-toptext', nargs='*')
+        parser.add_argument('-bottomtext', nargs='*')
+        parser.add_argument('-imagelink')
+        parser.add_argument('-memeuser')
         try:
-            imageBytes = await self.get_image(ctx.message.attachments[0])
-        except IndexError:
-            await ctx.send('Error: no attached image')
+            args = parser.parse_args(shlex.split(args))
+        except Exception as e:
+            await ctx.send('Error: issue in command arguments')
             return
-        memeImage = Image.open(BytesIO(imageBytes))
-        impactFont = ImageFont.truetype('impact.ttf', memeImage.height // 7)
-        strokeWidth = ((memeImage.width + memeImage.height) // 2) // 100
-        if '|' in inputText:
-            memeText = inputText.split('|')
-        else:
-            memeText = inputText.splitlines()
-        memeDraw = ImageDraw.Draw(memeImage)
-        if len(memeText) == 2:
-            memeDraw.text((memeImage.width // 2, 0), memeText[0], font=impactFont, anchor='ma', align='center',
-                          fill=(255, 255, 255), stroke_fill=(0, 0, 0), stroke_width=strokeWidth)
-            memeDraw.text((memeImage.width // 2, memeImage.height), memeText[1], font=impactFont, anchor='md',
-                          align='center',
-                          fill=(255, 255, 255), stroke_fill=(0, 0, 0), stroke_width=strokeWidth)
-        else:
-            memeDraw.text((memeImage.width // 2, memeImage.height), memeText[0], font=impactFont, anchor='md',
-                          align='center',
-                          fill=(255, 255, 255), stroke_fill=(0, 0, 0), stroke_width=strokeWidth)
-        memeImage.seek(0)
-        outputBytes = BytesIO()
-        memeImage.save(outputBytes, "png")
-        outputBytes.seek(0)
-        outputFile = discord.File(filename='memed.png', fp=outputBytes)
-        await ctx.send(file=outputFile)
+        async with ctx.typing():
+            if args.memeuser is not None:
+                memeuser = await commands.UserConverter().convert(ctx, args.memeuser)
+                imageBytes = await self.get_image(memeuser)
+            elif args.imagelink is not None:
+                imageBytes = await self.get_image(args.imagelink)
+            else:
+                try:
+                    imageBytes = await self.get_image(ctx.message.attachments[0])
+                except IndexError:
+                    await ctx.send('Error: no attached image or specified image link/user')
+                    return
+            memeImage = Image.open(BytesIO(imageBytes))
+            impactFont = ImageFont.truetype('impact.ttf', int(args.fontsize) if args.fontsize is not None else memeImage.height // 7)
+            strokeWidth = int(args.strokewidth) if args.strokewidth is not None else ((memeImage.width + memeImage.height) // 2) // 100
+            if args.toptext is None and args.bottomtext is None:
+                await ctx.send("Error: no text to place on image")
+                return
+            topText = None
+            if args.toptext is not None:
+                topText = (' '.join(args.toptext)).replace('|', '\n')
+            bottomText = None
+            if args.bottomtext is not None:
+                bottomText = (' '.join(args.bottomtext)).replace('|', '\n')
+            memeDraw = ImageDraw.Draw(memeImage)
+            if topText is not None:
+                memeDraw.text((memeImage.width // 2, 0), topText.strip(), font=impactFont, anchor='ma', align='center',
+                              fill=(255, 255, 255), stroke_fill=(0, 0, 0), stroke_width=strokeWidth)
+            if bottomText is not None:
+                memeDraw.text((memeImage.width // 2, memeImage.height), bottomText.strip(), font=impactFont, anchor='md',
+                              align='center',
+                              fill=(255, 255, 255), stroke_fill=(0, 0, 0), stroke_width=strokeWidth)
+            memeImage.seek(0)
+            outputBytes = BytesIO()
+            memeImage.save(outputBytes, "png")
+            outputBytes.seek(0)
+            outputFile = discord.File(filename='memed.png', fp=outputBytes)
+            await ctx.send(file=outputFile)
 
 def setup(client):
     client.add_cog(Images(client))
