@@ -176,7 +176,7 @@ class General(commands.Cog):
                 daEmbed.add_field(name="Alternate Sources", value="Primary source is linked in title and author fields",
                                   inline=False)
                 for result in results[1:]:
-                    daEmbed.add_field(name=result.title, value=result.url, inline=True)
+                    daEmbed.add_field(name=str(result.title) if result.title is not None else 'None', value=result.url, inline=True)
             await ctx.send(embed=daEmbed)
 
 def setup(client):
