@@ -168,7 +168,7 @@ class General(commands.Cog):
             daEmbed.url = results[0].url
             if results[0].author_name is not None:
                 daEmbed.set_author(name="Author: " + results[0].author_name,
-                                   url=results[0].author_url if results[0].author_url is not None else results[0].url)
+                                   url=results[0].author_url if results[0].author_url is not None else (results[0].url if results[0].url is not None else discord.Embed.Empty))
             footerText = f'Similarity: {str(results[0].similarity)}% | Remaining requests: {results.long_remaining}'
             daEmbed.set_footer(text=footerText)
             daEmbed.set_thumbnail(url=results[0].thumbnail)
