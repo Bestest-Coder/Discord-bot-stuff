@@ -22,6 +22,8 @@ class Images(commands.Cog):
             image_url = str(imageSource.url)
         elif type(imageSource) == discord.Asset: #get image if asset, which idk if that can happen naturally
             image_url = str(imageSource)
+        elif type(imageSource) == str:
+            image_url = imageSource
 
         async with self.session.get(image_url) as response:
             # this gives us our response object, and now we can read the bytes from it.
@@ -227,9 +229,10 @@ Note: color names are based on HTML standards""")
             outputFile = discord.File(filename='memed.png', fp=outputBytes)
             await ctx.send(file=outputFile)
 
-    @commands.command()
-    async def memethiscustom(self, ctx, *, args: str):
-        parser = argparse.ArgumentParser()
+    @commands.command(brief='More customizable version of memethis command, do memecustom -h for information', aliases=['memethiscustom'])
+    async def memecustom(self, ctx, *, args: str):
+        parser = argparse.ArgumentParser(add_help=False)
+        parser.add_argument('-h',action='store_true')
         parser.add_argument('-fontsize')
         parser.add_argument('-strokewidth')
         parser.add_argument('-toptext', nargs='*')
@@ -238,8 +241,20 @@ Note: color names are based on HTML standards""")
         parser.add_argument('-memeuser')
         try:
             args = parser.parse_args(shlex.split(args))
-        except Exception as e:
+        except SystemExit:
             await ctx.send('Error: issue in command arguments')
+            return
+        if args.h == True:
+            await ctx.send('''Usage guide:
+-fontsize [number]: changes font size of meme text
+-strokewidth [number]: changes size of border around text
+Must use one or both of these:
+    -toptext [text]: sets the top text of the meme output
+    -bottomtext [text]: sets the bottom text of the meme output
+Attach desired image to meme to message otherwise use one of these:
+    -imagelink [link]: memes the linked image
+    -memeuser [user]: memes the designated user (must be in format mention, username, or username#discriminator
+Example: =memecustom -toptext why did the chicken -bottomtext cross the road -memeuser M'Bot#5091 -fontsize 21''')
             return
         async with ctx.typing():
             if args.memeuser is not None:
